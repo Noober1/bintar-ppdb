@@ -1,0 +1,233 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  type           USER_TYPES?      @default(USER)
+  password       String
+  fullname       String
+  grantedAccess  Json
+  Administration Administration[]
+}
+
+model Student {
+  id                       Int              @id @default(autoincrement())
+  year                     Config?          @relation(fields: [configId], references: [id])
+  createdAt                DateTime?        @default(now())
+  updatedAt                DateTime?        @default(now()) @updatedAt
+  registrationNumber       String?          @unique
+  firstName                String?
+  lastName                 String?
+  nickName                 String?
+  formerSchool             School?          @relation(fields: [schoolId], references: [id])
+  major                    Major?           @relation(fields: [majorId], references: [id])
+  isRegistered             Boolean?         @default(false)
+  fileNISN                 Boolean?         @default(false)
+  fileKIPKPS               Boolean?         @default(false)
+  fileKTP                  Boolean?         @default(false)
+  fileIjazah               Boolean?         @default(false)
+  fileSKHUN                Boolean?         @default(false)
+  fileSTK                  Boolean?         @default(false)
+  fileAkta                 Boolean?         @default(false)
+  fileKK                   Boolean?         @default(false)
+  fileRaport               Boolean?         @default(false)
+  filePhoto23              Boolean?         @default(false)
+  filePhoto34              Boolean?         @default(false)
+  fileMCU                  Boolean?         @default(false)
+  fileSKB                  Boolean?         @default(false)
+  relapsingIllness         String?
+  seriousIllness           String?
+  isSmoker                 Boolean?         @default(false)
+  isPierced                Boolean?         @default(false)
+  isDrug                   Boolean?         @default(false)
+  isIlliterate             Boolean?         @default(false)
+  haveSkipLesson           Boolean?         @default(true)
+  haveTruancy              Boolean?         @default(true)
+  haveDrunked              Boolean?         @default(false)
+  haveFought               Boolean?         @default(true)
+  haveJoinedCriminalGang   Boolean?         @default(false)
+  haveWatchedPorn          Boolean?         @default(false)
+  haveADate                Boolean?         @default(false)
+  haveTattoo               Boolean?         @default(false)
+  historyEdited            Boolean?         @default(false)
+  primaryUniformSize       SIZES?           @default(L)
+  secondaryUniformSize     SIZES?           @default(L)
+  gymUniformSize           SIZES?           @default(L)
+  shoeSize                 Int?
+  measureEdited            Boolean?         @default(false)
+  bioEdited                Boolean?         @default(false)
+  NISNNumber               String?
+  KIPKPSNumber             String?
+  examNumber               String?
+  ijazahNumber             String?
+  SKHUNNumber              String?
+  phoneNumber              String?
+  parentPhoneNumber        String?
+  gender                   GENDERS?         @default(MALE)
+  birthplace               String?
+  birthdate                DateTime?        @default(now())
+  religion                 RELIGIONS?       @default(ISLAM)
+  nationality              String?
+  birthPosition            Int?
+  siblingCount             Int?
+  bloodRelatedSiblingCount Int?
+  stepSiblingCount         Int?
+  fosterSiblingCount       Int?
+  familyStatus             FAMILY_STATUSES? @default(KANDUNG)
+  motherLanguage           String?
+  address                  String?
+  postalCode               String?
+  email                    String?          @unique
+  livingWith               String?
+  schoolDistance           Int?
+  height                   Int?
+  weight                   Int?
+  bloodType                BLOOD_TYPES?
+  bloodRhesus              BLOOD_RHESUS?
+  schoolGraduateYear       Int?
+  fatherFullname           String?
+  motherFullname           String?
+  fatherBirthdate          DateTime?
+  motherBirthdate          DateTime?
+  fatherNationality        String?
+  motherNationality        String?
+  fatherLastEducation      SCHOOL_TYPES?
+  motherLastEducation      SCHOOL_TYPES?
+  fatherJob                String?
+  motherJob                String?
+  fatherIncome             Int?
+  motherIncome             Int?
+  fatherAddress            String?
+  motherAddress            String?
+  gainInformationFrom      GAIN_INFO_FROM?  @default(PRESENTATION)
+  extracurricular          String?
+  configId                 Int?
+  schoolId                 Int?
+  majorId                  Int?
+  Administration           Administration[]
+}
+
+model Config {
+  id                 Int       @id @default(autoincrement())
+  year               Int       @unique
+  registrationFormat String    @default("PSB-_Y_-_I_-_N_")
+  isActive           Boolean   @default(false)
+  Student            Student[]
+}
+
+model School {
+  id      Int          @id @default(autoincrement())
+  NPSN    Int          @unique
+  type    SCHOOL_TYPES @default(SMP)
+  name    String       @unique
+  address String
+  Student Student[]
+}
+
+model Major {
+  id      Int       @id @default(autoincrement())
+  initial String    @unique
+  name    String
+  Student Student[]
+}
+
+model Administration {
+  id                 String    @id @default(cuid())
+  dateCreated        DateTime? @default(now())
+  updatedAt          DateTime? @default(now()) @updatedAt
+  registrationNumber Student   @relation(fields: [studentId], references: [id])
+  description        String
+  payer              String
+  nominal            Int
+  administrator      User      @relation(fields: [userId], references: [id])
+  studentId          Int
+  userId             Int
+}
+
+enum USER_TYPES {
+  ADMINISTRATOR
+  USER
+}
+
+enum SCHOOL_TYPES {
+  SD
+  MI
+  SMP
+  MTS
+  SMA
+  SMK
+  MA
+  D3
+  S1
+  S2
+  S3
+}
+
+enum SIZES {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+  XXXXL
+  XXXXXL
+  XXXXXXL
+}
+
+enum GENDERS {
+  MALE
+  FEMALE
+}
+
+enum RELIGIONS {
+  ISLAM
+  KRISTEN
+  KATHOLIK
+  HINDU
+  BUDHA
+  KONGHUCHU
+  LAINNYA
+}
+
+enum FAMILY_STATUSES {
+  YATIM
+  PIATU
+  YATIM_PIATU
+  KANDUNG
+  ANGKAT
+  ADOPSI
+  LAINNYA
+}
+
+enum BLOOD_TYPES {
+  A
+  B
+  AB
+  O
+}
+
+enum BLOOD_RHESUS {
+  PLUS
+  MINUS
+  UNKNOWN
+}
+
+enum GAIN_INFO_FROM {
+  BROCHURE
+  TEACHER
+  PRESENTATION
+  RADIO
+  BANNER
+  OTHER
+}
