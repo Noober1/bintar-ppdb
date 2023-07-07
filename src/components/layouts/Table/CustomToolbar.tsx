@@ -112,6 +112,8 @@ const CustomToolbar = ({
           }
         >
           <Button
+            variant="contained"
+            color="success"
             LinkComponent={Link}
             href={addButtonLink}
             startIcon={<AddIcon />}
@@ -129,7 +131,12 @@ const CustomToolbar = ({
             />
           }
         >
-          <Button onClick={handleDeleteSelection} startIcon={<DeleteIcon />}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeleteSelection}
+            startIcon={<DeleteIcon />}
+          >
             Hapus
           </Button>
         </Tooltip>
