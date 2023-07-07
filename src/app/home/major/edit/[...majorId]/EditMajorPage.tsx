@@ -1,17 +1,11 @@
 "use client";
 import { majorForm } from "@/lib/formSchemas";
-import { LoadingButton } from "@mui/lab";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import { Formik } from "formik";
 import React from "react";
 import { HandleFormSubmit } from "@/types/route";
 import { MajorFormValues } from "@/types/forms";
 import { MajorDataForEdit } from "./page";
-import SaveIcon from "@mui/icons-material/Save";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
