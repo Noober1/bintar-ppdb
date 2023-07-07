@@ -4,11 +4,15 @@ import {
   DeleteButton,
   EditButton,
 } from "@/components/buttons/TableActionButton";
-import DynamicTable from "@/components/layouts/Table";
+import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
+import { Typography } from "@mui/material";
+import { useRef } from "react";
 
 const SchoolTable = () => {
+  const tableRef = useRef<DynamicTableHandles>(null);
   return (
     <DynamicTable
+      ref={tableRef}
       endpoint="school"
       buttons={{
         addButtonLink: "/home/school/add",
@@ -29,6 +33,7 @@ const SchoolTable = () => {
         {
           field: "address",
           headerName: "Alamat sekolah",
+          flex: 1,
           minWidth: 300,
         },
         {
@@ -38,6 +43,13 @@ const SchoolTable = () => {
             <>
               <EditButton href={`/home/school/edit/${params.value}`} />
               <DeleteButton
+                refreshTable={tableRef.current?.refreshTable}
+                confirmationNote={
+                  <Typography>
+                    Data tidak akan terhapus jika ada data siswa yang
+                    bersangkutan dengan data sekolah.
+                  </Typography>
+                }
                 confirmationTitle="Hapus sekolah"
                 id={params.value}
                 table="school"

@@ -1,74 +1,70 @@
 "use client";
-import { schoolForm } from "@/lib/formSchemas";
+import React from "react";
+import { SchoolDataForEdit } from "./page";
 import { SchoolFormValues, schoolOptions } from "@/types/forms";
 import { HandleFormSubmit } from "@/types/route";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import TextField from "@mui/material/TextField";
-import { SCHOOL_TYPES } from "@prisma/client";
-import { Formik } from "formik";
-import React from "react";
-import FormLayout from "@/components/layouts/FormLayout";
-import { useAddMutation } from "@/hooks/useAddMutation";
+import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
+import { Formik } from "formik";
+import { schoolForm } from "@/lib/formSchemas";
+import FormLayout from "@/components/layouts/FormLayout";
+import TextField from "@mui/material/TextField";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 
-const initialValues: SchoolFormValues = {
-  NPSN: 0,
-  type: "SMP",
-  name: "",
-  address: "",
-};
+interface EditSchoolPageProps {
+  data: SchoolDataForEdit;
+}
 
-const AddSchoolPage = () => {
+const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
   const { enqueueSnackbar } = useSnackbar();
-  const mutation = useAddMutation<SchoolFormValues>("/crud/school/");
+  const mutation = useEditMutation<SchoolFormValues>(
+    "/crud/school/" + data?.id
+  );
   const submitForm: HandleFormSubmit<SchoolFormValues> = (values, actions) => {
     mutation.mutate(values, {
       onSuccess: () => {
-        enqueueSnackbar("Sekolah berhasil ditambah", {
-          variant: "success",
-        });
+        enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
         actions.setSubmitting(false);
-        actions.resetForm();
       },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          enqueueSnackbar(
-            error.response?.data.message || "Data gagal disimpan",
-            { variant: "error" }
-          );
-        } else {
-          enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-        }
+      onError: () => {
+        enqueueSnackbar("Data gagal disimpan", { variant: "error" });
         actions.setSubmitting(false);
       },
     });
   };
+
+  const formInitialValues: SchoolFormValues = {
+    address: data?.address || "",
+    name: data?.name || "",
+    NPSN: data?.NPSN || 0,
+    type: data?.type || "SMP",
+  };
+
   return (
     <Formik
       onSubmit={submitForm}
-      initialValues={initialValues}
       validationSchema={schoolForm}
+      initialValues={formInitialValues}
     >
       {({
-        errors,
-        handleBlur,
         handleChange,
-        handleSubmit,
+        handleBlur,
         values,
+        errors,
+        handleSubmit,
         isSubmitting,
       }) => (
         <FormLayout
-          title="Tambah sekolah"
-          alert="Silahkan isi data dibawah ini"
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
+          alert="Silahkan sunting data yang ada dibawah ini"
           errors={errors}
-          submitButtonLabel="Tambah sekolah"
+          isSubmitting={isSubmitting}
+          onSubmit={handleSubmit}
+          submitButtonLabel="Simpan perubahan"
+          title="Sunting sekolah"
         >
           <TextField
             name="NPSN"
@@ -127,4 +123,4 @@ const AddSchoolPage = () => {
   );
 };
 
-export default AddSchoolPage;
+export default EditSchoolPage;

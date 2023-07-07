@@ -19,7 +19,9 @@ export interface LoginForm {
   password: string;
 }
 
-export interface SchoolForm {
+export const schoolOptions: SCHOOL_TYPES[] = ["SMP", "MTS"];
+
+export interface SchoolFormValues {
   NPSN: number;
   type: SCHOOL_TYPES;
   name: string;

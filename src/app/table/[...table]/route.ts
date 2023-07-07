@@ -70,6 +70,17 @@ const POST: RequestHandler = async (request, params: Params) => {
           },
         });
         break;
+      case "school":
+        if (isNaN(parseInt(getDataRequest.data))) {
+          throw new Error("Invalid data");
+        }
+
+        await prisma.school.delete({
+          where: {
+            id: getDataRequest.data,
+          },
+        });
+        break;
     }
     return NextResponse.json({
       success: true,
