@@ -1,4 +1,5 @@
 import { ROLES } from "@/constants/roles";
+import { SCHOOL_TYPES } from "@prisma/client";
 
 export interface UserFormValues {
   email: string;
@@ -16,4 +17,11 @@ export interface MajorFormValues {
 export interface LoginForm {
   email: string;
   password: string;
+}
+
+export interface SchoolForm {
+  NPSN: number;
+  type: SCHOOL_TYPES;
+  name: string;
+  address: string;
 }

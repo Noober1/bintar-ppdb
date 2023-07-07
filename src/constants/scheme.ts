@@ -8,6 +8,10 @@ const schemeErrorMessage = {
     `Panjang karakter tidak valid, minimal ${length} karakter`,
   INVALID_MAXLENGTH: (length: number) =>
     `Panjang karakter tidak valid, maksimal ${length} karakter`,
+  INVALID_NUM_MIN: (length: number) =>
+    `Angka tidak valid, angka minimal ${length}`,
+  INVALID_NUM_MAX: (length: number) =>
+    `Angka tidak valid, angka maksimal ${length}`,
 };
 
 export default schemeErrorMessage;
