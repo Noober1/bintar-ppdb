@@ -1,8 +1,8 @@
 import React from "react";
-import AddPage from "./addPage";
+import AddUserPage from "./addUserPage";
 
 const Page = () => {
-  return <AddPage />;
+  return <AddUserPage />;
 };
 
 export default Page;
