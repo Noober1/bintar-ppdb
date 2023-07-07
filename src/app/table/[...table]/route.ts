@@ -81,6 +81,24 @@ const POST: RequestHandler = async (request, params: Params) => {
           },
         });
         break;
+      case "configuration":
+        const findStudentByYear = await prisma.student.count({
+          where: {
+            year: {
+              id: getDataRequest.data,
+            },
+          },
+        });
+        if (findStudentByYear) {
+          throw new Error("Ada data siswa yang berkaitan dengan data ini");
+        }
+
+        await prisma.config.delete({
+          where: {
+            id: getDataRequest.data,
+          },
+        });
+        break;
     }
     return NextResponse.json({
       success: true,
@@ -194,6 +212,39 @@ const handler: Handler = {
         hasNextPage: getData.hasNextPage,
       },
     });
+  },
+  basic: async (_request, page, limit) => {
+    // const getData = await extendedPrisma.student.paginate({
+    //   select: {
+    //     id: true,
+    //     registrationNumber: true,
+    //     firstName: true,
+    //     lastName: true,
+    //     isRegistered: true,
+    //   },
+    //   limit,
+    //   page,
+    // });
+    // return NextResponse.json({
+    //   data: getData.result,
+    //   metadata: {
+    //     page: getData.page,
+    //     length: getData.limit,
+    //     count: getData.count,
+    //     totalPages: getData.totalPages,
+    //     hasNextPage: getData.hasNextPage,
+    //   },
+    // });
+    // const findStudentByYear = await prisma.student.count({
+    //   where: {
+    //     year: {
+    //       year: 2023,
+    //     },
+    //   },
+    // });
+    // return NextResponse.json({
+    //   data: findStudentByYear,
+    // });
   },
 };
 

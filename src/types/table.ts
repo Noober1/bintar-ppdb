@@ -11,6 +11,7 @@ export const tableList = [
   "school",
   "configuration",
   "administration",
+  "basic",
 ] as const;
 export type TableList = (typeof tableList)[number];
 

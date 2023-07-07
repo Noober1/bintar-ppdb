@@ -43,3 +43,15 @@ export const schoolForm = yup.object({
   name: yup.string().required(msg.EMPTY_DATA),
   address: yup.string().required(msg.EMPTY_DATA),
 });
+
+export const configurationForm = yup.object({
+  year: yup
+    .number()
+    .min(2000, msg.INVALID_NUM_MIN(2000))
+    .max(
+      new Date().getFullYear(),
+      msg.INVALID_NUM_MAX(new Date().getFullYear())
+    )
+    .required(msg.EMPTY_DATA),
+  registrationFormat: yup.string(),
+});

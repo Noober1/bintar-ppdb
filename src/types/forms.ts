@@ -27,3 +27,8 @@ export interface SchoolFormValues {
   name: string;
   address: string;
 }
+
+export interface ConfigurationFormValues {
+  year: number;
+  registrationFormat: string;
+}

@@ -93,9 +93,12 @@ const DeleteButton = ({
             })
             .catch((error) => {
               if (error instanceof AxiosError) {
-                enqueueSnackbar("Data gagal dihapus, alasan: " + error.cause, {
-                  variant: "error",
-                });
+                enqueueSnackbar(
+                  "Data gagal dihapus, alasan: " + error.response?.data.message,
+                  {
+                    variant: "error",
+                  }
+                );
               }
             })
             .finally(() => {

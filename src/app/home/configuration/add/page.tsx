@@ -1,7 +1,8 @@
 import React from "react";
+import AddConfigurationPage from "./AddConfigurationPage";
 
-const AddConfigurationPage = () => {
-  return <div>AddConfigurationPage</div>;
+const Page = () => {
+  return <AddConfigurationPage />;
 };
 
-export default AddConfigurationPage;
+export default Page;
