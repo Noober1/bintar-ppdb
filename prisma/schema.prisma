@@ -120,7 +120,11 @@ model Student {
 model Config {
   id                 Int       @id @default(autoincrement())
   year               Int       @unique
-  registrationFormat String    @default("PSB-_Y_-_I_-_N_")
+  // registration format: 
+  // Y = year
+  // I = user id
+  // N = unique id
+  registrationFormat String    @default("PSB-[Y]-[I]-[N]")
   isActive           Boolean   @default(false)
   Student            Student[]
 }
