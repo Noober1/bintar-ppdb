@@ -1,11 +1,6 @@
 "use client";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { Formik } from "formik";
-import SaveIcon from "@mui/icons-material/Save";
 import React from "react";
 import { majorForm } from "@/lib/formSchemas";
 import { MajorFormValues } from "@/types/forms";
@@ -13,7 +8,6 @@ import { AxiosError } from "axios";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import { HandleFormSubmit } from "@/types/route";
-import Paper from "@mui/material/Paper";
 import FormLayout from "@/components/layouts/FormLayout";
 
 const formInitialValues: MajorFormValues = {
