@@ -4,13 +4,15 @@ import { usePathname } from "next/navigation";
 import { styled } from "@mui/material/styles";
 import SideNav from "@/components/layouts/DashboardLayout/Sidenav";
 import TopNav from "@/components/layouts/DashboardLayout/TopNav";
+import { Paper } from "@mui/material";
 
-const SIDE_NAV_WIDTH = 290;
+const SIDE_NAV_WIDTH = 300;
 
-const LayoutRoot = styled("main")(({ theme }) => ({
-  display: "flex",
-  flex: "1 1 auto",
-  maxWidth: "100%",
+const LayoutRoot = styled(Paper)(({ theme }) => ({
+  borderRadius: 0,
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
+  padding: 10,
   [theme.breakpoints.up("lg")]: {
     paddingLeft: SIDE_NAV_WIDTH,
   },
@@ -45,17 +47,17 @@ const DashboardLayout = ({ children, userData }: TDashboardLayout) => {
   );
 
   return (
-    <>
+    <div className="h-screen flex flex-col">
       <TopNav onNavOpen={() => setOpenNav(true)} />
       <SideNav
         userData={userData}
         onClose={() => setOpenNav(false)}
         open={openNav}
       />
-      <LayoutRoot>
-        <div className="flex flex-1 flex-col w-full p-2 lg:p-4">{children}</div>
+      <LayoutRoot elevation={0} className="w-full h-full flex-1">
+        {children}
       </LayoutRoot>
-    </>
+    </div>
   );
 };
 

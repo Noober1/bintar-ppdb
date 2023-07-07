@@ -1,6 +1,7 @@
 import React from "react";
 import Snackbar from "./Snackbar";
 import Draggable from "./Draggable";
+import ThemeSwitch from "./ThemeSwitch";
 
 const Page = () => {
   return (
@@ -10,6 +11,9 @@ const Page = () => {
       </div>
       <div>
         <Draggable />
+      </div>
+      <div>
+        <ThemeSwitch />
       </div>
     </div>
   );

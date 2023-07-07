@@ -10,7 +10,7 @@ import { alpha } from "@mui/material/styles";
 import useLogoutDialog from "@/hooks/LogoutDialog";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 
-const SIDE_NAV_WIDTH = 290;
+const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
 
 type TTopNavProps = {

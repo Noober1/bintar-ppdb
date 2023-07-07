@@ -2,6 +2,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import multiDialogReducer from "./multiDialog";
+import configurationReducer from "./config";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -10,6 +11,7 @@ export const store = configureStore({
     }),
   reducer: {
     multiDialog: multiDialogReducer,
+    configuration: configurationReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

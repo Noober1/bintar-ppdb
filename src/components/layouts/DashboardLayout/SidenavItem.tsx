@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 
 import items from "./SidenavItemList";
 import { usePathname } from "next/navigation";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const StyledList = styled(List)<{ component?: React.ElementType }>({
   "& .MuiListItemButton-root": {
@@ -33,6 +34,7 @@ const StyledListSubheader = styled(ListSubheader)({
 
 const SideNavItem = () => {
   const pathname = usePathname();
+  const lgUp = useMediaQuery((query) => query.up("lg"));
   const splittedPathname = pathname.split("/");
   const joinedPathName = [splittedPathname[1], splittedPathname[2]].join("/");
   const newPathname = "/" + joinedPathName.replace(/\/$/, "");
@@ -44,6 +46,9 @@ const SideNavItem = () => {
           <StyledListSubheader
             classes={{
               root: "mt-4",
+            }}
+            sx={{
+              textAlign: lgUp ? "left" : "center",
             }}
             key={item.title}
             className="uppercase"
