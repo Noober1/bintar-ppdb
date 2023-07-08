@@ -9,7 +9,7 @@ interface FormValues {
   date: Date;
 }
 const initialValues: FormValues = {
-  date: new Date("01/01/2000"),
+  date: new Date(),
 };
 
 const submitForm = (values: FormValues, actions: FormikHelpers<FormValues>) => {
@@ -25,6 +25,7 @@ const DatePicker = () => {
           <form onSubmit={handleSubmit}>
             <Picker
               label="Entahlah"
+              helperText="Silahkan pilih tanggalnya"
               onChange={(values) => {
                 setFieldValue("date", values);
               }}

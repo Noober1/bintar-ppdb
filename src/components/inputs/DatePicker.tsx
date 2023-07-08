@@ -14,6 +14,7 @@ interface DatePickerProps {
   label?: string;
   value: Date;
   onChange: (value: Date) => void;
+  helperText?: string;
 }
 
 const PaperComponent = (props: PaperProps) => {
@@ -24,7 +25,12 @@ const PaperComponent = (props: PaperProps) => {
   );
 };
 
-const DatePicker = ({ value, onChange, label }: DatePickerProps) => {
+const DatePicker = ({
+  value,
+  onChange,
+  label,
+  helperText,
+}: DatePickerProps) => {
   const downMd = useMediaQuery((query) => query.down("sm"));
   const handleChange = (newValue: Dayjs | null) => {
     onChange(newValue?.toDate() || new Date());
@@ -42,6 +48,9 @@ const DatePicker = ({ value, onChange, label }: DatePickerProps) => {
         },
         dialog: {
           fullScreen: downMd,
+        },
+        textField: {
+          helperText: helperText,
         },
       }}
       format="DD MMMM YYYY"
