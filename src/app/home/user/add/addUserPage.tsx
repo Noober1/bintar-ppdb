@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { Formik } from "formik";
 import Autocomplete, {
   AutocompleteHandles,
-} from "@/components/form/Autocomplete";
+} from "@/components/inputs/Autocomplete";
 import { rolesStructure } from "@/constants/roles";
 import { userForm } from "@/lib/formSchemas";
 import { AxiosError } from "axios";

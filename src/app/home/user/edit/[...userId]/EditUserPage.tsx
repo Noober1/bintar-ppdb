@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 import { Formik } from "formik";
-import Autocomplete from "@/components/form/Autocomplete";
+import Autocomplete from "@/components/inputs/Autocomplete";
 import { rolesStructure } from "@/constants/roles";
 import { userForm } from "@/lib/formSchemas";
 import LoadingButton from "@mui/lab/LoadingButton";

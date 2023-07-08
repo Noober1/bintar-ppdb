@@ -2,6 +2,7 @@ import React from "react";
 import Snackbar from "./Snackbar";
 import Draggable from "./Draggable";
 import ThemeSwitch from "./ThemeSwitch";
+import DatePicker from "./DatePicker";
 
 const Page = () => {
   return (
@@ -14,6 +15,9 @@ const Page = () => {
       </div>
       <div>
         <ThemeSwitch />
+      </div>
+      <div>
+        <DatePicker />
       </div>
     </div>
   );
