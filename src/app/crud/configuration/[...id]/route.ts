@@ -30,7 +30,7 @@ const GET: RequestHandler = async (
     });
 
     if (!findData) {
-      throw new Error("Konfigurasi tidak ditemukan");
+      throw new Error("Konfigurasi tidak ditemukan.");
     }
 
     await prisma.config.updateMany({

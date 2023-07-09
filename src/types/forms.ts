@@ -1,5 +1,5 @@
 import { ROLES } from "@/constants/roles";
-import { SCHOOL_TYPES } from "@prisma/client";
+import { GENDERS, SCHOOL_TYPES, Student } from "@prisma/client";
 
 export interface UserFormValues {
   email: string;
@@ -31,4 +31,25 @@ export interface SchoolFormValues {
 export interface ConfigurationFormValues {
   year: number;
   registrationFormat: string;
+}
+
+export interface StudentFormValues {
+  registrationNumber?: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  birthplace: string;
+  birthdate: Date;
+  gender: GENDERS;
+  NISNNumber: string;
+  schoolId?: number;
+  schoolGraduateYear: number;
+  majorId?: number;
+}
+
+export interface AdministrationFormValues {
+  description: string;
+  payer: string;
+  nominal: number;
 }

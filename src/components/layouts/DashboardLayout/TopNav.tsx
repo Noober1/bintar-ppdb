@@ -9,6 +9,9 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { alpha } from "@mui/material/styles";
 import useLogoutDialog from "@/hooks/LogoutDialog";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { Typography } from "@mui/material";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -23,13 +26,12 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
 
   return (
     <>
-      <Box
+      <AppBar
+        color="primary"
+        elevation={0}
         component="header"
+        position="sticky"
         sx={{
-          backdropFilter: "blur(6px)",
-          backgroundColor: (theme) =>
-            alpha(theme.palette.background.default, 0.8),
-          position: "sticky",
           left: {
             lg: `${SIDE_NAV_WIDTH}px`,
           },
@@ -40,49 +42,43 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
-        <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="space-between"
-          spacing={2}
+        <Toolbar
           sx={{
             minHeight: TOP_NAV_HEIGHT,
             px: 2,
           }}
         >
-          <Stack alignItems="center" direction="row" spacing={2}>
-            {!lgUp && (
-              <Tooltip
-                title={
-                  <TooltipTitle
-                    title="Menu"
-                    content="Click untuk membuka menu bilah sisi."
-                  />
-                }
-              >
-                <IconButton onClick={onNavOpen}>
-                  <SvgIcon fontSize="small">
-                    <MenuIcon />
-                  </SvgIcon>
-                </IconButton>
-              </Tooltip>
-            )}
-          </Stack>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <Tooltip
-              title={
-                <TooltipTitle title="Logout" content="Click untuk logout" />
-              }
+          <Tooltip
+            title={
+              <TooltipTitle
+                title="Menu"
+                content="Click untuk membuka menu bilah sisi."
+              />
+            }
+          >
+            <IconButton
+              onClick={onNavOpen}
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
             >
-              <IconButton onClick={handleLogout}>
-                <SvgIcon fontSize="small">
-                  <LogoutIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
-          </Stack>
-        </Stack>
-      </Box>
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography className="flex-1" variant="h5" fontWeight="bold">
+            Aplikasi PSB
+          </Typography>
+          <Tooltip
+            title={<TooltipTitle title="Logout" content="Click untuk logout" />}
+          >
+            <IconButton onClick={handleLogout} size="large" color="inherit">
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
     </>
   );
 };

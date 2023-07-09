@@ -1,7 +1,6 @@
 "use client";
 import NextLink from "next/link";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
@@ -9,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import SideNavItem from "@/components/layouts/DashboardLayout/SidenavItem";
 import { Logo } from "@/components/Logo";
 import { TDashboardLayout } from "@/components/layouts/DashboardLayout";
-import useLogoutDialog from "../../../hooks/LogoutDialog";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 type TSideNavProps = {
@@ -19,7 +17,6 @@ type TSideNavProps = {
 };
 
 const SideNav = ({ open, onClose, userData }: TSideNavProps) => {
-  const handleLogout = useLogoutDialog();
   const lgUp = useMediaQuery((query) => query.up("lg"));
   const downSm = useMediaQuery((query) => query.down("sm"));
 
@@ -60,34 +57,19 @@ const SideNav = ({ open, onClose, userData }: TSideNavProps) => {
             <SideNavItem />
           </Stack>
         </Box>
-        <Divider sx={{ borderColor: "neutral.700" }} />
-        <Box
-          sx={{
-            px: 2,
-            py: 3,
-          }}
-        >
-          <Button onClick={handleLogout}>Logout</Button>
-        </Box>
       </Box>
     </>
   );
 
-  if (lgUp) {
-    return (
-      <Drawer anchor="left" open variant="permanent">
-        {content}
-      </Drawer>
-    );
-  }
-
   return (
     <Drawer
-      anchor="left"
-      onClose={onClose}
-      open={open}
-      sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
-      variant="temporary"
+      anchor={lgUp ? "left" : undefined}
+      open={lgUp ? true : open}
+      variant={lgUp ? "permanent" : "temporary"}
+      onClose={!lgUp ? onClose : undefined}
+      sx={{
+        zIndex: (theme) => (!lgUp ? theme.zIndex.appBar + 100 : undefined),
+      }}
     >
       {content}
     </Drawer>

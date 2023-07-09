@@ -1,11 +1,12 @@
 import React from "react";
 import MajorTable from "./MajorTable";
+import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";
 
 const Page = () => {
   return (
-    <div>
+    <DashboardContentLayout title="Daftar jurusan">
       <MajorTable />
-    </div>
+    </DashboardContentLayout>
   );
 };
 

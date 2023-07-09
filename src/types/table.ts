@@ -16,5 +16,10 @@ export const tableList = [
 export type TableList = (typeof tableList)[number];
 
 export type Handler = {
-  [key in TableList]: (request: Request, page: number, pageSize: number) => any;
+  [key in TableList]: (
+    request: Request,
+    page: number,
+    pageSize: number,
+    ...args: any[]
+  ) => any;
 };

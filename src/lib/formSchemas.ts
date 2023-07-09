@@ -1,6 +1,6 @@
 import { ROLES } from "@/constants/roles";
 import msg from "@/constants/scheme";
-import { SCHOOL_TYPES } from "@prisma/client";
+import { GENDERS, SCHOOL_TYPES } from "@prisma/client";
 import * as yup from "yup";
 
 export const loginForm = yup.object({
@@ -55,3 +55,48 @@ export const configurationForm = yup.object({
     .required(msg.EMPTY_DATA),
   registrationFormat: yup.string(),
 });
+
+export const basicForm = (mode: "add" | "edit") => {
+  const regNumber = yup.string();
+  const registrationNumber =
+    mode === "add" ? regNumber.required(msg.EMPTY_DATA) : regNumber;
+  return yup.object({
+    registrationNumber,
+    firstName: yup.string().required(msg.EMPTY_DATA),
+    lastName: yup.string(),
+    phoneNumber: yup
+      .string()
+      .required(msg.EMPTY_DATA)
+      .min(10, msg.INVALID_MINLENGTH(10))
+      .max(17, msg.INVALID_MAXLENGTH(17)),
+    email: yup
+      .string()
+      .email(msg.INVALID_EMAIL_FORMAT)
+      .required(msg.EMPTY_DATA),
+    birthplace: yup.string().required(msg.EMPTY_DATA),
+    birthdate: yup.date(),
+    gender: yup.string<GENDERS>().required(msg.EMPTY_DATA),
+    NISNNumber: yup.string().required(msg.EMPTY_DATA),
+    schoolId: yup.number().required(msg.EMPTY_DATA),
+    schoolGraduateYear: yup
+      .number()
+      .min(1980, msg.INVALID_NUM_MIN(1980))
+      .max(
+        new Date().getFullYear(),
+        msg.INVALID_NUM_MAX(new Date().getFullYear())
+      ),
+    majorId: yup.number().required(msg.EMPTY_DATA),
+  });
+};
+
+export const administrationForm = (mode: "add" | "edit") => {
+  return yup.object({
+    description: yup.string().required(msg.EMPTY_DATA),
+    payer: yup.string().required(msg.EMPTY_DATA),
+    nominal: yup
+      .number()
+      .min(1, msg.INVALID_NUM_MIN(1))
+      .max(99999999, msg.INVALID_NUM_MAX(99999999))
+      .typeError("Data harus berupa angka"),
+  });
+};

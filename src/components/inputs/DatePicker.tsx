@@ -61,7 +61,7 @@ const DatePicker = ({
       }}
       label={label}
       value={dayjs(value)}
-      onChange={handleChange}
+      onAccept={handleChange}
     />
   );
 };

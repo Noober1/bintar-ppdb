@@ -1,3 +1,4 @@
+import { getCurrentConfig } from "@/lib/serverUtils";
 import { extendedPrisma, prisma } from "@/lib/prisma";
 import { Handler } from "@/types/table";
 import { NextResponse } from "next/server";
@@ -30,11 +31,47 @@ const tableHandler: Handler = {
       },
     });
   },
-  administration: async (request) => {
-    const getData = await prisma.major.findMany();
-    return NextResponse.json({
-      data: getData,
-    });
+  administration: async (request, page, limit, params: URLSearchParams) => {
+    try {
+      const getUserid = params.get("userid");
+      if (!getUserid) {
+        throw new Error("Request invalid");
+      }
+      const parseUserId = parseInt(getUserid);
+      if (isNaN(parseUserId)) {
+        throw new Error("Request invalid");
+      }
+
+      const getData = await extendedPrisma.administration.paginate({
+        limit,
+        page,
+        where: {
+          studentId: parseUserId,
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result,
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          success: false,
+          message: isErrorMessage ? error.message : "unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
   },
   configuration: async (_request, page, limit) => {
     let mapData: unknown;
@@ -108,7 +145,64 @@ const tableHandler: Handler = {
       },
     });
   },
-  basic: async (_request, page, limit) => {},
+  basic: async (_request, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig) {
+        throw new Error("Tidak ada config yang aktif");
+      }
+
+      const getData = await extendedPrisma.student.paginate({
+        page,
+        limit,
+        select: {
+          id: true,
+          registrationNumber: true,
+          firstName: true,
+          lastName: true,
+          isRegistered: true,
+          formerSchool: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        where: {
+          year: {
+            id: getActiveConfig.id,
+          },
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result.map((value) => ({
+          id: value.id,
+          registrationNumber: value.registrationNumber,
+          firstName: value.firstName,
+          lastName: value.lastName,
+          isRegistered: value.isRegistered,
+          formerSchool: value.formerSchool?.name,
+        })),
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          message: isErrorMessage ? error.message : "Unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
+  },
 };
 
 export default tableHandler;

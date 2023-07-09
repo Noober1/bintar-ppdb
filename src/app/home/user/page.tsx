@@ -1,11 +1,12 @@
 import React from "react";
 import UserTable from "./UserTable";
+import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";
 
 const Page = () => {
   return (
-    <div>
+    <DashboardContentLayout title="Daftar pengguna">
       <UserTable />
-    </div>
+    </DashboardContentLayout>
   );
 };
 

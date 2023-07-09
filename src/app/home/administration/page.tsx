@@ -1,7 +1,13 @@
 import React from "react";
+import AdministrationTable from "./AdministrationTable";
+import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";
 
 const Page = () => {
-  return <div>AdministrationPage</div>;
+  return (
+    <DashboardContentLayout title="Administrasi">
+      <AdministrationTable />
+    </DashboardContentLayout>
+  );
 };
 
 export default Page;

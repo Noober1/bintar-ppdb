@@ -17,10 +17,8 @@ import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
-import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
-import { error } from "console";
 
 export interface CustomToolbarProps {
   addButtonLink?: string;
@@ -28,6 +26,7 @@ export interface CustomToolbarProps {
   deleteSelectionId: GridRowSelectionModel;
   refetchFunction: Function;
   selectionFunction: Function;
+  deleteConfirmationNote?: React.ReactElement;
 }
 
 const CustomToolbar = ({
@@ -36,6 +35,7 @@ const CustomToolbar = ({
   deleteSelectionId,
   refetchFunction,
   selectionFunction,
+  deleteConfirmationNote,
 }: CustomToolbarProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -58,10 +58,11 @@ const CustomToolbar = ({
             <Typography gutterBottom>
               Apakah anda yakin ingin menghapus data yang dipilih?
             </Typography>
-            <Typography component="div">
+            <Typography component="div" gutterBottom>
               Ada <Chip label={`${deleteSelectionId.length} data`} /> yang
               dipilih
             </Typography>
+            {deleteConfirmationNote}
           </div>
         ),
         showCancelButton: true,
@@ -88,9 +89,12 @@ const CustomToolbar = ({
             })
             .catch((error) => {
               if (error instanceof AxiosError) {
-                enqueueSnackbar("Data gagal dihapus, alasan: " + error.cause, {
-                  variant: "error",
-                });
+                enqueueSnackbar(
+                  "Data gagal dihapus, alasan: " + error.response?.data.message,
+                  {
+                    variant: "error",
+                  }
+                );
               }
             })
             .finally(() => {

@@ -1,7 +1,11 @@
+import { configChecker } from "@/lib/serverUtils";
 import React from "react";
+import StudentTable from "./StudentTable";
 
-const Page = () => {
-  return <div>Student page</div>;
+export const revalidate = 5;
+
+const Page = async () => {
+  return <StudentTable />;
 };
 
 export default Page;

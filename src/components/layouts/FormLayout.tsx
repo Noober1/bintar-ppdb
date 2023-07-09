@@ -7,6 +7,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import Divider from "@mui/material/Divider";
 import React from "react";
 import { FormikErrors } from "formik";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface FormLayoutProps extends Omit<BoxProps, "onSubmit"> {
   title: string;
@@ -30,9 +31,16 @@ const FormLayout = ({
   errors,
   ...props
 }: FormLayoutProps) => {
+  const downSm = useMediaQuery((query) => query.down("sm"));
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <Typography variant="h5">{title}</Typography>
+      <Typography
+        variant={downSm ? "h5" : "h4"}
+        textAlign={downSm ? "center" : "left"}
+        fontWeight="bold"
+      >
+        {title}
+      </Typography>
       <Paper className="p-4">
         <Alert severity="info" className="mb-4">
           {alert}

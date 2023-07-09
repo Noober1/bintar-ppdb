@@ -17,9 +17,13 @@ interface IDynamicTable {
   endpoint: TableList;
   pageSize?: number;
   columns: GridColDef<any>[];
+  additionalQuery?: {
+    [key: string]: string;
+  };
   buttons?: {
     addButtonLink?: string;
     deleteButton?: TableList;
+    deleteConfirmationNote?: React.ReactElement;
   };
 }
 
@@ -42,9 +46,16 @@ export interface DynamicTableHandles {
 const pageSizeOptions: number[] = [5, 10, 15, 20];
 
 const DynamicTableContent = (
-  { endpoint, pageSize = 10, columns, buttons }: IDynamicTable,
+  {
+    endpoint,
+    pageSize = 10,
+    columns,
+    buttons,
+    additionalQuery = {},
+  }: IDynamicTable,
   ref: Ref<DynamicTableHandles>
 ) => {
+  const additionalQueryValues: any[] = [];
   const [paginationModel, setPaginationModel] = React.useState({
     page: 0,
     pageSize,
@@ -62,6 +73,13 @@ const DynamicTableContent = (
   const searchParams = new URLSearchParams();
   searchParams.append("page", (paginationModel.page + 1).toString());
   searchParams.append("length", paginationModel.pageSize.toString());
+
+  // appending additional query to search params
+  Object.keys(additionalQuery).map((key) => {
+    searchParams.append(key, additionalQuery[key]);
+    additionalQueryValues.push(additionalQuery[key]);
+  });
+
   const url = "/table/" + endpoint + "?" + searchParams.toString();
 
   const { data, isLoading, refetch } = useQuery<TableDataStructure>({
@@ -70,6 +88,7 @@ const DynamicTableContent = (
       endpoint,
       paginationModel.page,
       paginationModel.pageSize,
+      ...additionalQueryValues,
     ],
     queryFn: () => dataFetcher(url),
     keepPreviousData: true,

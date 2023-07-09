@@ -64,7 +64,6 @@ const AutocompleteContent: TAutoComplete = (
       }}
       inputValue={inputValue}
       onInputChange={(event, value) => {
-        console.log("value from oninputchange", value);
         setInputValue(value);
       }}
       isOptionEqualToValue={(option, value) => option.name == value.name}

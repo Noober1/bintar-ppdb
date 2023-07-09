@@ -74,30 +74,31 @@ const deleteRoute: RequestHandler = async (request, params: Params) => {
           },
         });
         break;
+      case "basic":
+        await prisma.student.deleteMany({
+          where: {
+            id: {
+              in: getDataRequest.data,
+            },
+            isRegistered: false,
+          },
+        });
+        break;
+      default:
+        throw new Error("Endpoint invalid");
     }
     return NextResponse.json({
       success: true,
     });
   } catch (error) {
-    console.log(error);
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
+    const isErrorMessage = error instanceof Error;
     return NextResponse.json(
       {
         success: false,
-        message: "Gagal menghapus",
+        message: isErrorMessage ? error.message : "Unknown error",
       },
       {
-        status: 500,
+        status: isErrorMessage ? 400 : 500,
       }
     );
   }

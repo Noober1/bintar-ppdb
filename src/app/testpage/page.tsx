@@ -2,7 +2,7 @@ import React from "react";
 import Snackbar from "./Snackbar";
 import Draggable from "./Draggable";
 import ThemeSwitch from "./ThemeSwitch";
-import DatePicker from "./DatePicker";
+import Forms from "./Forms";
 
 const Page = () => {
   return (
@@ -16,8 +16,8 @@ const Page = () => {
       <div>
         <ThemeSwitch />
       </div>
-      <div>
-        <DatePicker />
+      <div className="md:col-span-2 lg:col-span-3">
+        <Forms />
       </div>
     </div>
   );

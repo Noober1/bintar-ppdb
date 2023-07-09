@@ -29,12 +29,18 @@ const authOptions: NextAuthOptions = {
           return null;
 
         return {
-          id: findUser.id as unknown as string,
+          id: findUser.id,
           email: findUser.email,
         };
       },
     }),
   ],
+  callbacks: {
+    session: ({ session, token }) => {
+      session.user.id = parseInt(token.sub || "0");
+      return session;
+    },
+  },
   pages: {
     signIn: process.env.NEXTAUTH_URL + "/login",
     signOut: process.env.NEXTAUTH_URL + "/logout",

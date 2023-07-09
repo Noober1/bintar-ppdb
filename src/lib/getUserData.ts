@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 
-const getUserData = async (email?: string) => {
-  if (!email) return undefined;
+const getUserData = async (id?: number) => {
+  if (!id) return undefined;
   try {
-    const getData = await prisma.user.findFirst({
+    const getData = await prisma.user.findUnique({
       select: {
         id: true,
         email: true,
@@ -12,7 +12,7 @@ const getUserData = async (email?: string) => {
         grantedAccess: true,
       },
       where: {
-        email,
+        id,
       },
     });
 

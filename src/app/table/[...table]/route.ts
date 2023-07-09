@@ -19,7 +19,7 @@ const GET: TableMainHandler = async (request, param) => {
     if (typeof handler[endpoint] === "undefined") {
       throw new Error("Endpoint invalid");
     }
-    return await handler[endpoint](request, page, pageSize);
+    return await handler[endpoint](request, page, pageSize, searchParams);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({
