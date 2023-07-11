@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 const formInitialValues: ConfigurationFormValues = {
   registrationFormat: "",
@@ -26,6 +27,7 @@ const AddConfigurationPage = () => {
     handleBlur,
     values,
     errors,
+    touched,
     handleSubmit,
     isSubmitting,
   } = useFormik({
@@ -52,6 +54,8 @@ const AddConfigurationPage = () => {
     },
   });
 
+  const { helperText, isError } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       onSubmit={handleSubmit}
@@ -67,8 +71,8 @@ const AddConfigurationPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.year}
-        error={Boolean(errors.year)}
-        helperText={errors.year ?? "Tahun PPDB dilaksanakan"}
+        error={isError("year")}
+        helperText={helperText("year") ?? "Tahun PPDB dilaksanakan"}
         label="Tahun PPDB"
       />
       <TextField
@@ -76,9 +80,9 @@ const AddConfigurationPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.registrationFormat}
-        error={Boolean(errors.registrationFormat)}
+        error={isError("registrationFormat")}
         helperText={
-          errors.registrationFormat ??
+          helperText("registrationFormat") ??
           "Pastikan format nomor registrasi mengandung text '[Y]',[I], dan [N]. Kosongkan saja jika ingin mengisi sesuai dengan bawaannya"
         }
         label="Format No. Registrasi"

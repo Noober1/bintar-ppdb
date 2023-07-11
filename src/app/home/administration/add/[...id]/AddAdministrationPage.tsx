@@ -2,10 +2,17 @@
 import FormLayout from "@/components/layouts/FormLayout";
 import { administrationForm } from "@/lib/formSchemas";
 import { AdministrationFormValues } from "@/types/forms";
-import { InputAdornment } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React from "react";
+import { StudentData } from "./page";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
+
+interface AddAdministrationPageProps {
+  studentData: StudentData;
+}
 
 const formInitialValues: AdministrationFormValues = {
   description: "",
@@ -13,12 +20,13 @@ const formInitialValues: AdministrationFormValues = {
   payer: "",
 };
 
-const AddAdministrationPage = () => {
+const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
   const {
     errors,
     handleBlur,
     handleChange,
     handleSubmit,
+    touched,
     values,
     isSubmitting,
   } = useFormik({
@@ -27,9 +35,19 @@ const AddAdministrationPage = () => {
     onSubmit: (values, actions) => {},
   });
 
+  const { isError, helperText } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
-      alert="Silahkan isi data dibawah ini"
+      alert={
+        <Typography>
+          Pembayaran untuk{" "}
+          <kbd>
+            {studentData?.firstName} {studentData?.lastName}
+          </kbd>
+          ({studentData?.formerSchool?.name})
+        </Typography>
+      }
       errors={errors}
       isSubmitting={isSubmitting}
       onSubmit={handleSubmit}
@@ -39,11 +57,13 @@ const AddAdministrationPage = () => {
       <TextField
         name="description"
         label="Perihal"
-        helperText={errors.description ?? "Silahkan isi perihal pembayaran"}
+        helperText={
+          helperText("description") ?? "Silahkan isi perihal pembayaran"
+        }
         value={values.description}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={Boolean(errors.description)}
+        error={isError("description")}
       />
       <TextField
         InputProps={{
@@ -52,20 +72,20 @@ const AddAdministrationPage = () => {
         type="number"
         name="nominal"
         label="nominal"
-        helperText={errors.nominal ?? "Silahkan isi jumlah pembayaran"}
+        helperText={helperText("nominal") ?? "Silahkan isi jumlah pembayaran"}
         value={values.nominal}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={Boolean(errors.nominal)}
+        error={isError("nominal")}
       />
       <TextField
         name="payer"
         label="Pembayar"
-        helperText={errors.payer ?? "Silahkan isi nama pembayar"}
+        helperText={helperText("payer") ?? "Silahkan isi nama pembayar"}
         value={values.payer}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={Boolean(errors.payer)}
+        error={isError("payer")}
       />
     </FormLayout>
   );

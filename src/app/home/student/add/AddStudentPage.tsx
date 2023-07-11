@@ -21,6 +21,7 @@ import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import React, { useRef, useState } from "react";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 const formInitialValues: StudentFormValues = {
   registrationNumber: "",
@@ -62,6 +63,7 @@ const AddStudentPage = () => {
     handleChange,
     handleBlur,
     values,
+    touched,
     errors,
     handleSubmit,
     setFieldValue,
@@ -92,6 +94,8 @@ const AddStudentPage = () => {
       });
     },
   });
+
+  const { isError, helperText } = formikCustomHelper(errors, touched);
 
   const generateRegNumber = () => {
     setGenerateLoading(true);
@@ -151,9 +155,9 @@ const AddStudentPage = () => {
           ),
         }}
         value={values.registrationNumber}
-        error={Boolean(errors.registrationNumber)}
+        error={isError("registrationNumber")}
         helperText={
-          errors.registrationNumber
+          helperText("registrationNumber")
             ? "Click tombol generate untuk membuat nomor registrasi"
             : "Nomor registrasi siswa, click tombol generate untuk membuat nomor registrasi"
         }
@@ -164,8 +168,8 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.firstName}
-        error={Boolean(errors.firstName)}
-        helperText={errors.firstName ?? "Nama depan siswa"}
+        error={isError("firstName")}
+        helperText={helperText("firstName") ?? "Nama depan siswa"}
         label="Nama depan"
       />
       <TextField
@@ -173,8 +177,8 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.lastName}
-        error={Boolean(errors.lastName)}
-        helperText={errors.lastName ?? "Nama belakang siswa"}
+        error={isError("lastName")}
+        helperText={helperText("lastName") ?? "Nama belakang siswa"}
         label="Nama belakang"
       />
       <TextField
@@ -182,8 +186,8 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.phoneNumber}
-        error={Boolean(errors.phoneNumber)}
-        helperText={errors.phoneNumber ?? "No. Telpon/HP siswa"}
+        error={isError("phoneNumber")}
+        helperText={helperText("phoneNumber") ?? "No. Telpon/HP siswa"}
         label="No. Telpon"
       />
       <TextField
@@ -191,8 +195,8 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.email}
-        error={Boolean(errors.email)}
-        helperText={errors.email ?? "Surel/Email siswa"}
+        error={isError("email")}
+        helperText={helperText("email") ?? "Surel/Email siswa"}
         label="Email"
       />
       <TextField
@@ -202,8 +206,8 @@ const AddStudentPage = () => {
         }}
         onBlur={handleBlur}
         value={values.birthplace}
-        error={Boolean(errors.birthplace)}
-        helperText={errors.birthplace ?? "Tempat lahir siswa"}
+        error={isError("birthplace")}
+        helperText={helperText("birthplace") ?? "Tempat lahir siswa"}
         label="Tempat lahir"
       />
       <DatePicker
@@ -240,15 +244,17 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.NISNNumber}
-        error={Boolean(errors.NISNNumber)}
-        helperText={errors.NISNNumber ?? "No. Induk Siswa Nasional(NSIN) siswa"}
+        error={isError("NISNNumber")}
+        helperText={
+          helperText("NISNNumber") ?? "No. Induk Siswa Nasional(NSIN) siswa"
+        }
         label="NISN"
       />
       <ServersideSelect
         ref={schoolRef}
         url="/api/schools"
         error={Boolean(errors.schoolId)}
-        helperText={errors.schoolId ?? "Silahkan pilih asal sekolah"}
+        helperText={helperText("schoolId") ?? "Silahkan pilih asal sekolah"}
         label="Sekolah Asal"
         onChange={(value) => {
           setFieldValue("schoolId", value);
@@ -259,9 +265,9 @@ const AddStudentPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.schoolGraduateYear}
-        error={Boolean(errors.schoolGraduateYear)}
+        error={isError("schoolGraduateYear")}
         helperText={
-          errors.schoolGraduateYear ??
+          helperText("schoolGraduateYear") ??
           "Tahun lulus siswa dari pendidikan terakhir"
         }
         label="Tahun lulus"
@@ -272,7 +278,7 @@ const AddStudentPage = () => {
         error={Boolean(errors.majorId)}
         label="Jurusan yang dipilih"
         helperText={
-          errors.majorId ?? "Silahkan pilih jurusan yang akan dipilih"
+          helperText("majorId") ?? "Silahkan pilih jurusan yang akan dipilih"
         }
         onChange={(value) => {
           setFieldValue("majorId", value);

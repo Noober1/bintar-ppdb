@@ -11,7 +11,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface FormLayoutProps extends Omit<BoxProps, "onSubmit"> {
   title: string;
-  alert: string;
+  alert: React.ReactNode;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   isSubmitting: boolean;
   errors: FormikErrors<any>;

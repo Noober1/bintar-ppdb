@@ -13,6 +13,7 @@ import FormLayout from "@/components/layouts/FormLayout";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 const formInitialValues: SchoolFormValues = {
   NPSN: 0,
@@ -29,6 +30,7 @@ const AddSchoolPage = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    touched,
     values,
     isSubmitting,
   } = useFormik({
@@ -58,6 +60,8 @@ const AddSchoolPage = () => {
     },
   });
 
+  const { helperText, isError } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       title="Tambah sekolah"
@@ -70,11 +74,11 @@ const AddSchoolPage = () => {
       <TextField
         name="NPSN"
         value={values.NPSN}
-        error={Boolean(errors.NPSN)}
+        error={isError("NPSN")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="NPSN"
-        helperText={errors.NPSN ?? "NPSN"}
+        helperText={helperText("NPSN") ?? "NPSN"}
       />
       <FormControl>
         <InputLabel>Jenis sekolah</InputLabel>
@@ -100,21 +104,23 @@ const AddSchoolPage = () => {
       <TextField
         name="name"
         value={values.name}
-        error={Boolean(errors.name)}
+        error={isError("name")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="Nama sekolah"
-        helperText={errors.name ?? "Masukan nama sekolah disini"}
+        helperText={helperText("name") ?? "Masukan nama sekolah disini"}
       />
       <TextField
         className="lg:col-span-3"
         name="address"
         value={values.address}
-        error={Boolean(errors.address)}
+        error={isError("address")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="Alamat"
-        helperText={errors.address ?? "Masukan alamat lengkap sekolah disini"}
+        helperText={
+          helperText("address") ?? "Masukan alamat lengkap sekolah disini"
+        }
       />
     </FormLayout>
   );

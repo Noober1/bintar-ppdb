@@ -13,6 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 interface EditSchoolPageProps {
   data: SchoolDataForEdit;
@@ -34,6 +35,7 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
     handleBlur,
     values,
     errors,
+    touched,
     handleSubmit,
     isSubmitting,
   } = useFormik({
@@ -53,6 +55,8 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
     },
   });
 
+  const { isError, helperText } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       alert="Silahkan sunting data yang ada dibawah ini"
@@ -65,11 +69,11 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
       <TextField
         name="NPSN"
         value={values.NPSN}
-        error={Boolean(errors.NPSN)}
+        error={isError("NPSN")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="NPSN"
-        helperText={errors.NPSN ?? "NPSN"}
+        helperText={helperText("NPSN") ?? "NPSN"}
       />
       <FormControl>
         <InputLabel>Jenis sekolah</InputLabel>
@@ -95,21 +99,23 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
       <TextField
         name="name"
         value={values.name}
-        error={Boolean(errors.name)}
+        error={isError("name")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="Nama sekolah"
-        helperText={errors.name ?? "Masukan nama sekolah disini"}
+        helperText={helperText("name") ?? "Masukan nama sekolah disini"}
       />
       <TextField
         className="lg:col-span-3"
         name="address"
         value={values.address}
-        error={Boolean(errors.address)}
+        error={isError("address")}
         onChange={handleChange}
         onBlur={handleBlur}
         label="Alamat"
-        helperText={errors.address ?? "Masukan alamat lengkap sekolah disini"}
+        helperText={
+          helperText("address") ?? "Masukan alamat lengkap sekolah disini"
+        }
       />
     </FormLayout>
   );

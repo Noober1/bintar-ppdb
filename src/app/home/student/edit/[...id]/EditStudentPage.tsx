@@ -19,6 +19,7 @@ import ServersideSelect, {
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 export const genderList: {
   name: GENDERS;
@@ -65,6 +66,7 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
     handleBlur,
     values,
     errors,
+    touched,
     handleSubmit,
     setFieldValue,
     isSubmitting,
@@ -92,6 +94,9 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
       });
     },
   });
+
+  const { isError, helperText } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       alert="Silahkan sunting data dibawah ini"
@@ -112,8 +117,8 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.firstName}
-        error={Boolean(errors.firstName)}
-        helperText={errors.firstName ?? "Nama depan siswa"}
+        error={isError("firstName")}
+        helperText={helperText("firstName") ?? "Nama depan siswa"}
         label="Nama depan"
       />
       <TextField
@@ -121,8 +126,8 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.lastName}
-        error={Boolean(errors.lastName)}
-        helperText={errors.lastName ?? "Nama belakang siswa"}
+        error={isError("lastName")}
+        helperText={helperText("lastName") ?? "Nama belakang siswa"}
         label="Nama belakang"
       />
       <TextField
@@ -130,8 +135,8 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.phoneNumber}
-        error={Boolean(errors.phoneNumber)}
-        helperText={errors.phoneNumber ?? "No. Telpon/HP siswa"}
+        error={isError("phoneNumber")}
+        helperText={helperText("phoneNumber") ?? "No. Telpon/HP siswa"}
         label="No. Telpon"
       />
       <TextField
@@ -139,8 +144,8 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.email}
-        error={Boolean(errors.email)}
-        helperText={errors.email ?? "Surel/Email siswa"}
+        error={isError("email")}
+        helperText={helperText("email") ?? "Surel/Email siswa"}
         label="Email"
       />
       <TextField
@@ -150,8 +155,8 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         }}
         onBlur={handleBlur}
         value={values.birthplace}
-        error={Boolean(errors.birthplace)}
-        helperText={errors.birthplace ?? "Tempat lahir siswa"}
+        error={isError("birthplace")}
+        helperText={helperText("birthplace") ?? "Tempat lahir siswa"}
         label="Tempat lahir"
       />
       <DatePicker
@@ -188,8 +193,10 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.NISNNumber}
-        error={Boolean(errors.NISNNumber)}
-        helperText={errors.NISNNumber ?? "No. Induk Siswa Nasional(NSIN) siswa"}
+        error={isError("NISNNumber")}
+        helperText={
+          helperText("NISNNumber") ?? "No. Induk Siswa Nasional(NSIN) siswa"
+        }
         label="NISN"
       />
       <ServersideSelect
@@ -208,9 +215,9 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.schoolGraduateYear}
-        error={Boolean(errors.schoolGraduateYear)}
+        error={isError("schoolGraduateYear")}
         helperText={
-          errors.schoolGraduateYear ??
+          helperText("schoolGraduateYear") ??
           "Tahun lulus siswa dari pendidikan terakhir"
         }
         label="Tahun lulus"

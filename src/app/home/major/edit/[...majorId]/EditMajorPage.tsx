@@ -8,6 +8,7 @@ import { MajorDataForEdit } from "./page";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 interface EditMajorPageProps {
   data: MajorDataForEdit;
@@ -24,6 +25,7 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
     handleChange,
     handleBlur,
     values,
+    touched,
     errors,
     handleSubmit,
     setFieldValue,
@@ -45,6 +47,8 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
     },
   });
 
+  const { helperText, isError } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       onSubmit={handleSubmit}
@@ -62,8 +66,8 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
         }
         onBlur={handleBlur}
         value={values.initial}
-        error={Boolean(errors.initial)}
-        helperText={errors.initial ?? "Akronim/singkatan dari jurusan"}
+        error={isError("initial")}
+        helperText={helperText("initial") ?? "Akronim/singkatan dari jurusan"}
         label="Akronim jurusan"
       />
       <TextField
@@ -71,8 +75,8 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.name}
-        error={Boolean(errors.name)}
-        helperText={errors.name ?? "Nama dari jurusan"}
+        error={isError("name")}
+        helperText={helperText("name") ?? "Nama dari jurusan"}
         label="Nama Jurusan"
       />
     </FormLayout>

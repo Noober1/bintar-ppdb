@@ -8,6 +8,7 @@ import { AxiosError } from "axios";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import FormLayout from "@/components/layouts/FormLayout";
+import formikCustomHelper from "@/hooks/formikCustomHelper";
 
 const formInitialValues: MajorFormValues = {
   initial: "",
@@ -23,6 +24,7 @@ const AddMajorPage = () => {
     handleBlur,
     values,
     errors,
+    touched,
     handleSubmit,
     setFieldValue,
     isSubmitting,
@@ -53,6 +55,8 @@ const AddMajorPage = () => {
     },
   });
 
+  const { isError, helperText } = formikCustomHelper(errors, touched);
+
   return (
     <FormLayout
       onSubmit={handleSubmit}
@@ -70,7 +74,7 @@ const AddMajorPage = () => {
         }
         onBlur={handleBlur}
         value={values.initial}
-        error={Boolean(errors.initial)}
+        error={isError("initial")}
         helperText={errors.initial ?? "Akronim/singkatan dari jurusan"}
         label="Akronim jurusan"
       />
@@ -79,7 +83,7 @@ const AddMajorPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.name}
-        error={Boolean(errors.name)}
+        error={isError("name")}
         helperText={errors.name ?? "Nama dari jurusan"}
         label="Nama Jurusan"
       />
