@@ -3,6 +3,7 @@ import Snackbar from "./Snackbar";
 import Draggable from "./Draggable";
 import ThemeSwitch from "./ThemeSwitch";
 import Forms from "./Forms";
+import RowRadioGroup from "@/components/forms/RowRadioGroup";
 
 const Page = () => {
   return (
@@ -18,6 +19,17 @@ const Page = () => {
       </div>
       <div className="md:col-span-2 lg:col-span-3">
         <Forms />
+      </div>
+      <div>
+        <RowRadioGroup
+          label="Entah"
+          name="test"
+          options={[
+            { label: "Pria", name: "MALE" },
+            { label: "Wanita", name: "FEMALE" },
+          ]}
+          helperText="Jenis kelamin lah"
+        />
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 "use client";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { LayoutComponentProps } from "@/types/components";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-interface DashboardContentLayoutProps extends LayoutComponentProps {
+interface DashboardContentLayoutProps {
+  children: React.ReactNode;
   title: string;
 }
 

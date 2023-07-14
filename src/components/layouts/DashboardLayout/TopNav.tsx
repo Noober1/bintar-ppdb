@@ -48,25 +48,27 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
             px: 2,
           }}
         >
-          <Tooltip
-            title={
-              <TooltipTitle
-                title="Menu"
-                content="Click untuk membuka menu bilah sisi."
-              />
-            }
-          >
-            <IconButton
-              onClick={onNavOpen}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+          {!lgUp && (
+            <Tooltip
+              title={
+                <TooltipTitle
+                  title="Menu"
+                  content="Click untuk membuka menu bilah sisi."
+                />
+              }
             >
-              <MenuIcon />
-            </IconButton>
-          </Tooltip>
+              <IconButton
+                onClick={onNavOpen}
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           <Typography className="flex-1" variant="h5" fontWeight="bold">
             Aplikasi PSB
           </Typography>

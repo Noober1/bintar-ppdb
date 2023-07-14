@@ -1,11 +1,13 @@
-import { configChecker } from "@/lib/serverUtils";
 import React from "react";
 import StudentTable from "./StudentTable";
-
-export const revalidate = 5;
+import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";
 
 const Page = async () => {
-  return <StudentTable />;
+  return (
+    <DashboardContentLayout title="Daftar siswa">
+      <StudentTable />
+    </DashboardContentLayout>
+  );
 };
 
 export default Page;

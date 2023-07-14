@@ -1,9 +1,12 @@
 const schemeErrorMessage = {
   INVALID_EMAIL_FORMAT: "Format email tidak valid",
+  INVALID_TYPE: "Tipe data invalid",
   EMPTY_EMAIL: "Email tidak boleh kosong",
   EMPTY_PASSWORD: "Kata sandi tidak boleh kosong",
   EMPTY_DATA: "Data tidak boleh kosong",
   INVALID_GRANTED_ACCESS: "Hak akses invalid",
+  INVALID_REGISTRATION_FORMAT:
+    "Format nomor registrasi invalid, harus mengandung text [Y] dan [N]. Kosongkan jika ingin menggunakan format bawaan.",
   INVALID_MINLENGTH: (length: number) =>
     `Panjang karakter tidak valid, minimal ${length} karakter`,
   INVALID_MAXLENGTH: (length: number) =>

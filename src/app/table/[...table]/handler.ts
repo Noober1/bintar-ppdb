@@ -161,6 +161,7 @@ const tableHandler: Handler = {
           firstName: true,
           lastName: true,
           isRegistered: true,
+          historyEdited: true,
           formerSchool: {
             select: {
               name: true,
@@ -181,6 +182,227 @@ const tableHandler: Handler = {
           firstName: value.firstName,
           lastName: value.lastName,
           isRegistered: value.isRegistered,
+          formerSchool: value.formerSchool?.name,
+        })),
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          message: isErrorMessage ? error.message : "Unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
+  },
+  files: async (request, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig) {
+        throw new Error("Tidak ada config yang aktif");
+      }
+      const getData = await extendedPrisma.student.paginate({
+        limit,
+        page,
+        where: {
+          configId: getActiveConfig.id,
+          isRegistered: true,
+        },
+        select: {
+          id: true,
+          registrationNumber: true,
+          firstName: true,
+          lastName: true,
+          fileNISN: true,
+          fileAkta: true,
+          fileIjazah: true,
+          fileKIPKPS: true,
+          fileKK: true,
+          fileKTP: true,
+          fileMCU: true,
+          filePhoto23: true,
+          filePhoto34: true,
+          fileRaport: true,
+          fileSKB: true,
+          fileSKHUN: true,
+          fileSTK: true,
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result,
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          message: isErrorMessage ? error.message : "Unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
+  },
+  kesiswaan: async (request, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig) {
+        throw new Error("Tidak ada config yang aktif");
+      }
+      const getData = await extendedPrisma.student.paginate({
+        page,
+        limit,
+        select: {
+          id: true,
+          formerSchool: {
+            select: {
+              name: true,
+            },
+          },
+          firstName: true,
+          lastName: true,
+          registrationNumber: true,
+          historyEdited: true,
+        },
+        orderBy: {
+          historyEdited: "asc",
+        },
+        where: {
+          isRegistered: true,
+          configId: getActiveConfig.id,
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result.map((value) => ({
+          ...value,
+          formerSchool: value.formerSchool?.name,
+        })),
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          message: isErrorMessage ? error.message : "Unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
+  },
+  measure: async (requets, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig) {
+        throw new Error("Tidak ada config yang aktif");
+      }
+
+      const getData = await extendedPrisma.student.paginate({
+        page,
+        limit,
+        where: {
+          configId: getActiveConfig.id,
+        },
+        orderBy: {
+          measureEdited: "asc",
+        },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          registrationNumber: true,
+          formerSchool: {
+            select: {
+              name: true,
+            },
+          },
+          measureEdited: true,
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result.map((value) => ({
+          ...value,
+          formerSchool: value.formerSchool?.name,
+        })),
+        metadata: {
+          page: getData.page,
+          length: getData.limit,
+          count: getData.count,
+          totalPages: getData.totalPages,
+          hasNextPage: getData.hasNextPage,
+        },
+      });
+    } catch (error) {
+      const isErrorMessage = error instanceof Error;
+      return NextResponse.json(
+        {
+          message: isErrorMessage ? error.message : "Unknown error",
+        },
+        {
+          status: isErrorMessage ? 400 : 500,
+        }
+      );
+    }
+  },
+  bio: async (request, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig) {
+        throw new Error("Tidak ada config yang aktif");
+      }
+
+      const getData = await extendedPrisma.student.paginate({
+        page,
+        limit,
+        where: {
+          configId: getActiveConfig.id,
+        },
+        orderBy: {
+          bioEdited: "asc",
+        },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          registrationNumber: true,
+          formerSchool: {
+            select: {
+              name: true,
+            },
+          },
+          bioEdited: true,
+        },
+      });
+
+      return NextResponse.json({
+        data: getData.result.map((value) => ({
+          ...value,
           formerSchool: value.formerSchool?.name,
         })),
         metadata: {

@@ -1,8 +1,8 @@
 import { FormikHelpers } from "formik";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export type RequestHandler = (
-  request: Request,
+  request: NextRequest,
   ...args: any
 ) => Promise<NextResponse<any>>;
 

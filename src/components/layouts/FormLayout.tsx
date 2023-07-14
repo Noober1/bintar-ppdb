@@ -59,7 +59,6 @@ const FormLayout = ({
             sx={{
               marginTop: 2,
             }}
-            component="div"
             role="presentation"
           >
             <LoadingButton

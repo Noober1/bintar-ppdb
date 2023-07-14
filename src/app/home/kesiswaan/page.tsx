@@ -1,7 +1,13 @@
+import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";
 import React from "react";
+import KesiswaanTable from "./KesiswaanTable";
 
 const Page = () => {
-  return <div>Kesiswaan page</div>;
+  return (
+    <DashboardContentLayout title="Kesiswaan">
+      <KesiswaanTable />
+    </DashboardContentLayout>
+  );
 };
 
 export default Page;

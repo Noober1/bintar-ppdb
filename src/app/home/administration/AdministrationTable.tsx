@@ -59,7 +59,7 @@ const AdministrationTable = () => {
         {
           field: "registrationNumber",
           headerName: "No. Registrasi",
-          minWidth: 200,
+          minWidth: 160,
         },
         {
           field: "firstName",
@@ -93,11 +93,12 @@ const AdministrationTable = () => {
                 }
               >
                 <Button
+                  fullWidth
                   onClick={() => handleSetRegister(params.row.id)}
                   variant="contained"
                   color={params.value ? "success" : "error"}
                 >
-                  {params.value ? "Registered" : "Unregistered"}
+                  {params.value ? "Terdaftar" : "Belum terdaftar"}
                 </Button>
               </Tooltip>
             );

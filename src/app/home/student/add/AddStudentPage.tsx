@@ -6,7 +6,7 @@ import ServersideSelect, {
 import FormLayout from "@/components/layouts/FormLayout";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { basicForm } from "@/lib/formSchemas";
-import { StudentFormValues } from "@/types/forms";
+import { StudentFormValues, genderSelectList } from "@/types/forms";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -227,7 +227,7 @@ const AddStudentPage = () => {
           value={values.gender}
           label="Jenis kelamin"
         >
-          {genderList.map((value) => (
+          {genderSelectList.map((value) => (
             <MenuItem
               key={value.name}
               value={value.name}
@@ -252,7 +252,7 @@ const AddStudentPage = () => {
       />
       <ServersideSelect
         ref={schoolRef}
-        url="/api/schools"
+        url="/schools"
         error={Boolean(errors.schoolId)}
         helperText={helperText("schoolId") ?? "Silahkan pilih asal sekolah"}
         label="Sekolah Asal"
@@ -274,7 +274,7 @@ const AddStudentPage = () => {
       />
       <ServersideSelect
         ref={majorRef}
-        url="/api/major"
+        url="/major"
         error={Boolean(errors.majorId)}
         label="Jurusan yang dipilih"
         helperText={

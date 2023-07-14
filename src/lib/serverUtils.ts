@@ -62,10 +62,39 @@ const checkConfigOrThrow = async () => {
   return getActiveConfig;
 };
 
+const getMajorList = async () => {
+  const getData = await prisma.major.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+  return getData.map((value) => ({
+    name: value.id,
+    label: value.name,
+  }));
+};
+
+const getSchoolList = async () => {
+  const getData = await prisma.school.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
+  return getData.map((value) => ({
+    name: value.id,
+    label: value.name,
+  }));
+};
+
 export {
   generateRandomNumber,
   generateRegistrationNumber,
   configChecker,
   checkConfigOrThrow,
   getCurrentConfig,
+  getMajorList,
+  getSchoolList,
 };

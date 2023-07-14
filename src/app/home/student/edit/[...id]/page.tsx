@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import React from "react";
 import EditStudentPage from "./EditStudentPage";
-// import EditSchoolPage from "./EditSchoolPage";
 
 const getDataById = (id: number) =>
   prisma.student.findUnique({

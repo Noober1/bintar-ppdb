@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { StudentDataForEdit } from "./page";
 import { useFormik } from "formik";
-import { StudentFormValues } from "@/types/forms";
+import { StudentFormValues, genderSelectList } from "@/types/forms";
 import { basicForm } from "@/lib/formSchemas";
 import FormLayout from "@/components/layouts/FormLayout";
 import TextField from "@mui/material/TextField";
@@ -20,20 +20,6 @@ import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
-
-export const genderList: {
-  name: GENDERS;
-  label: string;
-}[] = [
-  {
-    label: "Laki-laki",
-    name: "MALE",
-  },
-  {
-    label: "Perempuan",
-    name: "FEMALE",
-  },
-];
 
 interface EditStudentPageProps {
   data: StudentDataForEdit;
@@ -176,7 +162,7 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
           value={values.gender}
           label="Jenis kelamin"
         >
-          {genderList.map((value) => (
+          {genderSelectList.map((value) => (
             <MenuItem
               key={value.name}
               value={value.name}
@@ -202,7 +188,7 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
       <ServersideSelect
         ref={schoolRef}
         initialValue={values.schoolId}
-        url="/api/schools"
+        url="/schools"
         error={Boolean(errors.schoolId)}
         helperText={errors.schoolId ?? "Silahkan pilih asal sekolah"}
         label="Sekolah Asal"
@@ -224,7 +210,7 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
       />
       <ServersideSelect
         ref={majorRef}
-        url="/api/major"
+        url="/major"
         initialValue={values.majorId}
         error={Boolean(errors.majorId)}
         label="Jurusan yang dipilih"

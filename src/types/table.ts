@@ -12,6 +12,10 @@ export const tableList = [
   "configuration",
   "administration",
   "basic",
+  "files",
+  "kesiswaan",
+  "measure",
+  "bio",
 ] as const;
 export type TableList = (typeof tableList)[number];
 

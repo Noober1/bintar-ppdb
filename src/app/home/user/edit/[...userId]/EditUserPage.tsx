@@ -11,8 +11,10 @@ import { UserFormValues } from "@/types/forms";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
+import useRefresh from "@/hooks/useRefresh";
 
 const UserEditPage = ({ userData }: { userData: GetUserQueryForEdit }) => {
+  useRefresh();
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation<UserFormValues>(
     "/crud/user/" + userData?.id

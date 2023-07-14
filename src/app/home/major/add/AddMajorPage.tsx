@@ -75,7 +75,7 @@ const AddMajorPage = () => {
         onBlur={handleBlur}
         value={values.initial}
         error={isError("initial")}
-        helperText={errors.initial ?? "Akronim/singkatan dari jurusan"}
+        helperText={helperText("initial") ?? "Akronim/singkatan dari jurusan"}
         label="Akronim jurusan"
       />
       <TextField
@@ -84,7 +84,7 @@ const AddMajorPage = () => {
         onBlur={handleBlur}
         value={values.name}
         error={isError("name")}
-        helperText={errors.name ?? "Nama dari jurusan"}
+        helperText={helperText("name") ?? "Nama dari jurusan"}
         label="Nama Jurusan"
       />
     </FormLayout>

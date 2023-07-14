@@ -9,6 +9,9 @@ import { useFormik } from "formik";
 import React from "react";
 import { StudentData } from "./page";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
+import { useSnackbar } from "notistack";
+import { useAddMutation } from "@/hooks/useAddMutation";
+import { AxiosError } from "axios";
 
 interface AddAdministrationPageProps {
   studentData: StudentData;
@@ -21,6 +24,8 @@ const formInitialValues: AdministrationFormValues = {
 };
 
 const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const mutation = useAddMutation("/crud/administration/" + studentData?.id);
   const {
     errors,
     handleBlur,
@@ -32,7 +37,29 @@ const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
   } = useFormik({
     initialValues: formInitialValues,
     validationSchema: administrationForm,
-    onSubmit: (values, actions) => {},
+    onSubmit: (values, actions) => {
+      mutation.mutate(values, {
+        onSuccess: () => {
+          enqueueSnackbar(
+            `Pembayaran atas siswa ${studentData?.firstName} ${studentData?.lastName} berhasil ditambahkan`,
+            { variant: "success" }
+          );
+          actions.resetForm();
+          actions.setSubmitting(false);
+        },
+        onError: (error) => {
+          const isAxiosError = error instanceof AxiosError;
+          enqueueSnackbar(
+            `Gagal menambah pembayaran, alasan: ${
+              isAxiosError
+                ? error.response?.data.message ?? error.message
+                : "unknown error"
+            }`
+          );
+          actions.setSubmitting(false);
+        },
+      });
+    },
   });
 
   const { isError, helperText } = formikCustomHelper(errors, touched);

@@ -9,12 +9,14 @@ import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useRefresh from "@/hooks/useRefresh";
 
 interface EditMajorPageProps {
   data: MajorDataForEdit;
 }
 
 const EditMajorPage = ({ data }: EditMajorPageProps) => {
+  useRefresh();
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation<MajorFormValues>("/crud/major/" + data?.id);
   const formInitialValues: MajorFormValues = {

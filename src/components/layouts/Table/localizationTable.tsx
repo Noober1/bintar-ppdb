@@ -142,8 +142,8 @@ const localizationTable: LocalizationTable = {
   checkboxSelectionUnselectRow: "Hapus pilih baris",
 
   // Boolean cell text
-  booleanCellTrueLabel: "ya",
-  booleanCellFalseLabel: "tidak",
+  booleanCellTrueLabel: "Ya",
+  booleanCellFalseLabel: "Tidak",
 
   // Actions cell more text
   actionsCellMore: "lebih banyak",

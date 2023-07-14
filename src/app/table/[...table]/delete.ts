@@ -36,11 +36,17 @@ const deleteRoute: RequestHandler = async (request, params: Params) => {
           throw new Error("Invalid data");
         }
 
-        await prisma.school.delete({
-          where: {
-            id: getDataRequest.data,
-          },
+        const getStudentFromSchool = await prisma.student.count({
+          where: { schoolId: getDataRequest.data },
         });
+
+        if (!getStudentFromSchool) {
+          await prisma.school.delete({
+            where: {
+              id: getDataRequest.data,
+            },
+          });
+        }
         break;
       case "configuration":
         const getCurrentConfig = await prisma.config.findFirst({
@@ -81,6 +87,13 @@ const deleteRoute: RequestHandler = async (request, params: Params) => {
               in: getDataRequest.data,
             },
             isRegistered: false,
+          },
+        });
+        break;
+      case "administration":
+        await prisma.administration.delete({
+          where: {
+            id: getDataRequest.data,
           },
         });
         break;

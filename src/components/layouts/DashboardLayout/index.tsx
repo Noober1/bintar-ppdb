@@ -6,16 +6,16 @@ import SideNav from "@/components/layouts/DashboardLayout/Sidenav";
 import TopNav from "@/components/layouts/DashboardLayout/TopNav";
 import { Paper } from "@mui/material";
 
-const SIDE_NAV_WIDTH = 290;
+const SIDE_NAV_WIDTH = 295;
 
 const LayoutRoot = styled(Paper)(({ theme }) => ({
   borderRadius: 0,
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
-  padding: 10,
+  padding: 15,
   [theme.breakpoints.up("lg")]: {
     paddingLeft: SIDE_NAV_WIDTH,
-    paddingRight: 10,
+    paddingRight: 15,
   },
 }));
 
@@ -55,7 +55,7 @@ const DashboardLayout = ({ children, userData }: TDashboardLayout) => {
         onClose={() => setOpenNav(false)}
         open={openNav}
       />
-      <LayoutRoot elevation={0} className="w-full h-full flex-1">
+      <LayoutRoot elevation={0} className="w-full flex-1">
         {children}
       </LayoutRoot>
     </div>

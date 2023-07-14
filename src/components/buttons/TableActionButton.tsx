@@ -41,7 +41,7 @@ const EditButton: TEditButton = ({ color = "primary", href }) => {
 
 interface DeleteButtonProps {
   table: TableList;
-  id: number;
+  id: number | string;
   refreshTable?: Function;
   confirmationTitle: string;
   confirmationNote?: React.ReactElement;

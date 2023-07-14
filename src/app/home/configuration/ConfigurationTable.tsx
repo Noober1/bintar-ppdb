@@ -79,7 +79,7 @@ const ConfigurationTable = () => {
         },
         {
           field: "registrationFormat",
-          minWidth: 200,
+          minWidth: 160,
           headerName: "Format No. Pendaftaran",
           renderCell: (params) => {
             const splitFormat = params.value.split(/(\[.\])/);

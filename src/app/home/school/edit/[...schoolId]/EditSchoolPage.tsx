@@ -14,12 +14,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useRefresh from "@/hooks/useRefresh";
 
 interface EditSchoolPageProps {
   data: SchoolDataForEdit;
 }
 
 const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
+  useRefresh()
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation<SchoolFormValues>(
     "/crud/school/" + data?.id

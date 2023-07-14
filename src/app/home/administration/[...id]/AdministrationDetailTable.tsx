@@ -1,10 +1,20 @@
 "use client";
-import DynamicTable from "@/components/layouts/Table";
-import React from "react";
+import {
+  DeleteButton,
+  EditButton,
+} from "@/components/buttons/TableActionButton";
+import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
+import IconButton from "@mui/material/IconButton";
+import React, { useRef } from "react";
+
+import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
+import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 
 const AdministrationDetailTable = ({ userId }: { userId: string }) => {
+  const tableRef = useRef<DynamicTableHandles>(null);
   return (
     <DynamicTable
+      ref={tableRef}
       buttons={{
         addButtonLink: "/home/administration/add/" + userId,
       }}
@@ -12,16 +22,22 @@ const AdministrationDetailTable = ({ userId }: { userId: string }) => {
       additionalQuery={{ userid: userId }}
       columns={[
         {
+          field: "id",
+          headerName: "No. Pembayaran",
+          flex: 1,
+        },
+        {
           field: "dateCreated",
           headerName: "Tanggal dibuat",
-          minWidth: 180,
+          minWidth: 200,
           valueFormatter: (params) => {
             const date = new Date(params.value);
             return date.toLocaleDateString("id-ID", {
-              weekday: "long",
               year: "numeric",
               month: "long",
               day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
             });
           },
         },
@@ -38,7 +54,7 @@ const AdministrationDetailTable = ({ userId }: { userId: string }) => {
         {
           field: "nominal",
           headerName: "Nominal",
-          minWidth: 200,
+          minWidth: 150,
           valueFormatter: (params) =>
             params.value.toLocaleString("id-ID", {
               style: "currency",
@@ -46,8 +62,34 @@ const AdministrationDetailTable = ({ userId }: { userId: string }) => {
             }),
         },
         {
-          field: "id",
+          field: "actions",
+          type: "actions",
           headerName: "Aksi",
+          minWidth: 150,
+          renderCell: (params) => (
+            <>
+              <EditButton href={"/home/administration/edit/" + params.id} />
+              {/* TODO: Need to work with print invoice function */}
+              <Tooltip
+                title={
+                  <TooltipTitle
+                    title="Cetak pembayaran"
+                    content="Click untuk mencetak pembayaran"
+                  />
+                }
+              >
+                <IconButton color="success">
+                  <LocalPrintshopIcon />
+                </IconButton>
+              </Tooltip>
+              <DeleteButton
+                confirmationTitle="Hapus pembayaran?"
+                id={params.id}
+                table="administration"
+                refreshTable={tableRef.current?.refreshTable}
+              />
+            </>
+          ),
         },
       ]}
     />
