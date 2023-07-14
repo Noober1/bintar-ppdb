@@ -1,3 +1,4 @@
+import { schoolForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
@@ -15,6 +16,7 @@ const PUT: RequestHandler = async (
   try {
     const id = parseInt(schoolId[0]);
     const getRequestData = await request.json();
+    const validatedData = await schoolForm.validate(getRequestData);
     const findData = await prisma.school.count({
       where: {
         id,
@@ -30,10 +32,10 @@ const PUT: RequestHandler = async (
         id,
       },
       data: {
-        address: getRequestData.address,
-        name: getRequestData.name,
-        NPSN: getRequestData.NPSN,
-        type: getRequestData.type,
+        address: validatedData.address,
+        name: validatedData.name,
+        NPSN: validatedData.NPSN,
+        type: validatedData.type,
       },
     });
 
