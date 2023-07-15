@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { Params, TableList } from "@/types/table";
 import { NextResponse } from "next/server";
@@ -104,16 +105,7 @@ const deleteRoute: RequestHandler = async (request, params: Params) => {
       success: true,
     });
   } catch (error) {
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        success: false,
-        message: isErrorMessage ? error.message : "Unknown error",
-      },
-      {
-        status: isErrorMessage ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

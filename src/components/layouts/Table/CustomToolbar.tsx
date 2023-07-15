@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export interface CustomToolbarProps {
   addButtonLink?: string;
@@ -38,6 +39,8 @@ const CustomToolbar = ({
   deleteConfirmationNote,
 }: CustomToolbarProps) => {
   const { enqueueSnackbar } = useSnackbar();
+  const screenDownMd = useMediaQuery((query) => query.down("md"));
+  const screenDownSm = useMediaQuery((query) => query.down("sm"));
   const dispatch = useDispatch();
   const handleDeleteSelection = () => {
     if (!deleteSelectionId.length) {
@@ -116,13 +119,14 @@ const CustomToolbar = ({
           }
         >
           <Button
-            variant="contained"
+            variant="outlined"
+            size={screenDownMd ? "small" : "medium"}
             color="success"
             LinkComponent={Link}
             href={addButtonLink}
-            startIcon={<AddIcon />}
+            startIcon={!screenDownSm && <AddIcon />}
           >
-            Tambah
+            {screenDownSm ? <AddIcon /> : "Tambah"}
           </Button>
         </Tooltip>
       )}
@@ -136,12 +140,13 @@ const CustomToolbar = ({
           }
         >
           <Button
-            variant="contained"
+            variant="outlined"
+            size={screenDownMd ? "small" : "medium"}
             color="error"
             onClick={handleDeleteSelection}
-            startIcon={<DeleteIcon />}
+            startIcon={!screenDownSm && <DeleteIcon />}
           >
-            Hapus
+            {screenDownSm ? <DeleteIcon /> : "Hapus"}
           </Button>
         </Tooltip>
       )}
@@ -153,30 +158,43 @@ const CustomToolbar = ({
           />
         }
       >
-        <Button onClick={() => refetchFunction()} startIcon={<RefreshIcon />}>
-          Segarkan
+        <Button
+          onClick={() => refetchFunction()}
+          variant={screenDownSm ? "outlined" : "text"}
+          startIcon={!screenDownSm && <RefreshIcon />}
+          size={screenDownMd ? "small" : "medium"}
+        >
+          {screenDownSm ? <RefreshIcon /> : "Segarkan"}
         </Button>
       </Tooltip>
-      <Tooltip
-        title={
-          <TooltipTitle
-            title="Opsi kolom"
-            content="Click untuk menampilkan opsi kolom."
-          />
-        }
-      >
-        <GridToolbarColumnsButton size="medium" />
-      </Tooltip>
-      <Tooltip
-        title={
-          <TooltipTitle
-            title="Kerapatan"
-            content="Click untuk menampilkan opsi kerapatan baris dengan konten."
-          />
-        }
-      >
-        <GridToolbarDensitySelector size="medium" />
-      </Tooltip>
+      {!screenDownSm && (
+        <>
+          <Tooltip
+            title={
+              <TooltipTitle
+                title="Opsi kolom"
+                content="Click untuk menampilkan opsi kolom."
+              />
+            }
+          >
+            <GridToolbarColumnsButton
+              size={screenDownMd ? "small" : "medium"}
+            />
+          </Tooltip>
+          <Tooltip
+            title={
+              <TooltipTitle
+                title="Kerapatan"
+                content="Click untuk menampilkan opsi kerapatan baris dengan konten."
+              />
+            }
+          >
+            <GridToolbarDensitySelector
+              size={screenDownMd ? "small" : "medium"}
+            />
+          </Tooltip>
+        </>
+      )}
     </GridToolbarContainer>
   );
 };

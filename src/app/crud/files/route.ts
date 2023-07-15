@@ -1,5 +1,6 @@
 import { filesForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -22,16 +23,7 @@ const PUT: RequestHandler = async (request) => {
       result: updating,
     });
   } catch (error) {
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        success: false,
-        message: isErrorMessage ? error.message : "unknown error",
-      },
-      {
-        status: isErrorMessage ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

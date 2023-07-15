@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { RequestHandler } from "@/types/route";
+import { sendErrorResponse } from "@/lib/serverUtils";
 
 const POST: RequestHandler = async (request) => {
   const getRequestData = await request.json();
@@ -34,19 +35,11 @@ const POST: RequestHandler = async (request) => {
     // send response to client
     return NextResponse.json({
       success: true,
-      message: "Data berhasil disimpan",
+      message: "Data user berhasil disimpan",
       result: insertData,
     });
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: error instanceof Error ? error.message : "Unknown error",
-      },
-      {
-        status: 400,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

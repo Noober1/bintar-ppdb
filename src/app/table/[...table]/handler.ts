@@ -1,5 +1,5 @@
-import { getCurrentConfig } from "@/lib/serverUtils";
-import { extendedPrisma, prisma } from "@/lib/prisma";
+import { getCurrentConfig, sendErrorResponse } from "@/lib/serverUtils";
+import { extendedPrisma } from "@/lib/prisma";
 import { Handler } from "@/types/table";
 import { NextResponse } from "next/server";
 
@@ -414,15 +414,7 @@ const tableHandler: Handler = {
         },
       });
     } catch (error) {
-      const isErrorMessage = error instanceof Error;
-      return NextResponse.json(
-        {
-          message: isErrorMessage ? error.message : "Unknown error",
-        },
-        {
-          status: isErrorMessage ? 400 : 500,
-        }
-      );
+      return sendErrorResponse(error);
     }
   },
 };

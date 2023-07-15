@@ -8,8 +8,25 @@ import {
   RELIGIONS,
   SCHOOL_TYPES,
   SIZES,
-  Student,
 } from "@prisma/client";
+
+export const checkFields = [
+  "fileAkta",
+  "fileIjazah",
+  "fileKIPKPS",
+  "fileKK",
+  "fileKTP",
+  "fileMCU",
+  "fileNISN",
+  "filePhoto23",
+  "filePhoto34",
+  "fileRaport",
+  "fileSKB",
+  "fileSKHUN",
+  "fileSTK",
+] as const;
+
+export type CheckFields = (typeof checkFields)[number];
 
 export interface FormSelectTypeFormat<T> {
   name: T;
@@ -57,6 +74,7 @@ export const gainInformationFromOptions: FormSelectTypeFormat<GAIN_INFO_FROM>[] 
     { name: "TEACHER", label: "Guru dari sekolah asal" },
     { name: "OTHER", label: "Lainnya" },
   ];
+
 export interface SchoolFormValues {
   NPSN: number;
   type: SCHOOL_TYPES;
@@ -134,6 +152,13 @@ export const sizes: SIZES[] = [
   "XXXXXL",
   "XXXXXXL",
 ];
+
+export const sizesSelectList: FormSelectTypeFormat<SIZES>[] = sizes.map(
+  (value) => ({
+    label: value,
+    name: value,
+  })
+);
 
 export interface MeasureFormValues {
   primaryUniformSize: SIZES;

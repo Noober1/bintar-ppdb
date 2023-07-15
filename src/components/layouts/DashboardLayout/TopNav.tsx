@@ -1,12 +1,8 @@
 "use client";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import SvgIcon from "@mui/material/SvgIcon";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { alpha } from "@mui/material/styles";
 import useLogoutDialog from "@/hooks/LogoutDialog";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import AppBar from "@mui/material/AppBar";
@@ -14,7 +10,6 @@ import Toolbar from "@mui/material/Toolbar";
 import { Typography } from "@mui/material";
 
 const SIDE_NAV_WIDTH = 280;
-const TOP_NAV_HEIGHT = 64;
 
 type TTopNavProps = {
   onNavOpen: () => void;
@@ -22,6 +17,7 @@ type TTopNavProps = {
 
 const TopNav = ({ onNavOpen }: TTopNavProps) => {
   const lgUp = useMediaQuery((query) => query.up("lg"));
+  const mdDown = useMediaQuery((query) => query.down("sm"));
   const handleLogout = useLogoutDialog();
 
   return (
@@ -42,12 +38,7 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
-        <Toolbar
-          sx={{
-            minHeight: TOP_NAV_HEIGHT,
-            px: 2,
-          }}
-        >
+        <Toolbar variant={mdDown ? "dense" : "regular"}>
           {!lgUp && (
             <Tooltip
               title={
@@ -69,7 +60,12 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
               </IconButton>
             </Tooltip>
           )}
-          <Typography className="flex-1" variant="h5" fontWeight="bold">
+          <Typography
+            className="flex-1"
+            variant={mdDown ? "body1" : "h5"}
+            textAlign={mdDown ? "center" : "left"}
+            fontWeight="bold"
+          >
             Aplikasi PSB
           </Typography>
           <Tooltip

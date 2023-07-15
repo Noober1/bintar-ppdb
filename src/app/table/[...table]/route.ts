@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
 import { tableList, TableMainHandler, TableList } from "@/types/table";
 import deleteRoute from "./delete";
 import handler from "./handler";
+import { sendErrorResponse } from "@/lib/serverUtils";
 
 const GET: TableMainHandler = async (request, param) => {
   const { searchParams } = new URL(request.url);
@@ -21,17 +21,7 @@ const GET: TableMainHandler = async (request, param) => {
     }
     return await handler[endpoint](request, page, pageSize, searchParams);
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    return NextResponse.json({
-      success: false,
-      message: "Unknown Error",
-    });
+    return sendErrorResponse(error);
   }
 };
 

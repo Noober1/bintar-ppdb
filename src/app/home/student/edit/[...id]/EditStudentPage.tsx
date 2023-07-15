@@ -20,12 +20,14 @@ import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import { AxiosError } from "axios";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useRefresh from "@/hooks/useRefresh";
 
 interface EditStudentPageProps {
   data: StudentDataForEdit;
 }
 
 const EditStudentPage = ({ data }: EditStudentPageProps) => {
+  useRefresh();
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation<StudentFormValues>(
     "/crud/student/" + data?.id

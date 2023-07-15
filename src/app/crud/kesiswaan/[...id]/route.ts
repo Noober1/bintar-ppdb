@@ -1,8 +1,8 @@
 import { kesiswaanForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { ValidationError } from "yup";
 
 type Params = {
   params: {
@@ -46,19 +46,7 @@ const PUT: RequestHandler = async (
       result: updateData,
     });
   } catch (error) {
-    const isErrorMessage = error instanceof Error;
-    const isValidatingError = error instanceof ValidationError;
-
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          isErrorMessage || isValidatingError ? error.message : "unknown error",
-      },
-      {
-        status: isErrorMessage || isValidatingError ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

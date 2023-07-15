@@ -1,6 +1,7 @@
 import { administrationForm } from "@/lib/formSchemas";
 import authOptions from "@/lib/nextAuthOption";
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -48,16 +49,7 @@ const POST: RequestHandler = async (request, params: RequestParams) => {
       result: insertData,
     });
   } catch (error) {
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        success: false,
-        message: isErrorMessage ? error.message : "unknown error",
-      },
-      {
-        status: isErrorMessage ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 
@@ -77,16 +69,7 @@ const PUT: RequestHandler = async (request, params: RequestParams) => {
       result: updatingData,
     });
   } catch (error) {
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        success: false,
-        message: isErrorMessage ? error.message : "unknown error",
-      },
-      {
-        status: isErrorMessage ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

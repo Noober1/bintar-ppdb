@@ -1,9 +1,8 @@
-import { checkConfigOrThrow } from "@/lib/serverUtils";
-import { basicForm, schoolForm } from "@/lib/formSchemas";
+import { checkConfigOrThrow, sendErrorResponse } from "@/lib/serverUtils";
+import { basicForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { ValidationError } from "yup";
 
 const POST: RequestHandler = async (request) => {
   try {
@@ -50,21 +49,7 @@ const POST: RequestHandler = async (request) => {
       result: insertData,
     });
   } catch (error) {
-    const isValidationError = error instanceof ValidationError;
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        success: false,
-        message: isValidationError
-          ? "Request tidak valid"
-          : isErrorMessage
-          ? error.message
-          : "Unknown error",
-      },
-      {
-        status: isValidationError || isErrorMessage ? 400 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

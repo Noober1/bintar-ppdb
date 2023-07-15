@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -40,27 +41,7 @@ const PUT: RequestHandler = async (
       result: updateData,
     });
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "unknown error",
-      },
-      {
-        status: 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

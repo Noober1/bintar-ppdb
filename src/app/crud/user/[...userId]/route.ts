@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { sendErrorResponse } from "@/lib/serverUtils";
 
 const PUT = async (
   request: Request,
@@ -45,27 +46,7 @@ const PUT = async (
       result: updateUser,
     });
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "unknown error",
-      },
-      {
-        status: 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

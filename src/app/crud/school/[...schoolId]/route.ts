@@ -1,5 +1,6 @@
 import { schoolForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -27,6 +28,19 @@ const PUT: RequestHandler = async (
       throw new Error("Sekolah tidak ditemukan");
     }
 
+    // find school with different id and same NPSN
+    const findWithSameNPSN = await prisma.school.count({
+      where: {
+        id: {
+          not: id,
+        },
+        NPSN: validatedData.NPSN,
+      },
+    });
+    if (findWithSameNPSN) {
+      throw new Error("Ada sekolah yang menggunakan NPSN yang sama");
+    }
+
     const updateData = await prisma.school.update({
       where: {
         id,
@@ -44,27 +58,7 @@ const PUT: RequestHandler = async (
       result: updateData,
     });
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "unknown error",
-      },
-      {
-        status: 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

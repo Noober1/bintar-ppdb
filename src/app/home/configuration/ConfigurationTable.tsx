@@ -23,11 +23,11 @@ const ConfigurationTable = () => {
   const handleSetActive = (id: number) => [
     dispatch(
       setOpen({
-        title: "Aktifkan konfigurasi",
+        title: "Ubah status konfigurasi?",
         content: (
           <>
             <Typography gutterBottom>
-              Apakah yakin ingin mengaktifkan konfigurasi?
+              Apakah yakin ingin mengubah status konfigurasi?
             </Typography>
             <Alert severity="error">
               Mengaktifkan konfigurasi ini akan menonaktifkan konfigurasi yang
@@ -36,7 +36,7 @@ const ConfigurationTable = () => {
             </Alert>
           </>
         ),
-        confirmButton: "Aktifkan",
+        confirmButton: "Ubah",
         rejectButton: "Batalkan",
         confirmCallback: () => {
           dispatch(setClose());
@@ -134,8 +134,8 @@ const ConfigurationTable = () => {
             <Tooltip
               title={
                 <TooltipTitle
-                  title="Aktifkan konfigurasi"
-                  content="Click untuk mengaktifkan konfigurasi"
+                  title="Ubah status konfigurasi"
+                  content="Click untuk mengubah status konfigurasi"
                 />
               }
             >

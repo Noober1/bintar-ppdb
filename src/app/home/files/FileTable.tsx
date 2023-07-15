@@ -1,6 +1,6 @@
 "use client";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
-import { CheckFields } from "@/lib/formSchemas";
+import { CheckFields } from "@/types/forms";
 import { Checkbox } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import axios from "axios";

@@ -1,8 +1,11 @@
 import { getServerSession } from "next-auth";
 import nextAuthOptions from "@/lib/nextAuthOption";
 import { prisma } from "./prisma";
+import { ValidationError } from "yup";
+import { NextResponse } from "next/server";
+import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 
-const generateRandomNumber = (): string => {
+export const generateRandomNumber = (): string => {
   const min = 1;
   const max = 9999;
   const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -10,7 +13,7 @@ const generateRandomNumber = (): string => {
   return formattedNumber;
 };
 
-const generateRegistrationNumber = async () => {
+export const generateRegistrationNumber = async () => {
   const getConfig = await checkConfigOrThrow();
   const getUserData = await getServerSession(nextAuthOptions);
   const year = new Date().getFullYear().toString();
@@ -34,7 +37,7 @@ const generateRegistrationNumber = async () => {
   }
 };
 
-const getCurrentConfig = async () => {
+export const getCurrentConfig = async () => {
   const getData = await prisma.config.findFirst({
     where: {
       isActive: true,
@@ -43,17 +46,7 @@ const getCurrentConfig = async () => {
 
   return getData;
 };
-
-const configChecker = async () => {
-  const getData = await getCurrentConfig();
-  if (!getData) {
-    throw new Error(
-      "Konfigurasi tidak ditemukan. Silahkan hubungi administrator untuk menambah konfigurasi."
-    );
-  }
-};
-
-const checkConfigOrThrow = async () => {
+export const checkConfigOrThrow = async () => {
   const getActiveConfig = await getCurrentConfig();
   if (!getActiveConfig) {
     throw new Error("Tidak ada config yang aktif");
@@ -62,7 +55,7 @@ const checkConfigOrThrow = async () => {
   return getActiveConfig;
 };
 
-const getMajorList = async () => {
+export const getMajorList = async () => {
   const getData = await prisma.major.findMany({
     select: {
       id: true,
@@ -75,7 +68,7 @@ const getMajorList = async () => {
   }));
 };
 
-const getSchoolList = async () => {
+export const getSchoolList = async () => {
   const getData = await prisma.school.findMany({
     select: {
       id: true,
@@ -89,12 +82,34 @@ const getSchoolList = async () => {
   }));
 };
 
-export {
-  generateRandomNumber,
-  generateRegistrationNumber,
-  configChecker,
-  checkConfigOrThrow,
-  getCurrentConfig,
-  getMajorList,
-  getSchoolList,
+export const sendErrorResponse = (error: unknown) => {
+  console.error(error);
+  let message: string = "Unknown error";
+  let errors: string[] = [];
+  const isValidationError = error instanceof ValidationError;
+  const isErrorInstance = error instanceof Error;
+  const isPrismaValidationError = error instanceof PrismaClientValidationError;
+
+  if (isValidationError || isErrorInstance) {
+    message = error.message;
+  }
+
+  if (isPrismaValidationError) {
+    message = "Error saving data, code: " + error.name;
+  }
+
+  if (isValidationError) {
+    errors = error.errors;
+  }
+
+  return NextResponse.json(
+    {
+      success: false,
+      message,
+      validationErrors: errors.length > 0 ? errors : undefined,
+    },
+    {
+      status: message === "Unknown error" ? 500 : 400,
+    }
+  );
 };

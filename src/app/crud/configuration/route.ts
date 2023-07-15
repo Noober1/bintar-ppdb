@@ -1,8 +1,8 @@
 import { configurationForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
+import { sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { ValidationError } from "yup";
 
 const POST: RequestHandler = async (request) => {
   try {
@@ -34,42 +34,8 @@ const POST: RequestHandler = async (request) => {
       result: insertData,
     });
   } catch (error) {
-    console.error(error);
-    if (error instanceof ValidationError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Request invalid",
-          errors: error.errors,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
+    return sendErrorResponse(error);
   }
-
-  return NextResponse.json(
-    {
-      success: false,
-      message: "Unknown error",
-    },
-    {
-      status: 500,
-    }
-  );
 };
 
 export { POST };

@@ -1,4 +1,4 @@
-import { getMajorList } from "@/lib/serverUtils";
+import { getMajorList, sendErrorResponse } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -11,15 +11,7 @@ const GET: RequestHandler = async (request) => {
 
     return NextResponse.json(getData);
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "unknown error",
-      },
-      {
-        status: 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };
 

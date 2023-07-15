@@ -83,7 +83,7 @@ const AddConfigurationPage = () => {
         error={isError("registrationFormat")}
         helperText={
           helperText("registrationFormat") ??
-          "Pastikan format nomor registrasi mengandung text '[Y]',[I], dan [N]. Kosongkan saja jika ingin mengisi sesuai dengan bawaannya"
+          "Pastikan format nomor registrasi mengandung text [Y],[I], dan [N]. Kosongkan saja jika ingin mengisi sesuai dengan bawaannya"
         }
         label="Format No. Registrasi"
       />

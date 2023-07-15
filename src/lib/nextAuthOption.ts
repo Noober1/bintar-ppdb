@@ -1,7 +1,28 @@
 import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import CredentialsProvider, {
+  CredentialsConfig,
+} from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { loginForm } from "./formSchemas";
+
+const authLogic: CredentialsConfig["authorize"] = async (credentials) => {
+  const validatedData = await loginForm.validate(credentials);
+  const findUser = await prisma.user.findUnique({
+    where: {
+      email: validatedData.email,
+    },
+  });
+
+  if (!findUser) return null;
+  if (!bcrypt.compareSync(validatedData.password || "", findUser.password))
+    return null;
+
+  return {
+    id: findUser.id,
+    email: findUser.email,
+  };
+};
 
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -12,27 +33,7 @@ const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text", placeholder: "Email anda" },
         password: { label: "Kata sandi", type: "password" },
       },
-      async authorize(credentials, req) {
-        const findUser = await prisma.user.findFirst({
-          select: {
-            id: true,
-            email: true,
-            password: true,
-          },
-          where: {
-            email: credentials?.email,
-          },
-        });
-
-        if (!findUser) return null;
-        if (!bcrypt.compareSync(credentials?.password || "", findUser.password))
-          return null;
-
-        return {
-          id: findUser.id,
-          email: findUser.email,
-        };
-      },
+      authorize: authLogic,
     }),
   ],
   callbacks: {

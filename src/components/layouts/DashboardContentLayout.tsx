@@ -18,14 +18,14 @@ const DashboardContentLayout = ({
   return (
     <Stack>
       <Typography
+        className="mt-2"
         gutterBottom
         variant={downSm ? "h5" : "h4"}
-        textAlign={downSm ? "center" : "left"}
         fontWeight="bold"
       >
         {title}
       </Typography>
-      <Box className="py-2">{children}</Box>
+      <Box>{children}</Box>
     </Stack>
   );
 };

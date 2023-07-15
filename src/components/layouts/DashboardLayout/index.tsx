@@ -6,16 +6,18 @@ import SideNav from "@/components/layouts/DashboardLayout/Sidenav";
 import TopNav from "@/components/layouts/DashboardLayout/TopNav";
 import { Paper } from "@mui/material";
 
-const SIDE_NAV_WIDTH = 295;
-
 const LayoutRoot = styled(Paper)(({ theme }) => ({
   borderRadius: 0,
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
-  padding: 15,
+  padding: 5,
+  paddingTop: 10,
+  [theme.breakpoints.up("md")]: {
+    padding: 10,
+  },
   [theme.breakpoints.up("lg")]: {
-    paddingLeft: SIDE_NAV_WIDTH,
-    paddingRight: 15,
+    padding: 15,
+    paddingLeft: 295,
   },
 }));
 
