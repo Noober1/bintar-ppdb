@@ -1,21 +1,12 @@
 import { schoolForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { sendErrorResponse } from "@/lib/serverUtils";
-import { RequestHandler } from "@/types/route";
+import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    schoolId: string;
-  };
-};
-
-const PUT: RequestHandler = async (
-  request,
-  { params: { schoolId } }: Params
-) => {
+const PUT: CrudRequestHandler = async (request, url) => {
   try {
-    const id = parseInt(schoolId[0]);
+    const id = parseInt(url.params.id);
     const getRequestData = await request.json();
     const validatedData = await schoolForm.validate(getRequestData);
     const findData = await prisma.school.count({

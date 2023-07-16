@@ -15,6 +15,7 @@ const PUT: RequestHandler = async (request) => {
       },
       data: {
         [validatedData.field]: validatedData.value,
+        fileEdited: true,
       },
     });
 

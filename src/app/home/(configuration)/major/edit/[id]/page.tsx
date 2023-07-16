@@ -1,7 +1,7 @@
 import React from "react";
 import EditMajorPage from "./EditMajorPage";
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { PageWithIdProps } from "@/types/components";
 
 const getMajorById = (id: number) =>
@@ -17,7 +17,7 @@ const Page = async (props: PageWithIdProps) => {
     if (!getData) throw getData;
     return <EditMajorPage data={getData} />;
   } catch (error) {
-    return notFound();
+    return redirect("/home/major");
   }
 };
 

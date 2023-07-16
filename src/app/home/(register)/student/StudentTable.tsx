@@ -20,7 +20,8 @@ const SchoolTable = () => {
         deleteButton: "basic",
         deleteConfirmationNote: (
           <Alert severity="info">
-            Status siswa yang aktif tidak akan terhapus.
+            Status siswa yang aktif ataupun yang sudah mempunyai data
+            administrasi tidak akan terhapus.
           </Alert>
         ),
       }}

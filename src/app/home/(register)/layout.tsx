@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
   }));
 
-  const { isLoading, data, isRefetching } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["current-config"],
     queryFn: () => dataFetcher("/api/current-config"),
     keepPreviousData: true,

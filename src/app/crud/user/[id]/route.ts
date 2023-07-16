@@ -2,19 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { sendErrorResponse } from "@/lib/serverUtils";
+import { CrudRequestHandler } from "@/types/route";
 
-const PUT = async (
-  request: Request,
-  {
-    params,
-  }: {
-    params: {
-      userId: string;
-    };
-  }
-) => {
+const PUT: CrudRequestHandler = async (request, url) => {
   try {
-    const userId = parseInt(params.userId[0]);
+    const userId = parseInt(url.params.id);
     const getRequestData = await request.json();
     const findUser = await prisma.user.count({
       where: {

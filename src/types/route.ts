@@ -16,7 +16,7 @@ export type TableRequestHandler = (
 
 export type CrudRequestHandler<T = string> = (
   request: NextRequest,
-  params: { params: { id: T } }
+  url: { params: { id: T } }
 ) => Promise<NextResponse<any>>;
 
 export type HandleFormSubmit<T extends unknown> = (

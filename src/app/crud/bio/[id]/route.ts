@@ -1,22 +1,13 @@
 import { bioForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { sendErrorResponse } from "@/lib/serverUtils";
-import { RequestHandler } from "@/types/route";
+import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-const PUT: RequestHandler = async (
-  request,
-  { params: { id: studentId } }: Params
-) => {
+const PUT: CrudRequestHandler = async (request, url) => {
   try {
     // get id from url params
-    const id = parseInt(studentId[0]);
+    const id = parseInt(url.params.id);
     // check student from db
     const getStudent = await prisma.student.count({ where: { id } });
     if (!getStudent) {

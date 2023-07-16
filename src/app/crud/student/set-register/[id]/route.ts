@@ -1,17 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { sendErrorResponse } from "@/lib/serverUtils";
-import { RequestHandler } from "@/types/route";
+import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-const PUT: RequestHandler = async (request, { params }: Params) => {
+const PUT: CrudRequestHandler = async (request, url) => {
   try {
-    const id = parseInt(params.id[0]);
+    const id = parseInt(url.params.id);
     const getStudentById = await prisma.student.findUnique({
       select: {
         isRegistered: true,
@@ -23,10 +17,16 @@ const PUT: RequestHandler = async (request, { params }: Params) => {
       throw new Error("Siswa tidak ada");
     }
 
+    const countAdministrationData = await prisma.administration.count({
+      where: { studentId: id },
+    });
+
     const updateStudent = await prisma.student.update({
       where: { id },
       data: {
-        isRegistered: !getStudentById.isRegistered,
+        isRegistered: countAdministrationData
+          ? true
+          : !getStudentById.isRegistered,
       },
     });
 

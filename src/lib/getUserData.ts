@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-const getUserData = async (id?: number) => {
+const getUserData = async (id?: number | null) => {
   if (!id) return undefined;
   try {
     const getData = await prisma.user.findUnique({

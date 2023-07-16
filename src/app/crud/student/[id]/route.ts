@@ -1,22 +1,12 @@
 import { basicForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { sendErrorResponse } from "@/lib/serverUtils";
-import { RequestHandler } from "@/types/route";
+import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { ValidationError } from "yup";
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-const PUT: RequestHandler = async (
-  request,
-  { params: { id: studentId } }: Params
-) => {
+const PUT: CrudRequestHandler = async (request, url) => {
   try {
-    const id = parseInt(studentId[0]);
+    const id = parseInt(url.params.id);
     const getRequestData = await request.json();
     const { registrationNumber, ...validatedRequestData } = await basicForm(
       "edit"

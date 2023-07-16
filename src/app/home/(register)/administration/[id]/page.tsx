@@ -2,7 +2,7 @@ import React from "react";
 import AdministrationDetailPage from "./AdministrationDetailPage";
 import { prisma } from "@/lib/prisma";
 import { PageWithIdProps } from "@/types/components";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const findStudentQuery = (id: number) =>
   prisma.student.findUniqueOrThrow({
@@ -29,7 +29,7 @@ const Page = async (props: PageWithIdProps) => {
     if (!getData) throw getData;
     return <AdministrationDetailPage data={getData} />;
   } catch (error) {
-    return notFound();
+    return redirect("/home/administration");
   }
 };
 

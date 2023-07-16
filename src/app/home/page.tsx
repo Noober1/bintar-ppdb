@@ -1,15 +1,13 @@
 import React from "react";
+import DashboardPage from "./DashboardPage";
+import getServerSession from "@/lib/getServerSession";
+import getUserData from "@/lib/getUserData";
 
-const dummyFetch = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("ok");
-    }, 2000);
-  });
+const Page = async () => {
+  const session = await getServerSession();
 
-const DashboardPage = async () => {
-  await dummyFetch();
-  return <div>test</div>;
+  const userdata = await getUserData(session?.user.id);
+  return <DashboardPage userData={userdata} />;
 };
 
-export default DashboardPage;
+export default Page;

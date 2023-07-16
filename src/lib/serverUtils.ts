@@ -3,7 +3,10 @@ import nextAuthOptions from "@/lib/nextAuthOption";
 import { prisma } from "./prisma";
 import { ValidationError } from "yup";
 import { NextResponse } from "next/server";
-import { PrismaClientValidationError } from "@prisma/client/runtime/library";
+import {
+  PrismaClientUnknownRequestError,
+  PrismaClientValidationError,
+} from "@prisma/client/runtime/library";
 
 export const generateRandomNumber = (): string => {
   const min = 1;
@@ -89,6 +92,7 @@ export const sendErrorResponse = (error: unknown) => {
   const isValidationError = error instanceof ValidationError;
   const isErrorInstance = error instanceof Error;
   const isPrismaValidationError = error instanceof PrismaClientValidationError;
+  const isPrismaUnknownError = error instanceof PrismaClientUnknownRequestError;
 
   if (isValidationError || isErrorInstance) {
     message = error.message;
@@ -100,6 +104,10 @@ export const sendErrorResponse = (error: unknown) => {
 
   if (isValidationError) {
     errors = error.errors;
+  }
+
+  if (isPrismaUnknownError) {
+    message = "Database error";
   }
 
   return NextResponse.json(

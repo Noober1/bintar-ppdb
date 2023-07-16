@@ -45,6 +45,7 @@ model Student {
   filePhoto34              Boolean?         @default(false)
   fileMCU                  Boolean?         @default(false)
   fileSKB                  Boolean?         @default(false)
+  fileEdited               Boolean?         @default(false)
   relapsingIllness         String?
   seriousIllness           String?
   isSmoker                 Boolean?         @default(false)

@@ -1,20 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { sendErrorResponse } from "@/lib/serverUtils";
-import { RequestHandler } from "@/types/route";
+import { CrudRequestHandler, RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-const GET: RequestHandler = async (
-  request,
-  { params: { id: configId } }: Params
-) => {
+const GET: CrudRequestHandler = async (request, url) => {
   try {
-    const id = parseInt(configId[0]);
+    const id = parseInt(url.params.id);
     const findData = await prisma.config.findUnique({
       where: {
         id,

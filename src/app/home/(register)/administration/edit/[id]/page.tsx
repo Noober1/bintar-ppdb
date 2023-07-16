@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import React from "react";
 import EditAdminitrationPage from "./EditAdminitrationPage";
 import { PageWithIdProps } from "@/types/components";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const getAdministrationData = (id: string) =>
   prisma.administration.findUnique({
@@ -19,7 +19,7 @@ const Page = async (props: PageWithIdProps) => {
     if (!getData) throw getData;
     return <EditAdminitrationPage data={getData} />;
   } catch (error) {
-    return notFound();
+    return redirect(`/home/administration`);
   }
 };
 

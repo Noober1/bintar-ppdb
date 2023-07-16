@@ -13,8 +13,9 @@ interface AdministrationDetailPageProps {
 }
 
 const AdministrationDetailPage = ({ data }: AdministrationDetailPageProps) => {
-  const firstNameInitial = data.firstName?.split("")[0].toUpperCase() || "";
-  const lastNameInitial = data.lastName?.split("")[0].toUpperCase() || "";
+  const firstNameInitial = data.firstName?.split("")[0] || "";
+  const lastNameInitial = data.lastName?.split("")[0] || "";
+  const initialName = (firstNameInitial + lastNameInitial).toUpperCase();
   return (
     <DashboardContentLayout
       title="Detail pembayaran"
@@ -29,7 +30,7 @@ const AdministrationDetailPage = ({ data }: AdministrationDetailPageProps) => {
           }}
         >
           <Typography variant="h2" fontWeight="bold">
-            {firstNameInitial + lastNameInitial}
+            {initialName}
           </Typography>
         </Box>
         <Box flexGrow={1}>

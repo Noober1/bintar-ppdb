@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 import UserEditPage from "./EditUserPage";
 import { PageWithIdProps } from "@/types/components";
@@ -26,7 +26,7 @@ const Page = async (props: PageWithIdProps) => {
     if (!getData) throw getData;
     return <UserEditPage userData={getData} />;
   } catch (error) {
-    return notFound();
+    return redirect("/home/user");
   }
 };
 
