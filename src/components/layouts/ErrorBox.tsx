@@ -18,21 +18,19 @@ const ErrorBox = ({ message }: ErrorBoxProps) => {
   }, []);
 
   return (
-    <div className="w-screen max-w-screen-sm text-center mt-4 lg:mx-auto">
-      <Paper className="p-4">
-        <Divider>
-          <Typography variant="h4" gutterBottom>
-            Masalah ditemukan
-          </Typography>
-        </Divider>
-        <Alert severity="error" className="mb-4">
-          {message}
-        </Alert>
-        <Button onClick={handleRefresh} variant="contained">
-          Refresh halaman
-        </Button>
-      </Paper>
-    </div>
+    <Paper className="p-4">
+      <Divider>
+        <Typography variant="h4" gutterBottom>
+          Masalah ditemukan
+        </Typography>
+      </Divider>
+      <Alert severity="error" className="mb-4">
+        {message}
+      </Alert>
+      <Button onClick={handleRefresh} variant="contained">
+        Refresh halaman
+      </Button>
+    </Paper>
   );
 };
 

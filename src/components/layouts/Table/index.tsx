@@ -100,11 +100,10 @@ const DynamicTableContent = (
   return (
     <Paper
       sx={{
-        height: isLoading ? 400 : "auto",
+        height: 400,
       }}
     >
       <DataGrid
-        autoHeight={!isLoading}
         localeText={localizationTable}
         disableRowSelectionOnClick
         rows={data?.data || []}

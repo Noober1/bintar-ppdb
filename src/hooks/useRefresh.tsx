@@ -7,6 +7,7 @@ const useRefresh = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("trigger refresh");
     router.refresh();
     return () => {};
   }, [router]);

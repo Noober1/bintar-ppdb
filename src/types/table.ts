@@ -1,9 +1,8 @@
-export type Params = {
+export type TableParams = {
   params: {
-    table: string;
+    table: TableList;
   };
 };
-export type TableMainHandler = (request: Request, params: Params) => any;
 
 export const tableList = [
   "user",

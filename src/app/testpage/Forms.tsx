@@ -35,7 +35,7 @@ const Forms = () => {
               value={values.date}
             />
             <ServersideSelect
-              url="/schools"
+              url="/api/schools"
               label="Server-side select"
               onChange={(value) => {
                 setFieldValue("schoolId", value);
