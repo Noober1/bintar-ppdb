@@ -69,6 +69,7 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
   const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
+      backButtonUrl={`/home/administration/${data?.userId}`}
       alert={
         <Typography>
           Sunting data pembayaran: <kbd>{data?.id}</kbd>

@@ -74,6 +74,7 @@ const EditKesiswaanPage = ({ data }: KesiswaanEditPageProps) => {
   const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
+      backButtonUrl="/home/kesiswaan"
       alert={
         <>
           Menyunting siswa <kbd>{data?.firstName + " " + data?.lastName}</kbd>

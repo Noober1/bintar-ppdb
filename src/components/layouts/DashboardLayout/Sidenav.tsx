@@ -7,26 +7,36 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SideNavItem from "@/components/layouts/DashboardLayout/SidenavItem";
 import { Logo } from "@/components/Logo";
-import { TDashboardLayout } from "@/components/layouts/DashboardLayout";
+import {
+  SIDEBAR_WIDTH,
+  TDashboardLayout,
+} from "@/components/layouts/DashboardLayout";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-type TSideNavProps = {
+type SideNavProps = {
   onClose: () => void;
   open: boolean;
   userData: TDashboardLayout["userData"];
 };
 
-const SideNav = ({ open, onClose, userData }: TSideNavProps) => {
+const SideNav = ({ open, onClose, userData }: SideNavProps) => {
   const lgUp = useMediaQuery((query) => query.up("lg"));
-  const downSm = useMediaQuery((query) => query.down("sm"));
 
-  const content = (
-    <>
+  return (
+    <Drawer
+      anchor={lgUp ? "left" : undefined}
+      open={lgUp ? true : open}
+      variant={lgUp ? "permanent" : "temporary"}
+      onClose={!lgUp ? onClose : undefined}
+      sx={{
+        zIndex: (theme) => (!lgUp ? theme.zIndex.appBar + 100 : undefined),
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          width: downSm ? "100vw" : 280,
+          width: SIDEBAR_WIDTH,
           height: "100%",
         }}
       >
@@ -38,13 +48,27 @@ const SideNav = ({ open, onClose, userData }: TSideNavProps) => {
           >
             <Logo />
           </Box>
-          <div className="flex-1">
-            <Typography variant="subtitle1">{userData?.fullname}</Typography>
+          <div className="flex-1 overflow-hidden">
+            <Typography
+              variant="subtitle1"
+              className="overflow-hidden text-ellipsis whitespace-nowrap"
+            >
+              {userData?.fullname}
+            </Typography>
             <Typography variant="body2">SMK Bina Taruna</Typography>
           </div>
         </Box>
         <Divider sx={{ borderColor: "neutral.700" }} />
-        <Box component="nav" className="flex-1 p-3">
+        <Box
+          component="nav"
+          className="flex-1"
+          sx={(theme) => ({
+            paddingTop: "10px",
+            [theme.breakpoints.up("lg")]: {
+              padding: "10px",
+            },
+          })}
+        >
           <Stack
             component="ul"
             spacing={0.5}
@@ -58,20 +82,6 @@ const SideNav = ({ open, onClose, userData }: TSideNavProps) => {
           </Stack>
         </Box>
       </Box>
-    </>
-  );
-
-  return (
-    <Drawer
-      anchor={lgUp ? "left" : undefined}
-      open={lgUp ? true : open}
-      variant={lgUp ? "permanent" : "temporary"}
-      onClose={!lgUp ? onClose : undefined}
-      sx={{
-        zIndex: (theme) => (!lgUp ? theme.zIndex.appBar + 100 : undefined),
-      }}
-    >
-      {content}
     </Drawer>
   );
 };

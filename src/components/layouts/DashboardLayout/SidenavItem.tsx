@@ -11,21 +11,27 @@ import items from "./SidenavItemList";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-const StyledList = styled(List)<{ component?: React.ElementType }>({
-  "& .MuiListItemButton-root": {
-    paddingLeft: 5,
-    paddingRight: 0,
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: 0,
-    marginLeft: 6,
-    marginRight: 10,
-  },
-  "& .MuiSvgIcon-root": {
-    fontSize: 20,
-  },
-  "& .MuiListSubheader-root": {},
-});
+const StyledList = styled(List)<{ component?: React.ElementType }>(
+  ({ theme }) => ({
+    "& .MuiListItemButton-root": {
+      paddingLeft: 5,
+      paddingRight: 0,
+    },
+    "& .MuiListItemIcon-root": {
+      minWidth: 0,
+      marginLeft: 6,
+      marginRight: 10,
+    },
+    "& .MuiSvgIcon-root": {
+      fontSize: 20,
+    },
+    "& .MuiListSubheader-root": {
+      [theme.breakpoints.up("sm")]: {
+        marginTop: 10,
+      },
+    },
+  })
+);
 
 const StyledListSubheader = styled(ListSubheader)({
   lineHeight: 3,
@@ -44,9 +50,6 @@ const SideNavItem = () => {
         const isActive = item.path ? newPathname === item.path : false;
         return item.isDivider ? (
           <StyledListSubheader
-            classes={{
-              root: "mt-4",
-            }}
             sx={{
               textAlign: lgUp ? "left" : "center",
             }}

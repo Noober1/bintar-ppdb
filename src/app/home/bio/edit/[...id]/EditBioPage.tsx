@@ -145,6 +145,7 @@ const EditBioPage = ({ data }: EditBioPageProps) => {
       alert="Silahkan sunting data dibawah ini"
       errors={errors}
       isSubmitting={isSubmitting}
+      backButtonUrl="/home/bio"
       onSubmit={handleSubmit}
       submitButtonLabel="Simpan perubahan"
       title="Sunting biodata siswa"

@@ -73,6 +73,7 @@ const EditMeasurePage = ({ data }: EditMeasurePageProps) => {
   const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
+      backButtonUrl="/home/measure"
       alert={`Edit data siswa ${data?.firstName + " " + data?.lastName}(${
         data?.registrationNumber
       })`}

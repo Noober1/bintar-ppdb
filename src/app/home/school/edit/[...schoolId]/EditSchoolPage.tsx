@@ -21,7 +21,7 @@ interface EditSchoolPageProps {
 }
 
 const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
-  useRefresh()
+  useRefresh();
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation<SchoolFormValues>(
     "/crud/school/" + data?.id
@@ -61,6 +61,7 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
 
   return (
     <FormLayout
+      backButtonUrl="/home/school"
       alert="Silahkan sunting data yang ada dibawah ini"
       errors={errors}
       isSubmitting={isSubmitting}

@@ -54,6 +54,7 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
   return (
     <FormLayout
       onSubmit={handleSubmit}
+      backButtonUrl="/home/major"
       alert="Silahkan sunting data yang ada dibawah ini"
       title="Sunting jurusan"
       errors={errors}

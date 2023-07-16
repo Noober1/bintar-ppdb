@@ -82,22 +82,29 @@ const DynamicTableContent = (
 
   const url = "/table/" + endpoint + "?" + searchParams.toString();
 
-  const { data, isLoading, refetch } = useQuery<TableDataStructure>({
-    queryKey: [
-      "table",
-      endpoint,
-      paginationModel.page,
-      paginationModel.pageSize,
-      ...additionalQueryValues,
-    ],
-    queryFn: () => dataFetcher(url),
-    keepPreviousData: true,
-  });
+  const { data, isLoading, isRefetching, refetch } =
+    useQuery<TableDataStructure>({
+      queryKey: [
+        "table",
+        endpoint,
+        paginationModel.page,
+        paginationModel.pageSize,
+        ...additionalQueryValues,
+      ],
+      queryFn: () => dataFetcher(url),
+      keepPreviousData: true,
+    });
+
+  const loading = isLoading || isRefetching;
 
   return (
-    <Paper>
+    <Paper
+      sx={{
+        height: isLoading ? 400 : "auto",
+      }}
+    >
       <DataGrid
-        autoHeight
+        autoHeight={!isLoading}
         localeText={localizationTable}
         disableRowSelectionOnClick
         rows={data?.data || []}
@@ -113,7 +120,7 @@ const DynamicTableContent = (
             selectionFunction: setRowSelectionModel,
           },
         }}
-        loading={isLoading}
+        loading={loading}
         keepNonExistentRowsSelected
         columns={columns}
         pageSizeOptions={

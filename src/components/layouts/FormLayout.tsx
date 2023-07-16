@@ -8,11 +8,13 @@ import Divider from "@mui/material/Divider";
 import React from "react";
 import { FormikErrors } from "formik";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import DashboardContentLayout from "./DashboardContentLayout";
 
 interface FormLayoutProps extends Omit<BoxProps, "onSubmit"> {
   title: string;
   alert: React.ReactNode;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  backButtonUrl: string;
   isSubmitting: boolean;
   errors: FormikErrors<any>;
   submitButtonLabel: string;
@@ -28,20 +30,20 @@ const FormLayout = ({
   isSubmitting,
   submitButtonLabel,
   submitButtonDisable,
+  backButtonUrl,
   errors,
   ...props
 }: FormLayoutProps) => {
-  const downSm = useMediaQuery((query) => query.down("sm"));
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
-      <Typography
-        variant={downSm ? "h5" : "h4"}
-        textAlign={downSm ? "center" : "left"}
-        fontWeight="bold"
+    <DashboardContentLayout title={title} backButtonUrl={backButtonUrl}>
+      <Paper
+        sx={(theme) => ({
+          padding: "10px",
+          [theme.breakpoints.up("md")]: {
+            padding: "15px",
+          },
+        })}
       >
-        {title}
-      </Typography>
-      <Paper className="p-4">
         <Alert severity="info" className="mb-4">
           {alert}
         </Alert>
@@ -75,7 +77,7 @@ const FormLayout = ({
           </Divider>
         </form>
       </Paper>
-    </Box>
+    </DashboardContentLayout>
   );
 };
 

@@ -1,9 +1,8 @@
 "use client";
 import Box from "@mui/material/Box";
-import LinearProgress from "@mui/material/LinearProgress";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 import React from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LoadingScreen = () => {
   return (
@@ -15,12 +14,7 @@ const LoadingScreen = () => {
       }}
       component={Paper}
     >
-      <Typography variant="h4" gutterBottom>
-        Memuat
-      </Typography>
-      <div className="max-w-sm md:max-w-md w-full">
-        <LinearProgress className="h-2" />
-      </div>
+      <LoadingSpinner />
     </Box>
   );
 };

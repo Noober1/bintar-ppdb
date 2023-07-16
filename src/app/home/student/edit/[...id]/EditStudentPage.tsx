@@ -87,6 +87,7 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
 
   return (
     <FormLayout
+      backButtonUrl="/home/student"
       alert="Silahkan sunting data dibawah ini"
       errors={errors}
       isSubmitting={isSubmitting}

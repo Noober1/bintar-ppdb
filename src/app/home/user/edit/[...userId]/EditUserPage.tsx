@@ -64,6 +64,7 @@ const UserEditPage = ({ userData }: { userData: GetUserQueryForEdit }) => {
       onSubmit={handleSubmit}
       submitButtonLabel="Simpan perubahan"
       title={`Edit pengguna: ${userData?.fullname}`}
+      backButtonUrl="/home/user"
       submitButtonDisable={
         Object.keys(errors).length > 0 ||
         values.password !== values.repeatPassword

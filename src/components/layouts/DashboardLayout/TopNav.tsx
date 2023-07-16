@@ -8,8 +8,7 @@ import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Typography } from "@mui/material";
-
-const SIDE_NAV_WIDTH = 280;
+import { SIDEBAR_WIDTH } from ".";
 
 type TTopNavProps = {
   onNavOpen: () => void;
@@ -29,11 +28,11 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
         position="sticky"
         sx={{
           left: {
-            lg: `${SIDE_NAV_WIDTH}px`,
+            lg: `${SIDEBAR_WIDTH}px`,
           },
           top: 0,
           width: {
-            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`,
+            lg: `calc(100% - ${SIDEBAR_WIDTH}px)`,
           },
           zIndex: (theme) => theme.zIndex.appBar,
         }}
