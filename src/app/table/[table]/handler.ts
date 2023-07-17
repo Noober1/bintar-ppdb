@@ -327,6 +327,7 @@ const tableHandler: Handler = {
         limit,
         where: {
           configId: getActiveConfig.id,
+          isRegistered: true,
         },
         orderBy: {
           measureEdited: "asc",

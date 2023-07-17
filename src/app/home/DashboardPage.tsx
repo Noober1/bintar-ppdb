@@ -28,7 +28,7 @@ interface DashboardDataResponse {
     major: number;
     school: number;
     config: number;
-  };
+  } | null;
   currentConfig: {
     year: number;
     student: number;
@@ -65,28 +65,28 @@ const DashboardPage = ({
         <Callout
           loading={isLoading}
           title="Pengguna"
-          content={`${data?.basicData.user} pengguna`}
+          content={`${data?.basicData?.user} pengguna`}
           icon={<SupervisorAccountIcon />}
         />
         <Callout
           loading={isLoading}
           color="secondary"
           title="Jurusan"
-          content={`${data?.basicData.major} jurusan`}
+          content={`${data?.basicData?.major} jurusan`}
           icon={<AltRouteIcon />}
         />
         <Callout
           loading={isLoading}
           color="warning"
           title="Sekolah"
-          content={`${data?.basicData.school} sekolah`}
+          content={`${data?.basicData?.school} sekolah`}
           icon={<AccountBalanceIcon />}
         />
         <Callout
           loading={isLoading}
           color="info"
           title="PPDB"
-          content={`${data?.basicData.config} daftar PPDB`}
+          content={`${data?.basicData?.config} daftar PPDB`}
           icon={<SettingsSuggestIcon />}
         />
       </Box>

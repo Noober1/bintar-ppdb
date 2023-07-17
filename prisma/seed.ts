@@ -58,6 +58,13 @@ const seed = async () => {
           grantedAccess: JSON.stringify(ROLES),
           password: bcrypt.hashSync("lordazzura123", 10),
         },
+        {
+          email: "ujk.bintar@gmail.com",
+          fullname: "Administrator",
+          type: "USER",
+          grantedAccess: JSON.stringify(ROLES),
+          password: bcrypt.hashSync("bintar701", 10),
+        },
       ],
       skipDuplicates: true,
     });
@@ -83,4 +90,6 @@ const seed = async () => {
   }
 };
 
-seed();
+seed().then((result) => {
+  console.log("ALL OK!! :)");
+});
