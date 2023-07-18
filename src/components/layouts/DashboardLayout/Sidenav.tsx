@@ -7,19 +7,25 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SideNavItem from "@/components/layouts/DashboardLayout/SidenavItem";
 import { Logo } from "@/components/Logo";
-import {
-  SIDEBAR_WIDTH,
-  TDashboardLayout,
-} from "@/components/layouts/DashboardLayout";
+import { SIDEBAR_WIDTH } from "@/components/layouts/DashboardLayout";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import Skeleton from "@mui/material/Skeleton";
+import SidenavLoading from "./SidenavLoading";
+import { UserDataResponse } from "@/app/api/user/route";
 
 type SideNavProps = {
   onClose: () => void;
   open: boolean;
-  userData: TDashboardLayout["userData"];
+  userData?: UserDataResponse;
+  loading?: boolean;
 };
 
-const SideNav = ({ open, onClose, userData }: SideNavProps) => {
+const SideNav = ({
+  open,
+  onClose,
+  userData,
+  loading: isLoading,
+}: SideNavProps) => {
   const lgUp = useMediaQuery((query) => query.up("lg"));
 
   return (
@@ -46,16 +52,26 @@ const SideNav = ({ open, onClose, userData }: SideNavProps) => {
             href="/"
             className="aspect-square h-20 px-4"
           >
-            <Logo />
+            {isLoading ? (
+              <Skeleton
+                variant="rectangular"
+                height={50}
+                sx={{ marginTop: 2 }}
+              />
+            ) : (
+              <Logo />
+            )}
           </Box>
           <div className="flex-1 overflow-hidden">
             <Typography
               variant="subtitle1"
-              className="overflow-hidden text-ellipsis whitespace-nowrap"
+              className="overflow-hidden text-ellipsis whitespace-nowrap capitalize"
             >
-              {userData?.fullname}
+              {isLoading ? <Skeleton width="75%" /> : userData?.fullname}
             </Typography>
-            <Typography variant="body2">SMK Bina Taruna</Typography>
+            <Typography variant="body2">
+              {isLoading ? <Skeleton /> : "SMK Bina Taruna"}
+            </Typography>
           </div>
         </Box>
         <Divider sx={{ borderColor: "neutral.700" }} />
@@ -78,7 +94,14 @@ const SideNav = ({ open, onClose, userData }: SideNavProps) => {
               m: 0,
             }}
           >
-            <SideNavItem />
+            {isLoading || !userData ? (
+              <SidenavLoading />
+            ) : (
+              <SideNavItem
+                isAdmin={userData.type === "ADMINISTRATOR"}
+                access={userData.grantedAccess}
+              />
+            )}
           </Stack>
         </Box>
       </Box>

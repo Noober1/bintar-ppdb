@@ -12,19 +12,27 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AltRouteIcon from "@mui/icons-material/AltRoute";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ScienceIcon from "@mui/icons-material/Science";
+import { ROLES } from "@/constants/roles";
 
-type Items = {
-  isDivider?: boolean;
-  external?: boolean;
-  disabled?: boolean;
-  title: string;
-  path?: string;
-  icon?: React.ReactNode;
-};
+type Items =
+  | {
+      isDivider?: false;
+      role: ROLES | boolean;
+      external?: boolean;
+      disabled?: boolean;
+      title: string;
+      path?: string;
+      icon?: React.ReactNode;
+    }
+  | {
+      isDivider: true;
+      title: string;
+    };
 
 const items: Items[] = [
   {
     title: "Beranda",
+    role: true,
     path: "/home",
     icon: (
       <SvgIcon fontSize="small">
@@ -37,6 +45,7 @@ const items: Items[] = [
     title: "Pengaturan dasar",
   },
   {
+    role: "user",
     title: "Pengguna",
     path: "/home/user",
     icon: (
@@ -46,6 +55,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "major",
     title: "Jurusan",
     path: "/home/major",
     icon: (
@@ -55,6 +65,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "school",
     title: "Sekolah",
     path: "/home/school",
     icon: (
@@ -64,6 +75,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "config",
     title: "Daftar PPDB",
     path: "/home/configuration",
     icon: (
@@ -77,6 +89,7 @@ const items: Items[] = [
     title: "Pendaftaran",
   },
   {
+    role: "basic",
     title: "Identitas siswa",
     path: "/home/student",
     icon: (
@@ -86,6 +99,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "administration",
     title: "Administrasi",
     path: "/home/administration",
     icon: (
@@ -95,6 +109,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "files",
     title: "Kelengkapan berkas",
     path: "/home/files",
     icon: (
@@ -104,6 +119,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "kesiswaan",
     title: "Kesiswaan",
     path: "/home/kesiswaan",
     icon: (
@@ -113,6 +129,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "uniform",
     title: "Pengukuran pakaian",
     path: "/home/measure",
     icon: (
@@ -122,6 +139,7 @@ const items: Items[] = [
     ),
   },
   {
+    role: "bio",
     title: "Biodata",
     path: "/home/bio",
     icon: (
@@ -138,6 +156,7 @@ if (process.env.NODE_ENV === "development") {
     title: "Lainnya",
   });
   items.push({
+    role: false,
     title: "Testpage",
     path: "/testpage",
     icon: (

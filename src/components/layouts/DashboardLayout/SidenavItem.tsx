@@ -10,8 +10,9 @@ import { styled } from "@mui/material/styles";
 import items from "./SidenavItemList";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { ROLES } from "@/constants/roles";
 
-const StyledList = styled(List)<{ component?: React.ElementType }>(
+export const StyledList = styled(List)<{ component?: React.ElementType }>(
   ({ theme }) => ({
     "& .MuiListItemButton-root": {
       paddingLeft: 5,
@@ -33,12 +34,17 @@ const StyledList = styled(List)<{ component?: React.ElementType }>(
   })
 );
 
-const StyledListSubheader = styled(ListSubheader)({
+export const StyledListSubheader = styled(ListSubheader)({
   lineHeight: 3,
   fontWeight: "bold",
 });
 
-const SideNavItem = () => {
+interface SidenavItemProps {
+  isAdmin?: boolean;
+  access: ROLES[] | "all";
+}
+
+const SideNavItem = ({ access, isAdmin }: SidenavItemProps) => {
   const pathname = usePathname();
   const lgUp = useMediaQuery((query) => query.up("lg"));
   const splittedPathname = pathname.split("/");
@@ -47,7 +53,9 @@ const SideNavItem = () => {
   return (
     <StyledList component="nav" disablePadding>
       {items.map((item) => {
-        const isActive = item.path ? newPathname === item.path : false;
+        // if item isn't a divider AND path is exist from item
+        const isActive =
+          !item.isDivider && item.path ? newPathname === item.path : false;
         return item.isDivider ? (
           <StyledListSubheader
             sx={{
@@ -59,7 +67,10 @@ const SideNavItem = () => {
           >
             {item.title}
           </StyledListSubheader>
-        ) : (
+        ) : // if user is admin or item role is true or item role included in user role, render it.
+        isAdmin ||
+          item.role === true ||
+          (typeof item.role !== "boolean" && access.includes(item.role)) ? (
           <ListItemButton
             className="rounded-lg"
             LinkComponent={NextLink}
@@ -83,7 +94,8 @@ const SideNavItem = () => {
             </ListItemIcon>
             <ListItemText primary={item.title} />
           </ListItemButton>
-        );
+        ) : // if not, don't render menu
+        null;
       })}
     </StyledList>
   );
