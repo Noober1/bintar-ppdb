@@ -9,6 +9,10 @@ import React, { useRef } from "react";
 
 import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 10;
 
 const AdministrationDetailTable = ({ userId }: { userId: string }) => {
   const tableRef = useRef<DynamicTableHandles>(null);
@@ -69,7 +73,6 @@ const AdministrationDetailTable = ({ userId }: { userId: string }) => {
           renderCell: (params) => (
             <>
               <EditButton href={"/home/administration/edit/" + params.id} />
-              {/* TODO: Need to work with print invoice function */}
               <Tooltip
                 title={
                   <TooltipTitle
@@ -78,7 +81,12 @@ const AdministrationDetailTable = ({ userId }: { userId: string }) => {
                   />
                 }
               >
-                <IconButton color="success">
+                <IconButton
+                  color="success"
+                  LinkComponent="a"
+                  href={`/api/print/${params.id}`}
+                  target="_blank"
+                >
                   <LocalPrintshopIcon />
                 </IconButton>
               </Tooltip>

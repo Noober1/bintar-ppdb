@@ -20,9 +20,7 @@ const DashboardPageLayout = async ({
     return redirect("/login");
   }
 
-  const userdata = await getUserData(session.user.id || undefined);
-
-  return <DashboardLayout userData={userdata}>{children}</DashboardLayout>;
+  return <DashboardLayout userId={session.user.id}>{children}</DashboardLayout>;
 };
 
 export default DashboardPageLayout;

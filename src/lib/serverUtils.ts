@@ -7,6 +7,7 @@ import {
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { HttpStatusCode } from "axios";
 
 export const generateRandomNumber = (): string => {
   const min = 1;
@@ -93,8 +94,9 @@ export const sendErrorResponse = (error: unknown) => {
   const isErrorInstance = error instanceof Error;
   const isPrismaValidationError = error instanceof PrismaClientValidationError;
   const isPrismaUnknownError = error instanceof PrismaClientUnknownRequestError;
+  const isRouteError = error instanceof RouteExceptionError;
 
-  if (isValidationError || isErrorInstance) {
+  if (isValidationError || isErrorInstance || isRouteError) {
     message = error.message;
   }
 
@@ -117,7 +119,17 @@ export const sendErrorResponse = (error: unknown) => {
       validationErrors: errors.length > 0 ? errors : undefined,
     },
     {
-      status: message === "Unknown error" ? 500 : 400,
+      status:
+        message === "Unknown error" ? 500 : isRouteError ? error.status : 400,
     }
   );
 };
+
+export class RouteExceptionError extends Error {
+  status: HttpStatusCode;
+  constructor(message = "", status = HttpStatusCode.BadRequest) {
+    super(message);
+    this.name = "RouteExeptionError";
+    this.status = status;
+  }
+}
