@@ -36,18 +36,24 @@ const LoadingLogo = ({ progress: progressValue }: { progress?: number }) => {
         className="shadow-none"
         color="primary"
         sx={{
+          boxShadow: "none",
           ":active": {
             boxShadow: "none",
           },
         }}
       >
-        <div className="-ml-0.5 -mt-0.5 w-10">
+        <Box className="-ml-0.5 -mt-0.5 w-10">
           <Logo />
-        </div>
+        </Box>
       </Fab>
       <CircularProgress
-        size={75}
-        className="absolute -top-2.5 -left-2.5"
+        size={76}
+        // className="absolute -top-2.5 -left-2.5"
+        sx={{
+          position: "absolute",
+          top: "-10px",
+          left: "-10px",
+        }}
         variant="determinate"
         value={progress}
       />

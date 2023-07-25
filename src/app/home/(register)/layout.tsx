@@ -3,7 +3,7 @@
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { dataFetcher } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import ErrorBox from "@/components/layouts/ErrorBox";
 import { styled } from "@mui/material/styles";
 import MuiBox from "@mui/material/Box";
@@ -23,6 +23,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     refetchOnMount: true,
   });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   if (isLoading) {
     return (
       <Box marginTop={3}>
@@ -31,10 +35,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!data) {
-    <Box>
-      <ErrorBox message="Konfigurasi yang aktif tidak ditemukan. Silahkan hubungi administrator untuk mengaktifkan konfigurasi." />
-    </Box>;
+  if (data == null) {
+    return (
+      <Box>
+        <ErrorBox message="Konfigurasi yang aktif tidak ditemukan. Silahkan hubungi administrator untuk mengaktifkan konfigurasi." />
+      </Box>
+    );
   }
 
   return children;

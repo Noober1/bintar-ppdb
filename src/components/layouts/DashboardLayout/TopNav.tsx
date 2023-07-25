@@ -7,14 +7,26 @@ import useLogoutDialog from "@/hooks/LogoutDialog";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { SIDEBAR_WIDTH } from ".";
+import ProfileIcon from "@/components/buttons/ProfileIcon";
+import { UserDataResponse } from "@/app/api/user/route";
+import { Skeleton } from "@mui/material";
 
 type TTopNavProps = {
   onNavOpen: () => void;
+  userData?: UserDataResponse;
+  loading?: boolean;
 };
 
-const TopNav = ({ onNavOpen }: TTopNavProps) => {
+const LoadingIconButton = () => (
+  <IconButton>
+    <Skeleton variant="circular" className="aspect-square" />
+  </IconButton>
+);
+
+const TopNav = ({ onNavOpen, loading, userData }: TTopNavProps) => {
   const lgUp = useMediaQuery((query) => query.up("lg"));
   const mdDown = useMediaQuery((query) => query.down("sm"));
   const handleLogout = useLogoutDialog();
@@ -67,13 +79,26 @@ const TopNav = ({ onNavOpen }: TTopNavProps) => {
           >
             Aplikasi PSB
           </Typography>
-          <Tooltip
-            title={<TooltipTitle title="Logout" content="Click untuk logout" />}
-          >
-            <IconButton onClick={handleLogout} size="large" color="inherit">
-              <LogoutIcon />
-            </IconButton>
-          </Tooltip>
+          <Box>
+            {loading ? (
+              <LoadingIconButton />
+            ) : (
+              <ProfileIcon userName={userData?.fullname} />
+            )}
+            {loading ? (
+              <LoadingIconButton />
+            ) : !mdDown ? (
+              <Tooltip
+                title={
+                  <TooltipTitle title="Logout" content="Click untuk logout" />
+                }
+              >
+                <IconButton onClick={handleLogout} size="large" color="inherit">
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
+            ) : null}
+          </Box>
         </Toolbar>
       </AppBar>
     </>

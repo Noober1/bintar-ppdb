@@ -1,6 +1,6 @@
 import { schoolForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -16,7 +16,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
     });
 
     if (!findData) {
-      throw new Error("Sekolah tidak ditemukan");
+      throw new RouteExceptionError("Sekolah tidak ditemukan");
     }
 
     // find school with different id and same NPSN
@@ -29,7 +29,9 @@ const PUT: CrudRequestHandler = async (request, url) => {
       },
     });
     if (findWithSameNPSN) {
-      throw new Error("Ada sekolah yang menggunakan NPSN yang sama");
+      throw new RouteExceptionError(
+        "Ada sekolah yang menggunakan NPSN yang sama"
+      );
     }
 
     const updateData = await prisma.school.update({

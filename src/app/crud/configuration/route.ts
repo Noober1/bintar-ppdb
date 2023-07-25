@@ -1,6 +1,6 @@
 import { configurationForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -15,7 +15,7 @@ const POST: RequestHandler = async (request) => {
       where: { year: validatedForm.year },
     });
     if (getDataFromDb) {
-      throw new Error("Data dengan tahun yang sama telah ada");
+      throw new RouteExceptionError("Data dengan tahun yang sama telah ada");
     }
 
     const insertData = await prisma.config.create({

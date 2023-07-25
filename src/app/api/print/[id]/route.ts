@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { RouteExceptionError, sendErrorResponse } from "@/lib/serverUtils";
-import { CrudRequestHandler, RequestHandler } from "@/types/route";
-import { Template, BLANK_PDF, generate } from "@pdfme/generator";
+import { CrudRequestHandler } from "@/types/route";
+import { generate } from "@pdfme/generator";
 import { NextResponse } from "next/server";
 import PDFTemplate from "./template";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 export const GET: CrudRequestHandler = async (request, { params: { id } }) => {
   try {

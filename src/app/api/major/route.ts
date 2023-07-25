@@ -1,4 +1,5 @@
-import { getMajorList, sendErrorResponse } from "@/lib/serverUtils";
+import { sendErrorResponse } from "@/lib/routeUtils";
+import { getMajorList } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 

@@ -1,6 +1,6 @@
 import { basicForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -22,7 +22,9 @@ const PUT: CrudRequestHandler = async (request, url) => {
       },
     });
     if (getStudentWithEmail) {
-      throw new Error("Pengguna dengan email yang sama telah ada");
+      throw new RouteExceptionError(
+        "Pengguna dengan email yang sama telah ada"
+      );
     }
 
     // validating school id
@@ -30,7 +32,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
       where: { id: validatedRequestData.schoolId },
     });
     if (!findSchool) {
-      throw new Error("Sekolah tidak ada");
+      throw new RouteExceptionError("Sekolah tidak ada");
     }
 
     // validating major id
@@ -38,7 +40,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
       where: { id: validatedRequestData.majorId },
     });
     if (!findMajor) {
-      throw new Error("Jurusan tidak ada");
+      throw new RouteExceptionError("Jurusan tidak ada");
     }
 
     // if clear, update data

@@ -28,6 +28,7 @@ export interface CustomToolbarProps {
   refetchFunction: Function;
   selectionFunction: Function;
   deleteConfirmationNote?: React.ReactElement;
+  customButton?: React.ReactNode;
 }
 
 const CustomToolbar = ({
@@ -37,6 +38,7 @@ const CustomToolbar = ({
   refetchFunction,
   selectionFunction,
   deleteConfirmationNote,
+  customButton,
 }: CustomToolbarProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const screenDownMd = useMediaQuery((query) => query.down("md"));
@@ -109,6 +111,7 @@ const CustomToolbar = ({
   };
   return (
     <GridToolbarContainer className="mx-2 mt-1">
+      {customButton}
       {addButtonLink && (
         <Tooltip
           title={

@@ -41,7 +41,7 @@ export const StyledListSubheader = styled(ListSubheader)({
 
 interface SidenavItemProps {
   isAdmin?: boolean;
-  access: ROLES[] | "all";
+  access: ROLES[];
 }
 
 const SideNavItem = ({ access, isAdmin }: SidenavItemProps) => {
@@ -69,7 +69,7 @@ const SideNavItem = ({ access, isAdmin }: SidenavItemProps) => {
           </StyledListSubheader>
         ) : // if user is admin or item role is true or item role included in user role, render it.
         isAdmin ||
-          item.role === true ||
+          (typeof item.role === "boolean" && item.role === true) ||
           (typeof item.role !== "boolean" && access.includes(item.role)) ? (
           <ListItemButton
             className="rounded-lg"

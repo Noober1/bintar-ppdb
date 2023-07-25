@@ -1,3 +1,4 @@
+"use client";
 import LoadingLogo from "@/components/feedbacks/LoadingLogo";
 import Typography from "@mui/material/Typography";
 import React from "react";

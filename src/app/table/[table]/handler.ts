@@ -1,10 +1,15 @@
-import { getCurrentConfig, sendErrorResponse } from "@/lib/serverUtils";
+import { getCurrentConfig } from "@/lib/serverUtils";
 import { extendedPrisma } from "@/lib/prisma";
 import { Handler } from "@/types/table";
 import { NextResponse } from "next/server";
+import getServerSession from "@/lib/getServerSession";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 const tableHandler: Handler = {
   user: async (_request, page, limit) => {
+    const getSessionData = await getServerSession();
+    if (!getSessionData) {
+    }
     const getData = await extendedPrisma.user.paginate({
       limit,
       page,
@@ -17,6 +22,9 @@ const tableHandler: Handler = {
       where: {
         type: {
           not: "ADMINISTRATOR",
+        },
+        id: {
+          not: getSessionData?.user.id || 0,
         },
       },
     });
@@ -35,11 +43,11 @@ const tableHandler: Handler = {
     try {
       const getUserid = params.get("userid");
       if (!getUserid) {
-        throw new Error("Request invalid");
+        throw new RouteExceptionError("Request invalid");
       }
       const parseUserId = parseInt(getUserid);
       if (isNaN(parseUserId)) {
-        throw new Error("Request invalid");
+        throw new RouteExceptionError("Request invalid");
       }
 
       const getData = await extendedPrisma.administration.paginate({
@@ -149,7 +157,7 @@ const tableHandler: Handler = {
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
-        throw new Error("Tidak ada config yang aktif");
+        throw new RouteExceptionError("Tidak ada config yang aktif");
       }
 
       const getData = await extendedPrisma.student.paginate({
@@ -208,7 +216,7 @@ const tableHandler: Handler = {
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
-        throw new Error("Tidak ada config yang aktif");
+        throw new RouteExceptionError("Tidak ada config yang aktif");
       }
       const getData = await extendedPrisma.student.paginate({
         limit,
@@ -264,7 +272,7 @@ const tableHandler: Handler = {
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
-        throw new Error("Tidak ada config yang aktif");
+        throw new RouteExceptionError("Tidak ada config yang aktif");
       }
       const getData = await extendedPrisma.student.paginate({
         page,
@@ -319,7 +327,7 @@ const tableHandler: Handler = {
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
-        throw new Error("Tidak ada config yang aktif");
+        throw new RouteExceptionError("Tidak ada config yang aktif");
       }
 
       const getData = await extendedPrisma.student.paginate({
@@ -375,7 +383,7 @@ const tableHandler: Handler = {
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
-        throw new Error("Tidak ada config yang aktif");
+        throw new RouteExceptionError("Tidak ada config yang aktif");
       }
 
       const getData = await extendedPrisma.student.paginate({

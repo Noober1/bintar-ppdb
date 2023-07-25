@@ -1,6 +1,6 @@
 import { bioForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
     // check student from db
     const getStudent = await prisma.student.count({ where: { id } });
     if (!getStudent) {
-      throw new Error("Siswa tidak ditemukan");
+      throw new RouteExceptionError("Siswa tidak ditemukan");
     }
     // get form from request data
     const data = await request.json();
@@ -22,14 +22,14 @@ const PUT: CrudRequestHandler = async (request, url) => {
       where: { id: validatedData.schoolId },
     });
     if (!checkSchool) {
-      throw new Error("Sekolah tidak ditemukan");
+      throw new RouteExceptionError("Sekolah tidak ditemukan");
     }
     // check majorId
     const checkMajor = await prisma.major.count({
       where: { id: validatedData.majorId },
     });
     if (!checkMajor) {
-      throw new Error("Jurusan tidak ditemukan");
+      throw new RouteExceptionError("Jurusan tidak ditemukan");
     }
 
     const updatingData = await prisma.student.update({

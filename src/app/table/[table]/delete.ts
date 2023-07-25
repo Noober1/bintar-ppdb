@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { sendErrorResponse, RouteExceptionError } from "@/lib/routeUtils";
 import { TableRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -24,7 +24,7 @@ const deleteRoute: TableRequestHandler = async (
         break;
       case "major":
         if (isNaN(parseInt(getDataRequest.data))) {
-          throw new Error("Invalid data");
+          throw new RouteExceptionError("Invalid data");
         }
 
         await prisma.major.delete({
@@ -35,7 +35,7 @@ const deleteRoute: TableRequestHandler = async (
         break;
       case "school":
         if (isNaN(parseInt(getDataRequest.data))) {
-          throw new Error("Invalid data");
+          throw new RouteExceptionError("Invalid data");
         }
 
         const getStudentFromSchool = await prisma.student.count({
@@ -56,11 +56,11 @@ const deleteRoute: TableRequestHandler = async (
         });
 
         if (!getCurrentConfig) {
-          throw new Error("Konfigurasi tidak ada");
+          throw new RouteExceptionError("Konfigurasi tidak ada");
         }
 
         if (getCurrentConfig.isActive) {
-          throw new Error(
+          throw new RouteExceptionError(
             "Konfigurasi sedang aktif, nonaktifkan terlebih dahulu"
           );
         }
@@ -73,7 +73,9 @@ const deleteRoute: TableRequestHandler = async (
           },
         });
         if (findStudentByYear) {
-          throw new Error("Ada data siswa yang berkaitan dengan data ini");
+          throw new RouteExceptionError(
+            "Ada data siswa yang berkaitan dengan data ini"
+          );
         }
 
         await prisma.config.delete({
@@ -100,7 +102,7 @@ const deleteRoute: TableRequestHandler = async (
         });
         break;
       default:
-        throw new Error("Endpoint invalid");
+        throw new RouteExceptionError("Endpoint invalid");
     }
     return NextResponse.json({
       success: true,

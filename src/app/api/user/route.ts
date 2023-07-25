@@ -1,6 +1,7 @@
 import { ROLES } from "@/constants/roles";
 import getServerSession from "@/lib/getServerSession";
 import { prisma } from "@/lib/prisma";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { RequestHandler } from "@/types/route";
 import { USER_TYPES } from "@prisma/client";
 import { NextResponse } from "next/server";
@@ -20,7 +21,7 @@ export interface UserDataResponse {
 export const GET: RequestHandler = async () => {
   try {
     const session = await getServerSession();
-    if (!session) throw new Error("Session not found");
+    if (!session) throw new RouteExceptionError("Session not found");
 
     const getUserdata = await prisma.user.findUnique({
       select: {
@@ -32,7 +33,7 @@ export const GET: RequestHandler = async () => {
       },
       where: { id: session.user.id },
     });
-    if (!getUserdata) throw new Error("User not found");
+    if (!getUserdata) throw new RouteExceptionError("User not found");
 
     return NextResponse.json({
       isLoggedIn: true,
@@ -40,16 +41,6 @@ export const GET: RequestHandler = async () => {
       grantedAccess: JSON.parse(getUserdata.grantedAccess?.toString() || "[]"),
     });
   } catch (error) {
-    console.error(error);
-    const isErrorMessage = error instanceof Error;
-    return NextResponse.json(
-      {
-        isLoggedIn: false,
-        message: isErrorMessage ? error.message : "Unknown error",
-      },
-      {
-        status: isErrorMessage ? 401 : 500,
-      }
-    );
+    return sendErrorResponse(error);
   }
 };

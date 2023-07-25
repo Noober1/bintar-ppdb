@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { sendErrorResponse, RouteExceptionError } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 
 const PUT: CrudRequestHandler = async (request, url) => {
@@ -15,7 +15,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
     });
 
     if (!findUser) {
-      throw new Error("Pengguna tidak ditemukan");
+      throw new RouteExceptionError("Pengguna tidak ditemukan");
     }
 
     const updateUser = await prisma.user.update({

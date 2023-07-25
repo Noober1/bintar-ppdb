@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
     });
 
     if (!getStudentById) {
-      throw new Error("Siswa tidak ada");
+      throw new RouteExceptionError("Siswa tidak ada");
     }
 
     const countAdministrationData = await prisma.administration.count({

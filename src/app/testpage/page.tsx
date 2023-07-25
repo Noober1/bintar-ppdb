@@ -5,6 +5,7 @@ import ThemeSwitch from "./ThemeSwitch";
 import Forms from "./Forms";
 import RowRadioGroup from "@/components/forms/RowRadioGroup";
 import Link from "next/link";
+import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 
 const Page = () => {
   return (
@@ -18,6 +19,9 @@ const Page = () => {
         </div>
         <div>
           <ThemeSwitch />
+        </div>
+        <div>
+          <LoadingSpinner />
         </div>
         <div className="md:col-span-2 lg:col-span-3">
           <Forms />

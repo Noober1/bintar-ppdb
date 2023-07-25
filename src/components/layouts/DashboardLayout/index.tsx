@@ -62,7 +62,11 @@ const DashboardLayout = ({ children, userId }: DashboardLayoutProps) => {
 
   return (
     <>
-      <TopNav onNavOpen={() => setOpenNav(true)} />
+      <TopNav
+        onNavOpen={() => setOpenNav(true)}
+        loading={isLoading}
+        userData={data}
+      />
       <SideNav
         userData={data}
         loading={isLoading}

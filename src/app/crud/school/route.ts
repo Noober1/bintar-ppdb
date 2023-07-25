@@ -1,9 +1,8 @@
 import { schoolForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { ValidationError } from "yup";
 
 const POST: RequestHandler = async (request) => {
   try {
@@ -16,7 +15,7 @@ const POST: RequestHandler = async (request) => {
       where: { NPSN: validatedForm.NPSN },
     });
     if (getDataFromDb) {
-      throw new Error("Data dengan NPSN yang sama telah ada");
+      throw new RouteExceptionError("Data dengan NPSN yang sama telah ada");
     }
 
     const insertData = await prisma.school.create({

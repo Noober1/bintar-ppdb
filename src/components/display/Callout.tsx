@@ -117,7 +117,11 @@ const Callout: FC<CalloutProps> = ({
             overflow="hidden"
             textOverflow="ellipsis"
           >
-            {loading ? <Skeleton /> : content}
+            {loading ? (
+              <Skeleton />
+            ) : typeof content === "undefined" ? null : (
+              content
+            )}
           </Typography>
         </Stack>
       </Stack>

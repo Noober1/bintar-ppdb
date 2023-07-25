@@ -24,7 +24,8 @@
     }
   },
   "include": [
-    "types/*.ts",
+    "types/**/*.ts",
+    "typings/**/*.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

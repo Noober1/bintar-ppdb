@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler, RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
@@ -13,7 +13,7 @@ const GET: CrudRequestHandler = async (request, url) => {
     });
 
     if (!findData) {
-      throw new Error("Konfigurasi tidak ditemukan.");
+      throw new RouteExceptionError("Konfigurasi tidak ditemukan.");
     }
 
     await prisma.config.updateMany({

@@ -4,6 +4,7 @@ const schemeErrorMessage = {
   INVALID_TYPE_NUM: "Data harus berupa angka",
   EMPTY_EMAIL: "Email tidak boleh kosong",
   EMPTY_PASSWORD: "Kata sandi tidak boleh kosong",
+  MISMATCH_PASSWORD: "Kata sandi tidak sama",
   EMPTY_DATA: "Data tidak boleh kosong",
   INVALID_GRANTED_ACCESS: "Hak akses invalid",
   INVALID_REGISTRATION_FORMAT:

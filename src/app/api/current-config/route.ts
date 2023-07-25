@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { sendErrorResponse } from "@/lib/routeUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 

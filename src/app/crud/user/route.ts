@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { RequestHandler } from "@/types/route";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 const POST: RequestHandler = async (request) => {
   const getRequestData = await request.json();
@@ -16,7 +16,7 @@ const POST: RequestHandler = async (request) => {
     });
     // if exist, return error
     if (isEmailExist) {
-      throw new Error("Email telah ada");
+      throw new RouteExceptionError("Email telah ada");
     }
 
     // inserting data

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import LoadingSpinner from "../surfaces/loading/LoadingSpinner";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
+import { IconButtonProps } from "@mui/material/IconButton";
+import DownloadIcon from "@mui/icons-material/CloudDownload";
 
 type TEditButton = (props: {
   href: string;
@@ -25,7 +27,7 @@ type TEditButton = (props: {
     | "warning";
 }) => React.ReactElement;
 
-const EditButton: TEditButton = ({ color = "primary", href }) => {
+export const EditButton: TEditButton = ({ color = "primary", href }) => {
   return (
     <Tooltip
       title={
@@ -47,7 +49,7 @@ interface DeleteButtonProps {
   confirmationNote?: React.ReactElement;
 }
 
-const DeleteButton = ({
+export const DeleteButton = ({
   id,
   table,
   refreshTable,
@@ -122,4 +124,22 @@ const DeleteButton = ({
   );
 };
 
-export { EditButton, DeleteButton };
+interface DownloadButtonProps extends IconButtonProps {
+  title: string;
+  content: string;
+  href: string;
+}
+
+export const DownloadButton: FC<DownloadButtonProps> = ({
+  title,
+  content,
+  href,
+}) => {
+  return (
+    <Tooltip title={<TooltipTitle title={title} content={content} />}>
+      <IconButton component="a" href={href} color="success">
+        <DownloadIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};

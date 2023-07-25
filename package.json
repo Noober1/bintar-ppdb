@@ -33,6 +33,7 @@
     "dayjs": "^1.11.9",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
+    "excel4node": "^1.8.2",
     "formik": "^2.4.2",
     "next": "13.4.7",
     "next-auth": "^4.22.1",

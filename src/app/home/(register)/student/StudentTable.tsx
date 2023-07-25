@@ -1,5 +1,6 @@
 "use client";
 
+import DownloadButton from "@/components/buttons/DownloadButton";
 import { EditButton } from "@/components/buttons/TableActionButton";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
@@ -16,6 +17,15 @@ const SchoolTable = () => {
       ref={tableRef}
       endpoint="basic"
       buttons={{
+        customButton: (
+          <DownloadButton
+            title="Unduh rekapan"
+            content="Click untuk mengunduh rekapan siswa"
+            href="/api/exports/spreadsheet/student"
+          >
+            Unduh
+          </DownloadButton>
+        ),
         addButtonLink: "/home/student/add",
         deleteButton: "basic",
         deleteConfirmationNote: (

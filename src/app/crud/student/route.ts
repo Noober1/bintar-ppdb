@@ -1,8 +1,9 @@
-import { checkConfigOrThrow, sendErrorResponse } from "@/lib/serverUtils";
+import { checkConfigOrThrow } from "@/lib/serverUtils";
 import { basicForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 const POST: RequestHandler = async (request) => {
   try {
@@ -18,7 +19,7 @@ const POST: RequestHandler = async (request) => {
       where: { email: validatedForm.email },
     });
     if (getDataFromDb) {
-      throw new Error("Siswa dengan email yang sama telah ada");
+      throw new RouteExceptionError("Siswa dengan email yang sama telah ada");
     }
 
     // major validation
@@ -26,7 +27,7 @@ const POST: RequestHandler = async (request) => {
       where: { id: validatedForm.majorId },
     });
     if (!getMajorCount) {
-      throw new Error("Jurusan tidak ada");
+      throw new RouteExceptionError("Jurusan tidak ada");
     }
 
     // major validation
@@ -34,7 +35,7 @@ const POST: RequestHandler = async (request) => {
       where: { id: validatedForm.schoolId },
     });
     if (!getSchoolCount) {
-      throw new Error("Sekolah tidak ada");
+      throw new RouteExceptionError("Sekolah tidak ada");
     }
 
     const insertData = await prisma.student.create({

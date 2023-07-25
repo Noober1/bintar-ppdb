@@ -1,5 +1,6 @@
 "use client";
 
+import DownloadButton from "@/components/buttons/DownloadButton";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
@@ -55,6 +56,17 @@ const AdministrationTable = () => {
     <DynamicTable
       ref={tableRef}
       endpoint="basic"
+      buttons={{
+        customButton: (
+          <DownloadButton
+            title="Unduh rekapan"
+            content="Click untuk mengunduh rekapan pembayaran"
+            href="/api/exports/spreadsheet/administration"
+          >
+            Unduh
+          </DownloadButton>
+        ),
+      }}
       columns={[
         {
           field: "registrationNumber",

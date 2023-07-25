@@ -1,9 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import {
-  getCurrentConfig,
-  getMajorList,
-  sendErrorResponse,
-} from "@/lib/serverUtils";
+import { sendErrorResponse } from "@/lib/routeUtils";
+import { getCurrentConfig } from "@/lib/serverUtils";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 

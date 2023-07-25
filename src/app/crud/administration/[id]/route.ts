@@ -1,8 +1,8 @@
 import { administrationForm } from "@/lib/formSchemas";
 import authOptions from "@/lib/nextAuthOption";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
-import { CrudRequestHandler, RequestHandler } from "@/types/route";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
+import { CrudRequestHandler } from "@/types/route";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -22,13 +22,13 @@ const POST: CrudRequestHandler = async (request, params) => {
       where: { id: getStudentId },
     });
     if (!getStudentFromDB) {
-      throw new Error("Siswa tidak ditemukan");
+      throw new RouteExceptionError("Siswa tidak ditemukan");
     }
 
     // check userdata from session
     const getUserData = await getServerSession(authOptions);
     if (!getUserData) {
-      throw new Error("Anda tidak mempunyai akses");
+      throw new RouteExceptionError("Anda tidak mempunyai akses");
     }
 
     // inserting data to database

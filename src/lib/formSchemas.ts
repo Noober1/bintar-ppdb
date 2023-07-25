@@ -346,3 +346,13 @@ export const bioForm = yup.object({
     .required(msg.EMPTY_DATA),
   extracurricular: yup.string(),
 });
+
+// change password
+export const changePasswordForm = yup.object({
+  oldPassword: yup.string().required(msg.EMPTY_PASSWORD),
+  password: yup.string().required(msg.EMPTY_PASSWORD),
+  repeatPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], msg.MISMATCH_PASSWORD)
+    .required(msg.EMPTY_DATA),
+});

@@ -1,6 +1,6 @@
 import { majorForm } from "@/lib/formSchemas";
 import { prisma } from "@/lib/prisma";
-import { sendErrorResponse } from "@/lib/serverUtils";
+import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 const PUT: CrudRequestHandler = async (request, url) => {
@@ -15,7 +15,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
     });
 
     if (!findData) {
-      throw new Error("Jurusan tidak ditemukan");
+      throw new RouteExceptionError("Jurusan tidak ditemukan");
     }
 
     const updateData = await prisma.major.update({

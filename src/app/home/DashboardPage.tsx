@@ -105,7 +105,7 @@ const DashboardPage = ({
               Rincian PPDB tahun {data.currentConfig.year}
             </Typography>
           ) : (
-            <Alert severity="error">
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
               <AlertTitle>Tidak ada konfigurasi</AlertTitle>Tidak ada
               konfigurasi PPDB yang aktif.
             </Alert>

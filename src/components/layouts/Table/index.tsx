@@ -21,6 +21,7 @@ interface IDynamicTable {
     [key: string]: string;
   };
   buttons?: {
+    customButton?: React.ReactNode;
     addButtonLink?: string;
     deleteButton?: TableList;
     deleteConfirmationNote?: React.ReactElement;

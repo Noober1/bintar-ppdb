@@ -4,6 +4,7 @@ import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
 import Chip from "@mui/material/Chip";
 import {
   DeleteButton,
+  DownloadButton,
   EditButton,
 } from "@/components/buttons/TableActionButton";
 import Typography from "@mui/material/Typography";
@@ -15,6 +16,7 @@ import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
+import IconButton from "@mui/material/IconButton";
 
 const ConfigurationTable = () => {
   const tableRef = useRef<DynamicTableHandles>(null);
@@ -153,19 +155,32 @@ const ConfigurationTable = () => {
         {
           field: "id",
           headerName: "Aksi",
+          flex: 1,
           renderCell: (params) => (
-            <DeleteButton
-              confirmationTitle="Hapus konfigurasi?"
-              id={params.value}
-              table="configuration"
-              refreshTable={tableRef.current?.refreshTable}
-              confirmationNote={
-                <Typography>
-                  Data ini tidak akan terhapus jika ada siswa yang berkaitan
-                  dengan konfigurasi ini
-                </Typography>
-              }
-            />
+            <>
+              <DownloadButton
+                title="Unduh rekapan siswa"
+                content="Click untuk mengunduh rekapan siswa berupa file excel"
+                href={`/api/exports/spreadsheet/student`}
+              />
+              <DownloadButton
+                title="Unduh rekapan administrasi"
+                content="Click untuk mengunduh rekapan pembayaran berupa file excel"
+                href={`/api/exports/spreadsheet/administration`}
+              />
+              <DeleteButton
+                confirmationTitle="Hapus konfigurasi?"
+                id={params.value}
+                table="configuration"
+                refreshTable={tableRef.current?.refreshTable}
+                confirmationNote={
+                  <Typography>
+                    Data ini tidak akan terhapus jika ada siswa yang berkaitan
+                    dengan konfigurasi ini
+                  </Typography>
+                }
+              />
+            </>
           ),
         },
       ]}

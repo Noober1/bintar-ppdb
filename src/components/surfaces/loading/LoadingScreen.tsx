@@ -2,7 +2,7 @@
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import React from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 
 const LoadingScreen = () => {
   return (
@@ -14,7 +14,7 @@ const LoadingScreen = () => {
       }}
       component={Paper}
     >
-      <LoadingSpinner />
+      <LoadingSpinner label="Memuat" />
     </Box>
   );
 };
