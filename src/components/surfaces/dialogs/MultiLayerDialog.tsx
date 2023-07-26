@@ -6,10 +6,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
+import Paper, { PaperProps } from "@mui/material/Paper";
+import Fade from "@mui/material/Fade";
+import Box from "@mui/material/Box";
+import { alpha } from "@mui/material/styles";
+import LoadingLogo from "@/components/feedbacks/LoadingLogo";
 
-const PaperComponent = (props: PaperProps) => {
+const PaperComponent = ({ variant, elevation, ...props }: PaperProps) => {
   return (
     <Draggable
       handle=".drag-anchor"
@@ -28,53 +32,71 @@ const MultiLayerDialog = () => {
   };
   return (
     <>
-      {data.map((value, index) => (
-        <Dialog
-          key={index}
-          open
-          PaperComponent={PaperComponent}
-          onClose={value.disableOutsideClick ? undefined : handleClose}
-          disableEscapeKeyDown={value.disableOutsideClick}
-          keepMounted={false}
-        >
-          {value.title && (
-            <DialogTitle
-              className={
-                value.disableDrag ? "cursor-default" : "cursor-move drag-anchor"
-              }
-            >
-              {value.title}
-            </DialogTitle>
-          )}
-          <DialogContent>{value.content}</DialogContent>
-          {(value.confirmButton ||
-            value.rejectButton ||
-            value.showCancelButton) && (
-            <DialogActions>
-              {value.confirmButton && (
-                <Button
-                  color={value.confirmButtonColor}
-                  onClick={value.confirmCallback}
-                >
-                  {value.confirmButton}
-                </Button>
-              )}
-              {value.rejectButton ? (
-                <Button
-                  color={value.rejectButtonColor}
-                  onClick={value.rejectCallback ?? handleClose}
-                >
-                  {value.rejectButton}
-                </Button>
-              ) : (
-                value.showCancelButton && (
-                  <Button onClick={handleClose}>Tutup</Button>
-                )
-              )}
-            </DialogActions>
-          )}
-        </Dialog>
-      ))}
+      {data.map((value, index) => {
+        return (
+          <Dialog
+            key={index}
+            open={value.isOpen || false}
+            PaperComponent={PaperComponent}
+            PaperProps={{
+              className: "relative",
+            }}
+            onClose={value.disableOutsideClick ? undefined : handleClose}
+            disableEscapeKeyDown={value.disableOutsideClick}
+            keepMounted={false}
+          >
+            {value.title && (
+              <DialogTitle
+                className={
+                  value.disableDrag
+                    ? "cursor-default"
+                    : "cursor-move drag-anchor"
+                }
+              >
+                {value.title}
+              </DialogTitle>
+            )}
+            <DialogContent>{value.content}</DialogContent>
+            {(value.confirmButton ||
+              value.rejectButton ||
+              value.showCancelButton) && (
+              <DialogActions>
+                {value.confirmButton && (
+                  <Button
+                    color={value.confirmButtonColor}
+                    onClick={value.confirmCallback}
+                  >
+                    {value.confirmButton}
+                  </Button>
+                )}
+                {value.rejectButton ? (
+                  <Button
+                    color={value.rejectButtonColor}
+                    onClick={value.rejectCallback ?? handleClose}
+                  >
+                    {value.rejectButton}
+                  </Button>
+                ) : (
+                  value.showCancelButton && (
+                    <Button onClick={handleClose}>Tutup</Button>
+                  )
+                )}
+              </DialogActions>
+            )}
+            <Fade in={value.isLoading}>
+              <Box
+                className="absolute inset-0 flex items-center justify-center"
+                sx={{
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.background.paper, 0.6),
+                }}
+              >
+                <LoadingLogo />
+              </Box>
+            </Fade>
+          </Dialog>
+        );
+      })}
     </>
   );
 };

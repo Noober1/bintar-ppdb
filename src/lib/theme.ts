@@ -4,6 +4,11 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 const components: Components<Omit<Theme, "components">> = {
+  MuiPaper: {
+    defaultProps: {
+      variant: "outlined",
+    },
+  },
   MuiTooltip: {
     defaultProps: {
       followCursor: true,

@@ -4,7 +4,6 @@ import { signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Typography from "@mui/material/Typography";
-import LoadingLogo from "@/components/feedbacks/LoadingLogo";
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 
 const useLogoutDialog = () => {

@@ -4,9 +4,12 @@ import Fab from "@mui/material/Fab";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { useTheme } from "@mui/material/styles";
 
 const LoadingLogo = ({ progress: progressValue }: { progress?: number }) => {
   const [progress, setProgress] = useState<number>(10);
+  const theme = useTheme();
+  const mainBackground = theme.palette.primary.main;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -30,25 +33,10 @@ const LoadingLogo = ({ progress: progressValue }: { progress?: number }) => {
   }, [progressValue]);
 
   return (
-    <Box className="relative">
-      <Fab
-        size="large"
-        className="shadow-none"
-        color="primary"
-        sx={{
-          boxShadow: "none",
-          ":active": {
-            boxShadow: "none",
-          },
-        }}
-      >
-        <Box className="-ml-0.5 -mt-0.5 w-10">
-          <Logo />
-        </Box>
-      </Fab>
+    <Box className="relative w-14 h-14">
       <CircularProgress
-        size={76}
-        // className="absolute -top-2.5 -left-2.5"
+        size="76px"
+        className="absolute top-0 left-0"
         sx={{
           position: "absolute",
           top: "-10px",
@@ -57,6 +45,14 @@ const LoadingLogo = ({ progress: progressValue }: { progress?: number }) => {
         variant="determinate"
         value={progress}
       />
+      <Box
+        className="absolute top-0 left-0 flex justify-center items-center w-14 h-14 rounded-full"
+        sx={{ backgroundColor: mainBackground }}
+      >
+        <Box className="w-10 h-10 -mt-3">
+          <Logo />
+        </Box>
+      </Box>
     </Box>
   );
 };

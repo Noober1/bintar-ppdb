@@ -7,7 +7,6 @@ import React from "react";
 const TableLoadingOverlay = () => {
   return (
     <Paper
-      elevation={0}
       sx={{
         backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}

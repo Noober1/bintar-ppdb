@@ -13,7 +13,10 @@ type ButtonColor =
   | "warning";
 
 export type MultiDialogState = {
+  name?: string;
+  isOpen?: boolean;
   title?: string;
+  isLoading?: boolean;
   content?: React.ReactNode;
   disableDrag?: boolean;
   disableOutsideClick?: boolean;
@@ -36,15 +39,32 @@ export const multiDialogSlice = createSlice({
   initialState,
   reducers: {
     setOpen: (state, action: PayloadAction<MultiDialogState>) => {
-      state.push(action.payload);
+      state.push({
+        isOpen: true,
+        ...action.payload,
+      });
     },
     setClose: (state) => {
       state.pop();
     },
+    setLoading: (
+      state,
+      action: PayloadAction<{ name: string; loading?: boolean }>
+    ) => {
+      if (state.length > 0) {
+        const findDialogIndex = state.findIndex(
+          (value) => value.name === action.payload.name
+        );
+        const isModalExist = typeof state[findDialogIndex] !== "undefined";
+        if (isModalExist) {
+          state[findDialogIndex].isLoading = action.payload.loading;
+        }
+      }
+    },
   },
 });
 
-export const { setOpen, setClose } = multiDialogSlice.actions;
+export const { setOpen, setClose, setLoading } = multiDialogSlice.actions;
 export const multiDialogSelector = (state: RootState) => state.multiDialog;
 
 export default multiDialogSlice.reducer;

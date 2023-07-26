@@ -3,15 +3,16 @@ import { IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import Icon from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import React from "react";
+import React, { useEffect } from "react";
 import useLogoutDialog from "@/hooks/LogoutDialog";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const ProfileIcon = ({ userName }: { userName?: string }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const handleLogout = useLogoutDialog();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -21,6 +22,11 @@ const ProfileIcon = ({ userName }: { userName?: string }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    handleClose();
+  }, [pathname]);
+
   return (
     <>
       <Tooltip

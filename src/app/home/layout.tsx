@@ -20,7 +20,7 @@ const DashboardPageLayout = async ({
     return redirect("/login");
   }
 
-  return <DashboardLayout userId={session.user.id}>{children}</DashboardLayout>;
+  return <DashboardLayout>{children}</DashboardLayout>;
 };
 
 export default DashboardPageLayout;

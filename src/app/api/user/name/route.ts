@@ -3,8 +3,7 @@ import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { getServerSession } from "next-auth";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
-import { changePasswordForm } from "@/lib/formSchemas";
-import bcrypt from "bcrypt";
+import { changeNameForm } from "@/lib/formSchemas";
 
 export const PUT: RequestHandler = async (request) => {
   try {
@@ -17,19 +16,12 @@ export const PUT: RequestHandler = async (request) => {
     if (!getUserData) throw new RouteExceptionError("User not found");
 
     const getRequestData = await request.json();
-    const data = await changePasswordForm.validate(getRequestData);
-
-    const matchingPassword = bcrypt.compareSync(
-      data.oldPassword,
-      getUserData.password
-    );
-    if (!matchingPassword)
-      throw new RouteExceptionError("Kata sandi lama salah.");
+    const data = await changeNameForm.validate(getRequestData);
 
     const updating = await prisma.user.update({
       where: { email: session.user.email },
       data: {
-        password: bcrypt.hashSync(data.password, 10),
+        fullname: data.fullName,
       },
     });
 

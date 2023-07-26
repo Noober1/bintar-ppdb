@@ -2,19 +2,15 @@ import PasswordTextField from "@/components/forms/PasswordTextField";
 import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { changePasswordForm } from "@/lib/formSchemas";
+import { setLoading } from "@/lib/redux/multiDialog";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { AxiosError } from "axios";
 import { useFormik } from "formik";
-import { enqueueSnackbar } from "notistack";
-import React, { Ref, forwardRef, useImperativeHandle, useState } from "react";
-
-interface ChangePasswordBoxProps {}
-
-export interface ChangePasswordBoxHandles {
-  submit: () => void;
-}
+import { useSnackbar } from "notistack";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 interface FormValues {
   oldPassword: string;
@@ -28,10 +24,9 @@ const formValues: FormValues = {
   repeatPassword: "",
 };
 
-const ChangePasswordBox = (
-  props: ChangePasswordBoxProps,
-  ref: Ref<ChangePasswordBoxHandles>
-) => {
+const ChangePasswordBox = () => {
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const passwordData = useEditMutation("/api/user/password");
   const {
     submitForm,
@@ -45,10 +40,22 @@ const ChangePasswordBox = (
   } = useFormik({
     initialValues: formValues,
     onSubmit: (values, actions) => {
+      dispatch(
+        setLoading({
+          name: "change-password-dialog",
+          loading: true,
+        })
+      );
       passwordData.mutate(values, {
         onSuccess: () => {
           enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
           actions.setSubmitting(false);
+          dispatch(
+            setLoading({
+              name: "change-password-dialog",
+              loading: false,
+            })
+          );
         },
         onError: (error) => {
           if (error instanceof AxiosError) {
@@ -60,6 +67,12 @@ const ChangePasswordBox = (
             enqueueSnackbar("Data gagal disimpan", { variant: "error" });
           }
           actions.setSubmitting(false);
+          dispatch(
+            setLoading({
+              name: "change-password-dialog",
+              loading: false,
+            })
+          );
         },
       });
     },
@@ -67,10 +80,6 @@ const ChangePasswordBox = (
   });
 
   const { helperText, isError } = formikCustomHelper(errors, touched);
-
-  useImperativeHandle(ref, () => ({
-    submit: () => submitForm(),
-  }));
 
   return (
     <Box
@@ -110,11 +119,11 @@ const ChangePasswordBox = (
         onBlur={handleBlur}
         disabled={isSubmitting}
       />
-      <button type="submit" className="hidden">
-        Submit
-      </button>
+      <Button type="submit" variant="contained">
+        Ubah kata sandi
+      </Button>
     </Box>
   );
 };
 
-export default forwardRef(ChangePasswordBox);
+export default ChangePasswordBox;

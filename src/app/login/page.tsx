@@ -1,26 +1,20 @@
 import React from "react";
-import LoginBox from "@/components/forms/LoginBox";
 import getServerSession from "@/lib/getServerSession";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
+import LoginPage from "./LoginPage";
 
 export const metadata: Metadata = {
   title: "Login aplikasi PPDB",
 };
 
-const LoginPage = async () => {
+const Page = async () => {
   const session = await getServerSession();
   if (session) {
     redirect("/home");
   }
 
-  return (
-    <div className="flex items-center justify-center w-screen h-screen">
-      <div className="max-w-md w-full">
-        <LoginBox />
-      </div>
-    </div>
-  );
+  return <LoginPage />;
 };
 
-export default LoginPage;
+export default Page;

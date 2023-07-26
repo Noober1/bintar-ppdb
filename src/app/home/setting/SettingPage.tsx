@@ -14,14 +14,12 @@ import MoreIcon from "@mui/icons-material/ChevronRight";
 import Divider from "@mui/material/Divider";
 import { useDispatch } from "react-redux";
 import { setOpen } from "@/lib/redux/multiDialog";
-import ChangePasswordBox, {
-  ChangePasswordBoxHandles,
-} from "./ChangePasswordBox";
+import ChangePasswordBox from "./ChangePasswordBox";
 import { dataFetcher } from "@/lib/utils";
+import ChangeNameBox from "./ChangeNameBox";
 
 const SettingPage = () => {
   const dispatch = useDispatch();
-  const passwordBoxRef = useRef<ChangePasswordBoxHandles>(null);
   const { isLoading, data } = useQuery<UserDataResponse>({
     queryKey: ["user-data"],
     queryFn: ({ signal }) =>
@@ -35,13 +33,19 @@ const SettingPage = () => {
   const handleChangePassword = () => {
     dispatch(
       setOpen({
+        name: "change-password-dialog",
         title: "Ubah kata sandi",
-        confirmButton: "Simpan perubahan",
-        rejectButton: "Batal",
-        content: <ChangePasswordBox ref={passwordBoxRef} />,
-        confirmCallback: () => {
-          passwordBoxRef.current?.submit();
-        },
+        content: <ChangePasswordBox />,
+      })
+    );
+  };
+
+  const handleChangeName = () => {
+    dispatch(
+      setOpen({
+        name: "change-name-dialog",
+        title: "Ubah nama",
+        content: <ChangeNameBox fullName={data?.fullname} />,
       })
     );
   };
@@ -53,7 +57,7 @@ const SettingPage = () => {
       ) : (
         <Box component={Paper}>
           <Box className="p-4">
-            <Typography variant="h4">Akun</Typography>
+            <Typography variant="h4">Profile</Typography>
             <Typography variant="body2">
               Berikut adalah informasi akun Anda.
             </Typography>
@@ -64,6 +68,7 @@ const SettingPage = () => {
               expandIcon={<MoreIcon />}
               aria-controls="fullname"
               id="fullname-header"
+              onClick={handleChangeName}
             >
               <Typography className="w-1/3 flex-shrink-0">
                 Nama lengkap
@@ -81,8 +86,14 @@ const SettingPage = () => {
             >
               <Typography className="w-1/3 flex-shrink-0">
                 Surel(Email)
+                <br />
               </Typography>
-              <Typography fontWeight="bold">{data?.email}</Typography>
+              <Box>
+                <Typography fontWeight="bold">{data?.email}</Typography>
+                <Typography variant="caption">
+                  (*)Data tidak dapat dirubah
+                </Typography>
+              </Box>
             </AccordionSummary>
             <Divider />
             <AccordionSummary

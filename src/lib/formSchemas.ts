@@ -356,3 +356,7 @@ export const changePasswordForm = yup.object({
     .oneOf([yup.ref("password")], msg.MISMATCH_PASSWORD)
     .required(msg.EMPTY_DATA),
 });
+
+export const changeNameForm = yup.object({
+  fullName: yup.string().required(msg.EMPTY_DATA),
+});

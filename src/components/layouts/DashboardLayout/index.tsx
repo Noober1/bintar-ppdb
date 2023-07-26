@@ -13,13 +13,11 @@ export const SIDEBAR_WIDTH: number = 280;
 
 const LayoutRoot = styled(Paper)(({ theme }) => ({
   borderRadius: 0,
+  border: "none",
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
-  padding: 5,
+  padding: 10,
   paddingTop: 15,
-  [theme.breakpoints.up("md")]: {
-    paddingX: 10,
-  },
   [theme.breakpoints.up("lg")]: {
     padding: 15,
     paddingLeft: 280 + 15,
@@ -28,10 +26,9 @@ const LayoutRoot = styled(Paper)(({ theme }) => ({
 
 export type DashboardLayoutProps = {
   children: React.ReactNode;
-  userId?: number;
 };
 
-const DashboardLayout = ({ children, userId }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
 
@@ -73,9 +70,7 @@ const DashboardLayout = ({ children, userId }: DashboardLayoutProps) => {
         onClose={() => setOpenNav(false)}
         open={openNav}
       />
-      <LayoutRoot elevation={0} className="w-full flex-1">
-        {children}
-      </LayoutRoot>
+      <LayoutRoot className="w-full flex-1">{children}</LayoutRoot>
     </>
   );
 };

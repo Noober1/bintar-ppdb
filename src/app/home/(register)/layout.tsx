@@ -3,7 +3,7 @@
 import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { dataFetcher } from "@/lib/utils";
-import React, { useEffect } from "react";
+import React from "react";
 import ErrorBox from "@/components/layouts/ErrorBox";
 import { styled } from "@mui/material/styles";
 import MuiBox from "@mui/material/Box";
@@ -22,10 +22,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     keepPreviousData: true,
     refetchOnMount: true,
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   if (isLoading) {
     return (

@@ -73,7 +73,6 @@ const Callout: FC<CalloutProps> = ({
   return (
     <Box
       component={Paper}
-      elevation={0}
       border={1}
       borderColor={alpha("#000", 0.15)}
       padding={1}
