@@ -1,8 +1,10 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  if (process.env.NODE_ENV === "production") return redirect("/");
+
+  return children;
 };
 
 export default Layout;

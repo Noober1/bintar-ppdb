@@ -24,8 +24,10 @@ const Page = () => {
     dispatch(
       setOpen({
         name: "second-dialog",
+        title: "Second Dialog",
         confirmButton: "Open third dialog",
-        content: "This dialog can't click outside",
+        content:
+          "This dialog can't click outside. You can drag this dialog by dragging dialog title",
         disableOutsideClick: true,
         showCancelButton: true,
         confirmCallback: handleOpenThirdDialog,

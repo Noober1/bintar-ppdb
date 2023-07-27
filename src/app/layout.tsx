@@ -7,6 +7,7 @@ import MultiLayerDialog from "@/components/surfaces/dialogs/MultiLayerDialog";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 import LocalizationProvider from "@/providers/LocalizationProvider";
+import CloseSnackbarButton from "@/components/buttons/CloseSnackbarButton";
 
 export default function RootLayout({
   children,
@@ -27,6 +28,9 @@ export default function RootLayout({
                       horizontal: "center",
                       vertical: "top",
                     }}
+                    action={(snackbarKey) => (
+                      <CloseSnackbarButton snackbarKey={snackbarKey} />
+                    )}
                   >
                     {children}
                     <MultiLayerDialog />
