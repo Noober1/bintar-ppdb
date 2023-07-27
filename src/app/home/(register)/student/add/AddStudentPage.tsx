@@ -15,7 +15,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import CachedIcon from "@mui/icons-material/Cached";
-import { GENDERS } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
@@ -37,20 +36,6 @@ const formInitialValues: StudentFormValues = {
   NISNNumber: "",
   schoolGraduateYear: new Date().getFullYear(),
 };
-
-const genderList: {
-  name: GENDERS;
-  label: string;
-}[] = [
-  {
-    label: "Laki-laki",
-    name: "MALE",
-  },
-  {
-    label: "Perempuan",
-    name: "FEMALE",
-  },
-];
 
 const AddStudentPage = () => {
   const { enqueueSnackbar } = useSnackbar();

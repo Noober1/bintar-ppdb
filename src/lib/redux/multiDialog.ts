@@ -13,13 +13,17 @@ type ButtonColor =
   | "warning";
 
 export type MultiDialogState = {
+  type?: "loading" | "default";
   name?: string;
+  loadingLabel?: string;
   isOpen?: boolean;
   title?: string;
   isLoading?: boolean;
   content?: React.ReactNode;
   disableDrag?: boolean;
   disableOutsideClick?: boolean;
+  // close
+  showCloseButton?: boolean;
   // confirm
   confirmButton?: string;
   confirmCallback?: () => void;

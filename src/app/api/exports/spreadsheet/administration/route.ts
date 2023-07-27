@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import ExcelMaker from "@/lib/tableMaker";
 import { RouteExceptionError } from "@/lib/routeUtils";
 
-export const GET: CrudRequestHandler = async (request, url) => {
+export const GET: CrudRequestHandler = async () => {
   const currentConfig = await getCurrentConfig();
   if (!currentConfig)
     throw new RouteExceptionError("No active configuration", 404);

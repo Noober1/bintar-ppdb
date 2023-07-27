@@ -157,18 +157,16 @@ export const basicForm = (mode: "add" | "edit") => {
   });
 };
 
-export const administrationForm = (mode: "add" | "edit") => {
-  return yup.object({
-    description: yup.string().required(msg.EMPTY_DATA),
-    payer: yup.string().required(msg.EMPTY_DATA),
-    nominal: yup
-      .number()
-      .min(1, msg.INVALID_NUM_MIN(1))
-      .max(99999999, msg.INVALID_NUM_MAX(99999999))
-      .required(msg.EMPTY_DATA)
-      .typeError(msg.INVALID_TYPE_NUM),
-  });
-};
+export const administrationForm = yup.object({
+  description: yup.string().required(msg.EMPTY_DATA),
+  payer: yup.string().required(msg.EMPTY_DATA),
+  nominal: yup
+    .number()
+    .min(1, msg.INVALID_NUM_MIN(1))
+    .max(99999999, msg.INVALID_NUM_MAX(99999999))
+    .required(msg.EMPTY_DATA)
+    .typeError(msg.INVALID_TYPE_NUM),
+});
 
 export const filesForm = yup.object({
   id: yup.number().required(msg.EMPTY_DATA).typeError(msg.INVALID_TYPE_NUM),

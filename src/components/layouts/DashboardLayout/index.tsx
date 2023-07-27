@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { styled } from "@mui/material/styles";
 import SideNav from "@/components/layouts/DashboardLayout/Sidenav";
 import TopNav from "@/components/layouts/DashboardLayout/TopNav";
@@ -8,6 +8,7 @@ import { Paper } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { dataFetcher } from "@/lib/utils";
 import { UserDataResponse } from "@/app/api/user/route";
+import { AxiosError, HttpStatusCode } from "axios";
 
 export const SIDEBAR_WIDTH: number = 280;
 
@@ -30,18 +31,30 @@ export type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [openNav, setOpenNav] = useState(false);
 
-  const { isLoading, data } = useQuery<UserDataResponse>({
-    queryKey: ["user-data"],
-    queryFn: ({ signal }) =>
-      dataFetcher({
-        url: "/api/user",
-        signal,
-      }),
-    keepPreviousData: true,
-    refetchInterval: 5000,
-  });
+  const { isLoading, data, failureReason, failureCount } =
+    useQuery<UserDataResponse>({
+      queryKey: ["user-data"],
+      queryFn: ({ signal }) =>
+        dataFetcher({
+          url: "/api/user",
+          signal,
+        }),
+      keepPreviousData: true,
+      refetchInterval: 5000,
+    });
+
+  useEffect(() => {
+    if (failureCount > 0) {
+      if (failureReason instanceof AxiosError) {
+        if (failureReason?.response?.status === HttpStatusCode.Unauthorized) {
+          router.push("/");
+        }
+      }
+    }
+  }, [failureCount, failureReason, router]);
 
   const handlePathnameChange = useCallback(() => {
     if (openNav) {

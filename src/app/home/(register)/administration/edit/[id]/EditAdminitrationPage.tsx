@@ -39,7 +39,7 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
     isSubmitting,
   } = useFormik({
     initialValues: formInitialValues,
-    validationSchema: administrationForm("edit"),
+    validationSchema: administrationForm,
     onSubmit: (values, actions) => {
       mutation.mutate(values, {
         onSuccess: () => {

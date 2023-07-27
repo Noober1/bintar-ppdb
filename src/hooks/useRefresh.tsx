@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 // used to refetch data when acessing with next navigation
 const useRefresh = () => {

@@ -81,15 +81,15 @@ export default class ExcelMaker {
     });
 
     this.headers.forEach((headerName, headerIndex) => {
-      let currentColumnPosition = headerIndex + 1;
+      const currentColumnPosition = headerIndex + 1;
       let currentRowPosition = this.startRow + 1;
 
       this.content.forEach((contentItem) => {
-        let currentCell = this.worksheet.cell(
+        const currentCell = this.worksheet.cell(
           currentRowPosition,
           currentColumnPosition
         );
-        let value = contentItem[headerName.field];
+        const value = contentItem[headerName.field];
         if (typeof value == "number") {
           currentCell.number(value as number);
         } else if (typeof value == "string") {

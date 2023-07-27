@@ -1,7 +1,6 @@
 import React from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { redirect } from "next/navigation";
-import getUserData from "@/lib/getUserData";
 import getServerSession from "@/lib/getServerSession";
 import { Metadata } from "next";
 

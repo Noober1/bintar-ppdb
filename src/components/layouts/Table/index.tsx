@@ -10,6 +10,7 @@ import localizationTable from "./localizationTable";
 import CustomToolbar, { CustomToolbarProps } from "./CustomToolbar";
 
 declare module "@mui/x-data-grid" {
+  // eslint-disable-next-line no-unused-vars
   interface ToolbarPropsOverrides extends CustomToolbarProps {}
 }
 

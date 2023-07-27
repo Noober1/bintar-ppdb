@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 10;
 
-const GET: RequestHandler = async (request) => {
+const GET: RequestHandler = async () => {
   try {
     const getData = await getMajorList();
 

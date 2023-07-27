@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { extension } from "prisma-paginate";
 
 const globalForPrisma = globalThis as unknown as {

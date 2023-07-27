@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { RequestHandler } from "@/types/route";
 import { USER_TYPES } from "@prisma/client";
+import { HttpStatusCode } from "axios";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,11 @@ export interface UserDataResponse {
 export const GET: RequestHandler = async () => {
   try {
     const session = await getServerSession();
-    if (!session) throw new RouteExceptionError("Session not found");
+    if (!session)
+      throw new RouteExceptionError(
+        "Session not found",
+        HttpStatusCode.Unauthorized
+      );
 
     const getUserdata = await prisma.user.findUnique({
       select: {

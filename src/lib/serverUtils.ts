@@ -1,13 +1,6 @@
 import { getServerSession } from "next-auth";
 import nextAuthOptions from "@/lib/nextAuthOption";
 import { prisma } from "./prisma";
-import { ValidationError } from "yup";
-import { NextResponse } from "next/server";
-import {
-  PrismaClientUnknownRequestError,
-  PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import { HttpStatusCode } from "axios";
 
 export const generateRandomNumber = (): string => {
   const min = 1;

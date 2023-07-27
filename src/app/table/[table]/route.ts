@@ -1,4 +1,4 @@
-import { tableList, TableParams } from "@/types/table";
+import { tableList } from "@/types/table";
 import deleteRoute from "./delete";
 import handler from "./handler";
 import { sendErrorResponse, RouteExceptionError } from "@/lib/routeUtils";

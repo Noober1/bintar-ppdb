@@ -16,6 +16,7 @@ const FileTable = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [disabledFields, setdisabledFields] = useState<DisabledFields[]>([]);
   const tableRef = useRef<DynamicTableHandles>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChangeCheckBox = (id: any, value: boolean, field: string) => {
     setdisabledFields((prev) => [
       ...prev,
@@ -30,7 +31,7 @@ const FileTable = () => {
         value,
         field,
       })
-      .then((response) => {
+      .then(() => {
         enqueueSnackbar("Data berhasil diubah", { variant: "success" });
         tableRef.current?.refreshTable();
       })

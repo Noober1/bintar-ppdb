@@ -8,6 +8,7 @@ const PUT: CrudRequestHandler = async (request, url) => {
   try {
     const id = parseInt(url.params.id);
     const getRequestData = await request.json();
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const { registrationNumber, ...validatedRequestData } = await basicForm(
       "edit"
     ).validate(getRequestData);

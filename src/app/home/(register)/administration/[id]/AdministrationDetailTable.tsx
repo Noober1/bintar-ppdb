@@ -9,7 +9,6 @@ import React, { useRef } from "react";
 
 import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 10;

@@ -5,7 +5,6 @@ import Chip from "@mui/material/Chip";
 import {
   DeleteButton,
   DownloadButton,
-  EditButton,
 } from "@/components/buttons/TableActionButton";
 import Typography from "@mui/material/Typography";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
@@ -15,8 +14,6 @@ import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
-import IconButton from "@mui/material/IconButton";
 
 const ConfigurationTable = () => {
   const tableRef = useRef<DynamicTableHandles>(null);
@@ -44,19 +41,18 @@ const ConfigurationTable = () => {
           dispatch(setClose());
           dispatch(
             setOpen({
-              disableOutsideClick: true,
-              content: <LoadingSpinner />,
+              type: "loading",
             })
           );
           axios
             .get("/crud/configuration/" + id)
-            .then((result) => {
+            .then(() => {
               enqueueSnackbar("Status berhasil dirubah", {
                 variant: "success",
               });
               tableRef.current?.refreshTable();
             })
-            .catch((error) => {
+            .catch(() => {
               enqueueSnackbar("Status gagal dirubah", { variant: "error" });
             })
             .finally(() => {

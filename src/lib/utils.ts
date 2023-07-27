@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-const dataFetcher = <T extends unknown>(
+const dataFetcher = <T>(
   args: string | AxiosRequestConfig<T>
 ): Promise<AxiosResponse["data"]> => {
   let fetch: Promise<AxiosResponse>;
@@ -10,14 +10,7 @@ const dataFetcher = <T extends unknown>(
     fetch = axios(args);
   }
 
-  return fetch
-    .then((result) => result.data)
-    .catch((error) => {
-      console.error(error.message);
-      if (axios.isAxiosError(error)) {
-        return error.response?.data;
-      }
-    });
+  return fetch.then((result) => result.data);
 };
 
 export { dataFetcher };

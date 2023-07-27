@@ -19,6 +19,7 @@ interface ServerSideSelectProps {
   url: string;
   label: string;
   initialValue?: number;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (value: number | string) => void;
   helperText?: string;
   error?: boolean;
@@ -28,14 +29,16 @@ export interface ServerSideSelectHandles {
   resetValue: () => void;
 }
 
-type ServersideSelectComponent = (
-  props: ServerSideSelectProps,
+const ServersideSelectContent = (
+  {
+    label,
+    onChange,
+    error,
+    helperText,
+    url,
+    initialValue,
+  }: ServerSideSelectProps,
   ref: Ref<ServerSideSelectHandles>
-) => React.ReactElement;
-
-const ServersideSelectContent: ServersideSelectComponent = (
-  { label, onChange, error, helperText, url, initialValue },
-  ref
 ) => {
   const [value, setValue] = useState<AutoCompleteOptionFormat | null>(null);
   const [inputValue, setInputValue] = useState("");

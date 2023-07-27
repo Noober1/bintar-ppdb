@@ -111,6 +111,7 @@ const EditBioPage = ({ data }: EditBioPageProps) => {
   } = useFormik({
     initialValues: initialFormValues(data),
     validationSchema: bioForm,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSubmit: ({ email, ...values }, actions) => {
       mutation.mutate(values, {
         onSuccess: () => {

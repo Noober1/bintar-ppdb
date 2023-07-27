@@ -1,18 +1,17 @@
 import Alert from "@mui/material/Alert";
 import Box, { BoxProps } from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import Divider from "@mui/material/Divider";
 import React from "react";
 import { FormikErrors } from "formik";
-import useMediaQuery from "@/hooks/useMediaQuery";
 import DashboardContentLayout from "./DashboardContentLayout";
 
 interface FormLayoutProps extends Omit<BoxProps, "onSubmit"> {
   title: string;
   alert: React.ReactNode;
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   backButtonUrl: string;
   isSubmitting: boolean;

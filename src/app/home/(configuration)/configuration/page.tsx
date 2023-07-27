@@ -1,4 +1,3 @@
-import DynamicTable from "@/components/layouts/Table";
 import React from "react";
 import ConfigurationTable from "./ConfigurationTable";
 import DashboardContentLayout from "@/components/layouts/DashboardContentLayout";

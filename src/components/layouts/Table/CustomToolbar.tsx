@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -25,8 +24,8 @@ export interface CustomToolbarProps {
   addButtonLink?: string;
   deleteButton?: TableList;
   deleteSelectionId: GridRowSelectionModel;
-  refetchFunction: Function;
-  selectionFunction: Function;
+  refetchFunction: () => void;
+  selectionFunction: (value: (string | number)[]) => void;
   deleteConfirmationNote?: React.ReactElement;
   customButton?: React.ReactNode;
 }
@@ -77,15 +76,14 @@ const CustomToolbar = ({
           dispatch(setClose());
           dispatch(
             setOpen({
-              content: <LoadingSpinner />,
-              disableOutsideClick: true,
+              type: "loading",
             })
           );
           axios
             .post(`/table/${deleteButton}/`, {
               data: deleteSelectionId,
             })
-            .then((result) => {
+            .then(() => {
               enqueueSnackbar("Data berhasil dihapus", {
                 variant: "success",
               });

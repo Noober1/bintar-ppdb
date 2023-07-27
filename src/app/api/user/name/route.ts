@@ -4,11 +4,16 @@ import { getServerSession } from "next-auth";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 import { changeNameForm } from "@/lib/formSchemas";
+import { HttpStatusCode } from "axios";
 
 export const PUT: RequestHandler = async (request) => {
   try {
     const session = await getServerSession();
-    if (!session) throw new RouteExceptionError("Session not found");
+    if (!session)
+      throw new RouteExceptionError(
+        "Session not found",
+        HttpStatusCode.Unauthorized
+      );
 
     const getUserData = await prisma.user.findUnique({
       where: { email: session.user.email },

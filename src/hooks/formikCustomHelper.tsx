@@ -1,7 +1,6 @@
 import { FormikErrors, FormikTouched } from "formik";
-import React from "react";
 
-const formikCustomHelper = <T extends {}>(
+const formikCustomHelper = <T extends object>(
   errors: FormikErrors<T>,
   touched: FormikTouched<T>
 ) => {

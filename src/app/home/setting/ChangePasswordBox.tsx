@@ -29,7 +29,6 @@ const ChangePasswordBox = () => {
   const { enqueueSnackbar } = useSnackbar();
   const passwordData = useEditMutation("/api/user/password");
   const {
-    submitForm,
     handleSubmit,
     errors,
     touched,
@@ -85,7 +84,7 @@ const ChangePasswordBox = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      className="grid grid-cols-1 gap-4 w-screen max-w-md"
+      className="grid grid-cols-1 gap-4 w-full"
     >
       <Typography variant="body1">Silahkan isi form dibawah ini</Typography>
       <PasswordTextField

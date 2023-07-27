@@ -8,13 +8,12 @@ import { TableList } from "@/types/table";
 import { useDispatch } from "react-redux";
 import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Typography from "@mui/material/Typography";
-import LoadingSpinner from "../surfaces/loading/LoadingSpinner";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import { IconButtonProps } from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/CloudDownload";
 
-type TEditButton = (props: {
+interface EditButtonProps {
   href: string;
   color?:
     | "info"
@@ -25,9 +24,9 @@ type TEditButton = (props: {
     | "error"
     | "success"
     | "warning";
-}) => React.ReactElement;
+}
 
-export const EditButton: TEditButton = ({ color = "primary", href }) => {
+export const EditButton = ({ color = "primary", href }: EditButtonProps) => {
   return (
     <Tooltip
       title={
@@ -44,7 +43,7 @@ export const EditButton: TEditButton = ({ color = "primary", href }) => {
 interface DeleteButtonProps {
   table: TableList;
   id: number | string;
-  refreshTable?: Function;
+  refreshTable?: () => void;
   confirmationTitle: string;
   confirmationNote?: React.ReactElement;
 }
@@ -77,15 +76,14 @@ export const DeleteButton = ({
           dispatch(setClose());
           dispatch(
             setOpen({
-              content: <LoadingSpinner />,
-              disableOutsideClick: true,
+              type: "loading",
             })
           );
           axios
             .post(`/table/${table}/`, {
               data: id,
             })
-            .then((result) => {
+            .then(() => {
               enqueueSnackbar("Data berhasil dihapus", {
                 variant: "success",
               });

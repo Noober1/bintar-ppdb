@@ -5,10 +5,9 @@ import DashboardContentLayout from "@/components/layouts/DashboardContentLayout"
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import React from "react";
 
 import MoreIcon from "@mui/icons-material/ChevronRight";
 import Divider from "@mui/material/Divider";
@@ -17,6 +16,7 @@ import { setOpen } from "@/lib/redux/multiDialog";
 import ChangePasswordBox from "./ChangePasswordBox";
 import { dataFetcher } from "@/lib/utils";
 import ChangeNameBox from "./ChangeNameBox";
+import LoadingSkeleton from "@/components/surfaces/loading/LoadingSkeleton";
 
 const SettingPage = () => {
   const dispatch = useDispatch();
@@ -34,6 +34,8 @@ const SettingPage = () => {
     dispatch(
       setOpen({
         name: "change-password-dialog",
+        showCloseButton: true,
+        disableOutsideClick: true,
         title: "Ubah kata sandi",
         content: <ChangePasswordBox />,
       })
@@ -44,6 +46,8 @@ const SettingPage = () => {
     dispatch(
       setOpen({
         name: "change-name-dialog",
+        showCloseButton: true,
+        disableOutsideClick: true,
         title: "Ubah nama",
         content: <ChangeNameBox fullName={data?.fullname} />,
       })
@@ -53,7 +57,7 @@ const SettingPage = () => {
   return (
     <DashboardContentLayout title="Pengaturan">
       {isLoading ? (
-        <Skeleton />
+        <LoadingSkeleton />
       ) : (
         <Box component={Paper}>
           <Box className="p-4">

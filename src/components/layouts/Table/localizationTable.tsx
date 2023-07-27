@@ -1,5 +1,4 @@
 import { GridLocaleText } from "@mui/x-data-grid";
-import React from "react";
 
 type LocalizationTable = Partial<GridLocaleText>;
 

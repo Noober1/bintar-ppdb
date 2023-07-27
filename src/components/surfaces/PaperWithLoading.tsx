@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import clsx from "clsx";
-import React, { ReactNode, Ref, forwardRef } from "react";
+import React, { Ref, forwardRef } from "react";
 import LoadingLogo from "../feedbacks/LoadingLogo";
 import { alpha, styled } from "@mui/material/styles";
 import Fade from "@mui/material/Fade";
@@ -13,9 +13,9 @@ export interface PaperWithLoadingProps extends PaperProps {
   loading?: boolean;
 }
 
-const NewPaper = styled(Paper)(({ theme }) => ({
+const NewPaper = styled(Paper)({
   minHeight: "100px",
-}));
+});
 
 const PaperWithLoading = (
   { className, children, loading, ...props }: PaperWithLoadingProps,

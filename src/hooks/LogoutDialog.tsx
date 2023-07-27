@@ -4,7 +4,6 @@ import { signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Typography from "@mui/material/Typography";
-import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 
 const useLogoutDialog = () => {
   const dispatch = useDispatch();
@@ -19,13 +18,12 @@ const useLogoutDialog = () => {
           dispatch(setClose());
           dispatch(
             setOpen({
-              disableOutsideClick: true,
-              content: <LoadingSpinner />,
+              type: "loading",
             })
           );
           signOut({
             redirect: true,
-          }).catch((error) => {
+          }).catch(() => {
             dispatch(setClose());
             dispatch(
               setOpen({

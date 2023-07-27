@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import React, { FC } from "react";
-import { Palette, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 type Colors =
   | "primary"
@@ -22,6 +22,7 @@ type Colors =
   | "success";
 
 type ColorsObject = {
+  // eslint-disable-next-line no-unused-vars
   [key in Colors]: {
     background: string;
     color: string;

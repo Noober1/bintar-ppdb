@@ -17,8 +17,10 @@ interface RowRadioGroupProps extends RadioGroupProps {
 const RowRadioGroup: FC<RowRadioGroupProps> = ({
   label,
   options,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   children,
   helperText,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   row,
   ...props
 }) => {

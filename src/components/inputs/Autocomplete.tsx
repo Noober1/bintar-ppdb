@@ -12,19 +12,17 @@ export interface AutocompleteHandles {
   resetSelection: () => void;
 }
 
-type TAutoComplete = (
-  props: {
-    options: AutoCompleteOptionFormat[];
-    label: string;
-    onChange?: (value: string[]) => void;
-    initialValue?: string[];
-  },
-  ref: Ref<AutocompleteHandles>
-) => React.ReactElement;
+interface AutocompleteProps {
+  options: AutoCompleteOptionFormat[];
+  label: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (value: string[]) => void;
+  initialValue?: string[];
+}
 
-const AutocompleteContent: TAutoComplete = (
-  { options, label, onChange, initialValue },
-  ref
+const AutocompleteContent = (
+  { options, label, onChange, initialValue }: AutocompleteProps,
+  ref: Ref<AutocompleteHandles>
 ) => {
   const [value, setValue] = useState<AutoCompleteOptionFormat[]>(() => {
     return initialValue

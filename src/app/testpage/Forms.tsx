@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import DatePicker from "@/components/inputs/DatePicker";
-import { Formik, FormikHelpers } from "formik";
+import { Formik } from "formik";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ServersideSelect from "@/components/inputs/ServersideSelect";
@@ -15,7 +15,7 @@ const initialValues: FormValues = {
   schoolId: 0,
 };
 
-const submitForm = (values: FormValues, actions: FormikHelpers<FormValues>) => {
+const submitForm = (values: FormValues) => {
   console.log(values);
 };
 

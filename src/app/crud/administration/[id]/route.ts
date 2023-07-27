@@ -12,7 +12,7 @@ const POST: CrudRequestHandler = async (request, params) => {
     const requestData = await request.json();
 
     // validating request data, it will throw an error while invalid
-    const data = await administrationForm("add").validate(requestData);
+    const data = await administrationForm.validate(requestData);
 
     // validate url params
     const getStudentId = parseInt(params.params.id);
@@ -54,9 +54,7 @@ const POST: CrudRequestHandler = async (request, params) => {
 const PUT: CrudRequestHandler = async (request, params) => {
   try {
     const requestData = await request.json();
-    const validatedData = await administrationForm("edit").validate(
-      requestData
-    );
+    const validatedData = await administrationForm.validate(requestData);
 
     const updatingData = await prisma.administration.update({
       where: { id: params.params.id },

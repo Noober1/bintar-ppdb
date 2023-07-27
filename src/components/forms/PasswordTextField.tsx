@@ -12,8 +12,11 @@ interface PasswordTextFieldProps
 }
 
 const PasswordTextField: FC<PasswordTextFieldProps> = ({
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   type,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   InputProps,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   variant,
   ...props
 }) => {

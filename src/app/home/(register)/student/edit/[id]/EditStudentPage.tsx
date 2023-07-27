@@ -10,7 +10,6 @@ import DatePicker from "@/components/inputs/DatePicker";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
-import { GENDERS } from "@prisma/client";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import ServersideSelect, {

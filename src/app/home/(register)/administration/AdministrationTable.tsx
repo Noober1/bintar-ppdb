@@ -3,11 +3,10 @@
 import DownloadButton from "@/components/buttons/DownloadButton";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
-import LoadingSpinner from "@/components/surfaces/loading/LoadingSpinner";
 import { setClose, setOpen } from "@/lib/redux/multiDialog";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Link from "next/link";
 import { useSnackbar } from "notistack";
 import React, { useRef } from "react";
@@ -28,19 +27,18 @@ const AdministrationTable = () => {
           dispatch(setClose());
           dispatch(
             setOpen({
-              disableOutsideClick: true,
-              content: <LoadingSpinner />,
+              type: "loading",
             })
           );
           axios
             .put("/crud/student/set-register/" + id)
-            .then((result) => {
+            .then(() => {
               tableRef.current?.refreshTable();
               enqueueSnackbar("Status siswa telah berhasil diubah", {
                 variant: "success",
               });
             })
-            .catch((error: AxiosError) => {
+            .catch(() => {
               enqueueSnackbar("Status siswa gagal diperbarui", {
                 variant: "error",
               });

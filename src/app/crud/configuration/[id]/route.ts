@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
-import { CrudRequestHandler, RequestHandler } from "@/types/route";
+import { CrudRequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 
 const GET: CrudRequestHandler = async (request, url) => {
