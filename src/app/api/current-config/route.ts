@@ -12,7 +12,11 @@ export const GET: RequestHandler = async () => {
   });
 
   try {
-    return NextResponse.json(getCurrentConfig);
+    return NextResponse.json({
+      id: getCurrentConfig?.id,
+      year: getCurrentConfig?.year,
+      isActive: getCurrentConfig?.isActive,
+    });
   } catch (error) {
     return sendErrorResponse(error);
   }

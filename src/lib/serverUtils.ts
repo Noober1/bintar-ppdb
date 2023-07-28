@@ -1,6 +1,9 @@
 import { getServerSession } from "next-auth";
 import nextAuthOptions from "@/lib/nextAuthOption";
 import { prisma } from "./prisma";
+import { dataFetcher } from "./utils";
+import { RouteExceptionError } from "./routeUtils";
+import { HttpStatusCode } from "axios";
 
 export const generateRandomNumber = (): string => {
   const min = 1;
@@ -10,7 +13,11 @@ export const generateRandomNumber = (): string => {
   return formattedNumber;
 };
 
-export const generateRegistrationNumber = async () => {
+type RegistrationNumberType = "default" | "online";
+
+export const generateRegistrationNumber = async (
+  type: RegistrationNumberType = "default"
+) => {
   const getConfig = await checkConfigOrThrow();
   const getUserData = await getServerSession(nextAuthOptions);
   const year = new Date().getFullYear().toString();
@@ -20,7 +27,7 @@ export const generateRegistrationNumber = async () => {
 
   const regNumber = getConfig.registrationFormat
     .replace("[Y]", year)
-    .replace("[I]", userId)
+    .replace("[I]", type == "online" ? "ONLINE" : userId)
     .replace("[N]", generateRandomNumber());
 
   const getUserByGeneratedRegistrationNumber = await prisma.student.count({
@@ -84,4 +91,30 @@ export const numberToCurrency = (value: number): string => {
     style: "currency",
     currency: "IDR",
   });
+};
+
+export const verifyCaptcha = async (token: string): Promise<boolean> => {
+  const { CAPTCHA_SECRET_KEY, CAPTCHA_SITE_KEY, CAPTCHA_SITE_URL } =
+    process.env;
+  if (!CAPTCHA_SECRET_KEY || !CAPTCHA_SITE_KEY || !CAPTCHA_SITE_URL)
+    throw new RouteExceptionError(
+      "CAPTCHA configuration not found",
+      HttpStatusCode.InternalServerError
+    );
+
+  const params = new URLSearchParams();
+  params.append("secret", CAPTCHA_SECRET_KEY);
+  params.append("response", token);
+  const url = `${CAPTCHA_SITE_URL}?${params.toString()}`;
+  const verify = await dataFetcher({
+    url,
+    method: "POST",
+  });
+  if (!verify.success)
+    throw new RouteExceptionError(
+      "Invalid captcha",
+      HttpStatusCode.Unauthorized
+    );
+
+  return true;
 };

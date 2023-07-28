@@ -1,6 +1,7 @@
 const schemeErrorMessage = {
   INVALID_EMAIL_FORMAT: "Format email tidak valid",
   INVALID_TYPE: "Tipe data invalid",
+  INVALID_FORMAT: "Format invalid",
   INVALID_TYPE_NUM: "Data harus berupa angka",
   EMPTY_EMAIL: "Email tidak boleh kosong",
   EMPTY_PASSWORD: "Kata sandi tidak boleh kosong",

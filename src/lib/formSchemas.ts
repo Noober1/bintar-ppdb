@@ -113,16 +113,19 @@ export const configurationForm = yup.object({
     }),
 });
 
-export const basicForm = (mode: "add" | "edit") => {
+export const basicForm = (mode: "add" | "edit" | "register") => {
   const regNumber = yup.string();
   const registrationNumber =
     mode === "add" ? regNumber.required(msg.EMPTY_DATA) : regNumber;
+  const captchaToken =
+    mode === "register" ? yup.string().required(msg.EMPTY_DATA) : yup.string();
   return yup.object({
     registrationNumber,
     firstName: yup.string().required(msg.EMPTY_DATA),
     lastName: yup.string(),
     phoneNumber: yup
       .string()
+      .matches(/^[0-9]*$/, msg.INVALID_FORMAT)
       .required(msg.EMPTY_DATA)
       .min(10, msg.INVALID_MINLENGTH(10))
       .max(17, msg.INVALID_MAXLENGTH(17)),
@@ -154,6 +157,7 @@ export const basicForm = (mode: "add" | "edit") => {
       .number()
       .required(msg.EMPTY_DATA)
       .typeError(msg.INVALID_TYPE_NUM),
+    captchaToken,
   });
 };
 
@@ -355,6 +359,38 @@ export const changePasswordForm = yup.object({
     .required(msg.EMPTY_DATA),
 });
 
+// change name
 export const changeNameForm = yup.object({
   fullName: yup.string().required(msg.EMPTY_DATA),
+});
+
+// online API
+export const onlineBasicForm = yup.object({
+  firstName: yup
+    .string()
+    .max(45, "Panjang maksimal 45 karakter")
+    .required("Nama depan harus diisi"),
+  lastName: yup.string().max(45, "Panjang maksimal 45 karakter"),
+  birthplace: yup
+    .string()
+    .max(15, "Panjang maksimal 15 karakter")
+    .required("Tempat lahir wajib diisi"),
+  birthdate: yup.date().required("Tanggal lahir wajib diisi"),
+  schoolGraduateYear: yup
+    .number()
+    .min(1990)
+    .max(new Date().getFullYear())
+    .required("Tahun lulus wajib diisi"),
+  schoolId: yup
+    .number()
+    .min(1, "Asal sekolah wajib diisi")
+    .required("Asal sekolah wajib diisi"),
+  majorId: yup
+    .number()
+    .min(1, "Jurusan yang dipilih wajib diisi")
+    .required("Jurusan yang dipilih wajib diisi"),
+  gender: yup
+    .string()
+    .oneOf(genderSelectList.map((value) => value.name))
+    .required(msg.EMPTY_DATA),
 });
