@@ -1,14 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
-import { getServerSession } from "next-auth";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 import { changeNameForm } from "@/lib/formSchemas";
 import { HttpStatusCode } from "axios";
+import { getSessionUser } from "@/lib/session";
 
 export const PUT: RequestHandler = async (request) => {
   try {
-    const session = await getServerSession();
+    const session = await getSessionUser();
     if (!session)
       throw new RouteExceptionError(
         "Session not found",
@@ -16,7 +16,7 @@ export const PUT: RequestHandler = async (request) => {
       );
 
     const getUserData = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { id: session.id },
     });
     if (!getUserData) throw new RouteExceptionError("User not found");
 
@@ -24,7 +24,7 @@ export const PUT: RequestHandler = async (request) => {
     const data = await changeNameForm.validate(getRequestData);
 
     const updating = await prisma.user.update({
-      where: { email: session.user.email },
+      where: { id: session.id },
       data: {
         fullname: data.fullName,
       },

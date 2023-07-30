@@ -23,6 +23,7 @@ const useLogoutDialog = () => {
           );
           signOut({
             redirect: true,
+            callbackUrl: "/login",
           }).catch(() => {
             dispatch(setClose());
             dispatch(

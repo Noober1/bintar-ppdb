@@ -21,7 +21,7 @@ export const sendErrorResponse = (error: unknown) => {
   }
 
   if (isPrismaValidationError) {
-    message = "Error saving data, reason: SERVER_ERROR";
+    message = "Database validation error.";
   }
 
   if (isValidationError) {

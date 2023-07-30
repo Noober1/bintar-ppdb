@@ -2,13 +2,16 @@ import { getCurrentConfig } from "@/lib/serverUtils";
 import { extendedPrisma } from "@/lib/prisma";
 import { Handler } from "@/types/table";
 import { NextResponse } from "next/server";
-import getServerSession from "@/lib/getServerSession";
+import { getSessionUser } from "@/lib/session";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 const tableHandler: Handler = {
   user: async (_request, page, limit) => {
-    const getSessionData = await getServerSession();
-    if (!getSessionData) {
+    const session = await getSessionUser();
+    if (!session) {
+      return NextResponse.json({
+        data: [],
+      });
     }
     const getData = await extendedPrisma.user.paginate({
       limit,
@@ -24,7 +27,7 @@ const tableHandler: Handler = {
           not: "ADMINISTRATOR",
         },
         id: {
-          not: getSessionData?.user.id || 0,
+          not: session.id || 0,
         },
       },
     });

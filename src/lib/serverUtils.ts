@@ -1,9 +1,8 @@
-import { getServerSession } from "next-auth";
-import nextAuthOptions from "@/lib/nextAuthOption";
 import { prisma } from "./prisma";
 import { dataFetcher } from "./utils";
 import { RouteExceptionError } from "./routeUtils";
 import { HttpStatusCode } from "axios";
+import { getSessionUser } from "@/lib/session";
 
 export const generateRandomNumber = (): string => {
   const min = 1;
@@ -19,10 +18,10 @@ export const generateRegistrationNumber = async (
   type: RegistrationNumberType = "default"
 ) => {
   const getConfig = await checkConfigOrThrow();
-  const getUserData = await getServerSession(nextAuthOptions);
+  const getUserData = await getSessionUser();
   const year = new Date().getFullYear().toString();
-  const userId = getUserData?.user.id
-    ? getUserData.user.id.toString().padStart(2, "0")
+  const userId = getUserData
+    ? getUserData.id.toString().padStart(2, "0")
     : "00";
 
   const regNumber = getConfig.registrationFormat
