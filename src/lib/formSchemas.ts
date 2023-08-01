@@ -394,3 +394,118 @@ export const onlineBasicForm = yup.object({
     .oneOf(genderSelectList.map((value) => value.name))
     .required(msg.EMPTY_DATA),
 });
+
+export const onlineNumberForm = yup.object({
+  NISNNumber: yup
+    .string()
+    .min(8, msg.INVALID_MINLENGTH(8))
+    .max(10, msg.INVALID_MINLENGTH(10)),
+  phoneNumber: yup
+    .string()
+    .matches(/^[0-9]*$/, msg.INVALID_FORMAT)
+    .required(msg.EMPTY_DATA)
+    .min(10, msg.INVALID_MINLENGTH(10))
+    .max(17, msg.INVALID_MAXLENGTH(17)),
+  KIPKPSNumber: yup.string().max(14, msg.INVALID_MAXLENGTH(14)),
+  examNumber: yup.string().max(25, msg.INVALID_MAXLENGTH(25)),
+  IjazahNumber: yup.string().max(20, msg.INVALID_MAXLENGTH(20)),
+  SKHUNNumber: yup.string().max(20, msg.INVALID_MAXLENGTH(20)),
+});
+
+export const onlineAdvanceForm = yup.object({
+  nickname: yup.string().max(10, msg.INVALID_MAXLENGTH(10)),
+  religion: yup
+    .string()
+    .oneOf(religionSelectList.map((value) => value.name))
+    .required(msg.EMPTY_DATA),
+  nationality: yup.string().max(30, msg.INVALID_MAXLENGTH(30)),
+  fosterSiblingCount: yup
+    .number()
+    .min(0, msg.INVALID_NUM_MIN(0))
+    .typeError(msg.INVALID_TYPE_NUM),
+  birthPosition: yup
+    .number()
+    .min(0, msg.INVALID_NUM_MIN(0))
+    .typeError(msg.INVALID_TYPE_NUM),
+  familyStatus: yup
+    .string()
+    .oneOf(familyStatusSelectList.map((value) => value.name))
+    .required(msg.EMPTY_DATA),
+  motherLanguage: yup.string().max(20, msg.INVALID_MAXLENGTH(20)),
+  siblingCount: yup
+    .number()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .min(0, msg.INVALID_NUM_MIN(0)),
+  stepSiblingCount: yup
+    .number()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .min(0, msg.INVALID_NUM_MIN(0)),
+});
+
+export const onlineAdditionalForm = yup.object({
+  livingWith: yup.string().max(20, msg.INVALID_MAXLENGTH(20)),
+  weight: yup
+    .number()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .min(0, msg.INVALID_NUM_MIN(0)),
+  height: yup
+    .number()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .min(0, msg.INVALID_NUM_MIN(0)),
+  schoolDistance: yup.number().min(0, msg.INVALID_NUM_MIN(0)),
+  bloodType: yup
+    .string()
+    .oneOf(
+      bloodTypeSelectList.map((value) => value.name),
+      msg.INVALID_TYPE
+    )
+    .required(msg.EMPTY_DATA),
+  bloodRhesus: yup
+    .string()
+    .oneOf(
+      bloodRhesusSelectList.map((value) => value.name),
+      msg.INVALID_TYPE
+    )
+    .required(msg.EMPTY_DATA),
+  seriousIllness: yup
+    .string()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .max(50, msg.INVALID_MAXLENGTH(50)),
+  relapsingIllness: yup
+    .string()
+    .typeError(msg.INVALID_TYPE_NUM)
+    .max(50, msg.INVALID_MAXLENGTH(50)),
+});
+
+const _parentSchema = {
+  fullname: yup.string().max(50, msg.INVALID_MAXLENGTH(50)),
+  birthDate: yup.string().max(30, msg.INVALID_MAXLENGTH(30)),
+  nationality: yup.string().max(30, msg.INVALID_MAXLENGTH(30)),
+  education: yup.string().oneOf(
+    parentSchoolOptions.map((value) => value.name),
+    msg.INVALID_TYPE
+  ),
+  job: yup.string().max(20, msg.INVALID_MAXLENGTH(20)),
+  income: yup
+    .number()
+    .max(9999999999, msg.INVALID_NUM_MAX(9999999999))
+    .min(0, msg.INVALID_NUM_MIN(0)),
+  address: yup.string().max(75, msg.INVALID_MAXLENGTH(75)),
+};
+
+export const onlineParentForm = yup.object({
+  fatherFullname: _parentSchema.fullname,
+  fatherBirthDate: _parentSchema.birthDate,
+  fatherNationality: _parentSchema.nationality,
+  fatherEducation: _parentSchema.education,
+  fatherJob: _parentSchema.job,
+  fatherIncome: _parentSchema.income,
+  fatherAddress: _parentSchema.address,
+  motherFullname: _parentSchema.fullname,
+  motherBirthDate: _parentSchema.birthDate,
+  motherNationality: _parentSchema.nationality,
+  motherEducation: _parentSchema.education,
+  motherJob: _parentSchema.job,
+  motherIncome: _parentSchema.income,
+  motherAddress: _parentSchema.address,
+});

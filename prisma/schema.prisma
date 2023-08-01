@@ -116,6 +116,13 @@ model Student {
   schoolId                 Int?
   majorId                  Int?
   Administration           Administration[]
+
+  // Online registration status
+  basicEdited      Boolean @default(false)
+  numberEdited     Boolean @default(false)
+  advanceEdited    Boolean @default(false)
+  additionalEdited Boolean @default(false)
+  parentEdited     Boolean @default(false)
 }
 
 model Config {
