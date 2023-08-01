@@ -1,7 +1,7 @@
 import { ROLES } from "@/constants/roles";
-import getServerSession from "@/lib/getServerSession";
 import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
+import { getSessionUser } from "@/lib/session";
 import { RequestHandler } from "@/types/route";
 import { USER_TYPES } from "@prisma/client";
 import { HttpStatusCode } from "axios";
@@ -21,7 +21,7 @@ export interface UserDataResponse {
 
 export const GET: RequestHandler = async () => {
   try {
-    const session = await getServerSession();
+    const session = await getSessionUser();
     if (!session)
       throw new RouteExceptionError(
         "Session not found",
@@ -36,7 +36,7 @@ export const GET: RequestHandler = async () => {
         grantedAccess: true,
         type: true,
       },
-      where: { id: session.user.id },
+      where: { id: session.id },
     });
     if (!getUserdata) throw new RouteExceptionError("User not found");
 

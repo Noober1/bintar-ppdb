@@ -1,7 +1,6 @@
 import React from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import { redirect } from "next/navigation";
-import getServerSession from "@/lib/getServerSession";
+import { getSessionUserOrRedirect } from "@/lib/session";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,11 +12,7 @@ const DashboardPageLayout = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  // server-side auth check
-  const session = await getServerSession();
-  if (!session) {
-    return redirect("/login");
-  }
+  await getSessionUserOrRedirect();
 
   return <DashboardLayout>{children}</DashboardLayout>;
 };

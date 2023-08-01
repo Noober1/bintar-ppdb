@@ -1,12 +1,12 @@
 import React from "react";
 import DashboardPage from "./DashboardPage";
-import getServerSession from "@/lib/getServerSession";
+import { getSessionUserOrRedirect } from "@/lib/session";
 import getUserData from "@/lib/getUserData";
 
 const Page = async () => {
-  const session = await getServerSession();
+  const session = await getSessionUserOrRedirect();
 
-  const userdata = await getUserData(session?.user.id);
+  const userdata = await getUserData(session.id);
   return <DashboardPage userData={userdata} />;
 };
 

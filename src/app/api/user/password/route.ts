@@ -1,15 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
-import { getServerSession } from "next-auth";
 import { RequestHandler } from "@/types/route";
 import { NextResponse } from "next/server";
 import { changePasswordForm } from "@/lib/formSchemas";
 import bcrypt from "bcrypt";
 import { HttpStatusCode } from "axios";
+import { getSessionUser } from "@/lib/session";
 
 export const PUT: RequestHandler = async (request) => {
   try {
-    const session = await getServerSession();
+    const session = await getSessionUser();
     if (!session)
       throw new RouteExceptionError(
         "Session not found",
@@ -17,7 +17,7 @@ export const PUT: RequestHandler = async (request) => {
       );
 
     const getUserData = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { id: session.id },
     });
     if (!getUserData) throw new RouteExceptionError("User not found");
 
@@ -32,7 +32,7 @@ export const PUT: RequestHandler = async (request) => {
       throw new RouteExceptionError("Kata sandi lama salah.");
 
     const updating = await prisma.user.update({
-      where: { email: session.user.email },
+      where: { id: session.id },
       data: {
         password: bcrypt.hashSync(data.password, 10),
       },

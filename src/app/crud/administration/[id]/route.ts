@@ -1,9 +1,8 @@
 import { administrationForm } from "@/lib/formSchemas";
-import authOptions from "@/lib/nextAuthOption";
+import { getSessionUser } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 import { CrudRequestHandler } from "@/types/route";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 const POST: CrudRequestHandler = async (request, params) => {
@@ -26,8 +25,8 @@ const POST: CrudRequestHandler = async (request, params) => {
     }
 
     // check userdata from session
-    const getUserData = await getServerSession(authOptions);
-    if (!getUserData) {
+    const session = await getSessionUser();
+    if (!session) {
       throw new RouteExceptionError("Anda tidak mempunyai akses");
     }
 
@@ -37,7 +36,7 @@ const POST: CrudRequestHandler = async (request, params) => {
         description: data.description,
         nominal: data.nominal,
         payer: data.payer,
-        userId: getUserData.user.id,
+        userId: session.id,
         studentId: getStudentId,
       },
     });
