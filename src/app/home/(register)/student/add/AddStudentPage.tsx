@@ -79,7 +79,7 @@ const AddStudentPage = () => {
     setGenerateLoading(true);
     dataFetcher("/api/generate-reg-id")
       .then((result) => {
-        setFieldValue("registrationNumber", result.data.registrationNumber);
+        setFieldValue("registrationNumber", result.registrationNumber);
       })
       .catch(() => {
         enqueueSnackbar(
