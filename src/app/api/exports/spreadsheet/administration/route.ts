@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import ExcelMaker from "@/lib/tableMaker";
 import { RouteExceptionError } from "@/lib/routeUtils";
 
+export const dynamic = "force-dynamic";
+
 export const GET: CrudRequestHandler = async () => {
   const currentConfig = await getCurrentConfig();
   if (!currentConfig)

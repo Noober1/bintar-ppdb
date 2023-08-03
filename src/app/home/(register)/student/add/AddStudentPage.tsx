@@ -84,7 +84,7 @@ const AddStudentPage = () => {
       .catch(() => {
         enqueueSnackbar(
           "Gagal membuat nomor pendaftaran, silahkan coba lagi.",
-          { variant: "Error" }
+          { variant: "error" }
         );
       })
       .finally(() => {
