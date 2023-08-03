@@ -85,6 +85,8 @@ export interface SchoolFormValues {
 export interface ConfigurationFormValues {
   year: number;
   registrationFormat: string;
+  registrationDateOpen: Date;
+  registrationDateClose: Date;
 }
 
 export const genderSelectList: FormSelectTypeFormat<GENDERS>[] = [

@@ -111,6 +111,14 @@ export const configurationForm = yup.object({
       // If not meet any conditions above, the data is invalid
       return this.createError({ message: msg.INVALID_REGISTRATION_FORMAT });
     }),
+  registrationDateOpen: yup
+    .date()
+    .typeError(msg.INVALID_TYPE)
+    .required(msg.EMPTY_DATA),
+  registrationDateClose: yup
+    .date()
+    .typeError(msg.INVALID_TYPE)
+    .required(msg.EMPTY_DATA),
 });
 
 export const basicForm = (mode: "add" | "edit" | "register") => {

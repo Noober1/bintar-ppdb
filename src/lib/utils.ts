@@ -1,6 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { FormikHelpers } from "formik";
+import { EnqueueSnackbar } from "notistack";
 
-const dataFetcher = <T>(
+export const dataFetcher = <T>(
   args: string | AxiosRequestConfig<T>
 ): Promise<AxiosResponse["data"]> => {
   let fetch: Promise<AxiosResponse>;
@@ -13,4 +15,18 @@ const dataFetcher = <T>(
   return fetch.then((result) => result.data);
 };
 
-export { dataFetcher };
+export const errorMutationHandler = <T = object>(
+  error: unknown,
+  snackbar: EnqueueSnackbar,
+  actions: FormikHelpers<T>
+) => {
+  let message: string = "Tidak diketahui";
+  if (error instanceof AxiosError) {
+    if (error.response?.data.message) {
+      message = error.response?.data.message;
+    }
+  }
+
+  snackbar("Gagal disimpan, alasan: " + message, { variant: "error" });
+  actions.setSubmitting(false);
+};

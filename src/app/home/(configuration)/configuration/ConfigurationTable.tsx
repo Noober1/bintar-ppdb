@@ -5,6 +5,7 @@ import Chip from "@mui/material/Chip";
 import {
   DeleteButton,
   DownloadButton,
+  EditButton,
 } from "@/components/buttons/TableActionButton";
 import Typography from "@mui/material/Typography";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
@@ -154,6 +155,7 @@ const ConfigurationTable = () => {
           flex: 1,
           renderCell: (params) => (
             <>
+              <EditButton href={`/home/configuration/edit/${params.id}`} />
               <DownloadButton
                 title="Unduh rekapan siswa"
                 content="Click untuk mengunduh rekapan siswa berupa file excel"

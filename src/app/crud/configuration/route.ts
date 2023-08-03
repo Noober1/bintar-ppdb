@@ -9,8 +9,12 @@ const POST: RequestHandler = async (request) => {
     // validate request data
     const getRequestData = await request.json();
     const validatedForm = await configurationForm.validate(getRequestData);
+    const startDate = new Date(validatedForm.registrationDateOpen);
+    const endDate = new Date(validatedForm.registrationDateClose);
+    if (endDate < startDate)
+      throw new RouteExceptionError("Day registration invalid");
 
-    // check duplicate initial
+    // check duplicate year
     const getDataFromDb = await prisma.config.count({
       where: { year: validatedForm.year },
     });
@@ -20,8 +24,7 @@ const POST: RequestHandler = async (request) => {
 
     const insertData = await prisma.config.create({
       data: {
-        year: validatedForm.year,
-        isActive: false,
+        ...validatedForm,
         registrationFormat:
           validatedForm.registrationFormat == ""
             ? undefined

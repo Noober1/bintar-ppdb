@@ -1,58 +1,59 @@
 "use client";
-
 import React from "react";
-import FormLayout from "@/components/layouts/FormLayout";
-import { useAddMutation } from "@/hooks/useAddMutation";
-import { configurationForm } from "@/lib/formSchemas";
+import useRefresh from "@/hooks/useRefresh";
+import { useEditMutation } from "@/hooks/useAddMutation";
 import { ConfigurationFormValues } from "@/types/forms";
-import TextField from "@mui/material/TextField";
+import { configurationForm } from "@/lib/formSchemas";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
+import { errorMutationHandler } from "@/lib/utils";
+import FormLayout from "@/components/layouts/FormLayout";
+import TextField from "@mui/material/TextField";
+import { ConfigDataForEdit } from "./page";
 import useForm from "@/hooks/useForm";
 import DatePicker from "@/components/inputs/DatePicker";
 
-const initialValues: ConfigurationFormValues = {
-  registrationFormat: "",
-  year: new Date().getFullYear(),
-  registrationDateOpen: new Date(),
-  registrationDateClose: new Date(),
-};
+interface EditConfigurationPageProps {
+  data: ConfigDataForEdit;
+}
 
-const AddConfigurationPage = () => {
+const EditConfigurationPage = ({ data }: EditConfigurationPageProps) => {
+  useRefresh();
   const { enqueueSnackbar } = useSnackbar();
-  const mutation = useAddMutation<ConfigurationFormValues>(
-    "/crud/configuration/"
-  );
+  const mutation = useEditMutation("/crud/configuration/" + data?.id);
+  const initialValues: ConfigurationFormValues = {
+    registrationFormat: data?.registrationFormat || "",
+    year: data?.year || new Date().getFullYear(),
+    registrationDateOpen: data?.registrationDateOpen
+      ? new Date(data.registrationDateOpen)
+      : new Date(),
+    registrationDateClose: data?.registrationDateOpen
+      ? new Date(data.registrationDateClose)
+      : new Date(),
+  };
 
   const {
     handleChange,
     handleBlur,
     values,
     errors,
-    helperText,
     isError,
+    helperText,
     handleSubmit,
-    setFieldValue,
     isSubmitting,
+    setFieldValue,
   } = useForm({
     initialValues,
     validationSchema: configurationForm,
     onSubmit: (values, actions) => {
       mutation.mutate(values, {
         onSuccess: () => {
-          enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
+          enqueueSnackbar("Konfigurasi berhasil diperbarui", {
+            variant: "success",
+          });
           actions.setSubmitting(false);
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              "Data gagal disimpan, alasan: " + error.response?.data.message,
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
@@ -116,4 +117,4 @@ const AddConfigurationPage = () => {
   );
 };
 
-export default AddConfigurationPage;
+export default EditConfigurationPage;

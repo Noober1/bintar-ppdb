@@ -7,7 +7,7 @@ import MultiLayerDialog from "@/components/surfaces/dialogs/MultiLayerDialog";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 import LocalizationProvider from "@/providers/LocalizationProvider";
-import CloseSnackbarButton from "@/components/buttons/CloseSnackbarButton";
+import CustomSnackbar from "@/components/display/CustomSnackbar";
 
 export default function RootLayout({
   children,
@@ -24,13 +24,16 @@ export default function RootLayout({
                 <LocalizationProvider>
                   <SnackbarProvider
                     maxSnack={5}
+                    Components={{
+                      default: CustomSnackbar,
+                      success: CustomSnackbar,
+                      error: CustomSnackbar,
+                      warning: CustomSnackbar,
+                    }}
                     anchorOrigin={{
                       horizontal: "center",
                       vertical: "top",
                     }}
-                    action={(snackbarKey) => (
-                      <CloseSnackbarButton snackbarKey={snackbarKey} />
-                    )}
                   >
                     {children}
                     <MultiLayerDialog />
