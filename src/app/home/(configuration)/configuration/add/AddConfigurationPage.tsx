@@ -7,9 +7,9 @@ import { configurationForm } from "@/lib/formSchemas";
 import { ConfigurationFormValues } from "@/types/forms";
 import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
 import useForm from "@/hooks/useForm";
 import DatePicker from "@/components/inputs/DatePicker";
+import { errorMutationHandler } from "@/lib/utils";
 
 const initialValues: ConfigurationFormValues = {
   registrationFormat: "",
@@ -44,15 +44,7 @@ const AddConfigurationPage = () => {
           actions.setSubmitting(false);
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              "Data gagal disimpan, alasan: " + error.response?.data.message,
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },

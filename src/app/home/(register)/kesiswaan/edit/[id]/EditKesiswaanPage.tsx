@@ -4,16 +4,16 @@ import SwitchTwoLabel from "@/components/forms/SwitchTwoLabel";
 import FormLayout from "@/components/layouts/FormLayout";
 import { kesiswaanForm } from "@/lib/formSchemas";
 import { KesiswaanFormValues } from "@/types/forms";
-import { useFormik } from "formik";
 import React from "react";
 import { KesiswaanDataForEdit } from "./page";
 import TextField from "@mui/material/TextField";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 interface KesiswaanEditPageProps {
   data: KesiswaanDataForEdit;
@@ -51,10 +51,11 @@ const EditKesiswaanPage = ({ data }: KesiswaanEditPageProps) => {
     handleBlur,
     handleChange,
     handleSubmit,
-    touched,
+    isError,
+    helperText,
     values,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: initialFormValues,
     validationSchema: kesiswaanForm,
     onSubmit: (values, actions) => {
@@ -63,15 +64,13 @@ const EditKesiswaanPage = ({ data }: KesiswaanEditPageProps) => {
           enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
           actions.setSubmitting(false);
         },
-        onError: () => {
-          enqueueSnackbar("Data gagal disimpan", { variant: "error" });
-          actions.setSubmitting(false);
+        onError: (error) => {
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
 
-  const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
       backButtonUrl="/home/kesiswaan"

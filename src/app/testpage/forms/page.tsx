@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import DatePicker from "@/components/inputs/DatePicker";
-import { useFormik } from "formik";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ServersideSelect from "@/components/inputs/ServersideSelect";
@@ -9,6 +8,7 @@ import RowRadioGroup from "@/components/forms/RowRadioGroup";
 import { GENDERS } from "@prisma/client";
 import { setOpen } from "@/lib/redux/multiDialog";
 import { useDispatch } from "react-redux";
+import useForm from "@/hooks/useForm";
 
 interface FormValues {
   date: Date;
@@ -23,7 +23,7 @@ const initialValues: FormValues = {
 
 const Page = () => {
   const dispatch = useDispatch();
-  const { handleSubmit, setFieldValue, handleChange, values } = useFormik({
+  const { handleSubmit, setFieldValue, handleChange, values } = useForm({
     initialValues,
     onSubmit: (values) => {
       dispatch(

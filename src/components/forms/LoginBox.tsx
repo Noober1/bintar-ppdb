@@ -5,7 +5,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -14,7 +13,7 @@ import React, { useState } from "react";
 import { loginForm } from "@/lib/formSchemas";
 import LoadingLogo from "../feedbacks/LoadingLogo";
 import { LoginForm } from "@/types/forms";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useForm from "@/hooks/useForm";
 
 const loginFormInitValue: LoginForm = {
   email: "",
@@ -30,11 +29,11 @@ const LoginBox = () => {
     handleSubmit,
     handleChange,
     handleBlur,
-    touched,
+    helperText,
+    isError,
     values,
     isSubmitting,
-    errors,
-  } = useFormik({
+  } = useForm({
     initialValues: loginFormInitValue,
     validationSchema: loginForm,
     onSubmit: (value, actions) => {
@@ -59,8 +58,6 @@ const LoginBox = () => {
         });
     },
   });
-
-  const { helperText, isError } = formikCustomHelper(errors, touched);
 
   return (
     <form onSubmit={handleSubmit} className="p-4 relative overflow-hidden">

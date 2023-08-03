@@ -1,15 +1,14 @@
 "use client";
 import { majorForm } from "@/lib/formSchemas";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
 import React from "react";
 import { MajorFormValues } from "@/types/forms";
 import { MajorDataForEdit } from "./page";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
 
 interface EditMajorPageProps {
   data: MajorDataForEdit;
@@ -27,12 +26,13 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
     handleChange,
     handleBlur,
     values,
-    touched,
+    isError,
+    helperText,
     errors,
     handleSubmit,
     setFieldValue,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: majorForm,
     onSubmit: (values, actions) => {
@@ -48,8 +48,6 @@ const EditMajorPage = ({ data }: EditMajorPageProps) => {
       });
     },
   });
-
-  const { helperText, isError } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout

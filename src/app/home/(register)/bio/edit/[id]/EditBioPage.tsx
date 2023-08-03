@@ -3,7 +3,6 @@ import React, { FC, useRef } from "react";
 import { BioDataForEdit } from "./page";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { useFormik } from "formik";
 import {
   BioFormValues,
   bloodRhesusSelectList,
@@ -15,7 +14,6 @@ import {
   religionSelectList,
 } from "@/types/forms";
 import FormLayout from "@/components/layouts/FormLayout";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
@@ -27,8 +25,9 @@ import RowRadioGroup from "@/components/forms/RowRadioGroup";
 import SelectForm from "@/components/forms/SelectForm";
 import InputAdornment from "@mui/material/InputAdornment";
 import { bioForm } from "@/lib/formSchemas";
-import { AxiosError } from "axios";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 interface EditBioPageProps {
   data: BioDataForEdit;
@@ -105,10 +104,11 @@ const EditBioPage = ({ data }: EditBioPageProps) => {
     handleChange,
     handleSubmit,
     setFieldValue,
-    touched,
+    isError,
+    helperText,
     values,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: initialFormValues(data),
     validationSchema: bioForm,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -126,21 +126,12 @@ const EditBioPage = ({ data }: EditBioPageProps) => {
           actions.setSubmitting(false);
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              error.response?.data.message || "Data gagal disimpan",
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
 
-  const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
       alert="Silahkan sunting data dibawah ini"

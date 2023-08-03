@@ -1,13 +1,12 @@
 import PasswordTextField from "@/components/forms/PasswordTextField";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { useEditMutation } from "@/hooks/useAddMutation";
+import useForm from "@/hooks/useForm";
 import { changePasswordForm } from "@/lib/formSchemas";
 import { setLoading } from "@/lib/redux/multiDialog";
+import { errorMutationHandler } from "@/lib/utils";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { AxiosError } from "axios";
-import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -30,13 +29,13 @@ const ChangePasswordBox = () => {
   const passwordData = useEditMutation("/api/user/password");
   const {
     handleSubmit,
-    errors,
-    touched,
+    helperText,
+    isError,
     values,
     handleChange,
     handleBlur,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formValues,
     onSubmit: (values, actions) => {
       dispatch(
@@ -57,15 +56,7 @@ const ChangePasswordBox = () => {
           );
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              "Data gagal disimpan, alasan: " + error.response?.data.message,
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
           dispatch(
             setLoading({
               name: "change-password-dialog",
@@ -77,8 +68,6 @@ const ChangePasswordBox = () => {
     },
     validationSchema: changePasswordForm,
   });
-
-  const { helperText, isError } = formikCustomHelper(errors, touched);
 
   return (
     <Box

@@ -4,7 +4,6 @@ import { SchoolDataForEdit } from "./page";
 import { SchoolFormValues, schoolOptions } from "@/types/forms";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { useFormik } from "formik";
 import { schoolForm } from "@/lib/formSchemas";
 import FormLayout from "@/components/layouts/FormLayout";
 import TextField from "@mui/material/TextField";
@@ -13,8 +12,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
+
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
 
 interface EditSchoolPageProps {
   data: SchoolDataForEdit;
@@ -37,10 +37,11 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
     handleBlur,
     values,
     errors,
-    touched,
+    isError,
+    helperText,
     handleSubmit,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: schoolForm,
     onSubmit: (values, actions) => {
@@ -56,8 +57,6 @@ const EditSchoolPage = ({ data }: EditSchoolPageProps) => {
       });
     },
   });
-
-  const { isError, helperText } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout

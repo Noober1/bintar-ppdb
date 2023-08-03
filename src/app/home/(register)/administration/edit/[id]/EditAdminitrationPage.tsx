@@ -1,19 +1,18 @@
 "use client";
 
 import FormLayout from "@/components/layouts/FormLayout";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { administrationForm } from "@/lib/formSchemas";
 import { AdministrationFormValues } from "@/types/forms";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useFormik } from "formik";
 import React from "react";
 import { AdministrationDataForEdit } from "./page";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { AxiosError } from "axios";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
 
 interface EditAdministrationPageProps {
   data: AdministrationDataForEdit;
@@ -34,10 +33,11 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
     handleBlur,
     handleChange,
     handleSubmit,
-    touched,
+    isError,
+    helperText,
     values,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: administrationForm,
     onSubmit: (values, actions) => {
@@ -66,7 +66,6 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
     },
   });
 
-  const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
       backButtonUrl={`/home/administration/${data?.studentId}`}

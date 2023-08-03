@@ -1,14 +1,13 @@
 "use client";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
 import React from "react";
 import { majorForm } from "@/lib/formSchemas";
 import { MajorFormValues } from "@/types/forms";
-import { AxiosError } from "axios";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
 import FormLayout from "@/components/layouts/FormLayout";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 const formInitialValues: MajorFormValues = {
   initial: "",
@@ -24,11 +23,12 @@ const AddMajorPage = () => {
     handleBlur,
     values,
     errors,
-    touched,
+    isError,
+    helperText,
     handleSubmit,
     setFieldValue,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: majorForm,
     onSubmit: (values, actions) => {
@@ -41,21 +41,11 @@ const AddMajorPage = () => {
           actions.resetForm();
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              error.response?.data.message || "Data gagal disimpan",
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
-
-  const { isError, helperText } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout

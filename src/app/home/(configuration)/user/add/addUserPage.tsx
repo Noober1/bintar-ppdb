@@ -1,18 +1,17 @@
 "use client";
 import React, { useRef } from "react";
 import TextField from "@mui/material/TextField";
-
-import { useFormik } from "formik";
 import Autocomplete, {
   AutocompleteHandles,
 } from "@/components/inputs/Autocomplete";
 import { rolesStructure } from "@/constants/roles";
 import { userForm } from "@/lib/formSchemas";
-import { AxiosError } from "axios";
 import { UserFormValues } from "@/types/forms";
 import { useSnackbar } from "notistack";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 const AddUserPage = () => {
   const autoCompleteRef = useRef<AutocompleteHandles>(null);
@@ -31,30 +30,24 @@ const AddUserPage = () => {
     handleChange,
     handleBlur,
     handleSubmit,
+    isError,
+    helperText,
     setFieldValue,
     isSubmitting,
     errors,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: userForm("add"),
-    onSubmit: (value, action) => {
+    onSubmit: (value, actions) => {
       mutation.mutate(value, {
         onSuccess: () => {
           enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
-          action.setSubmitting(false);
-          action.resetForm();
+          actions.setSubmitting(false);
+          actions.resetForm();
           autoCompleteRef.current?.resetSelection();
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              error.response?.data.message || "Data gagal disimpan",
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-          }
-          action.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
@@ -80,17 +73,19 @@ const AddUserPage = () => {
         value={values.email}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={Boolean(errors.email)}
-        helperText={errors.email ?? "Email pengguna sebagai kredensial login"}
+        error={isError("email")}
+        helperText={
+          helperText("email") ?? "Email pengguna sebagai kredensial login"
+        }
       />
       <TextField
         name="fullname"
         label="Nama lengkap"
-        error={Boolean(errors.fullname)}
+        error={isError("email")}
         value={values.fullname}
         onChange={handleChange}
         onBlur={handleBlur}
-        helperText={errors.fullname ?? "Nama lengkap pengguna"}
+        helperText={helperText("fullname") ?? "Nama lengkap pengguna"}
       />
       <TextField
         name="password"
@@ -103,7 +98,8 @@ const AddUserPage = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         helperText={
-          errors.password ?? "Kata sandi pengguna sebagai kredensial login"
+          helperText("password") ??
+          "Kata sandi pengguna sebagai kredensial login"
         }
       />
       <TextField

@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from "react";
 import { StudentDataForEdit } from "./page";
-import { useFormik } from "formik";
 import { StudentFormValues, genderSelectList } from "@/types/forms";
 import { basicForm } from "@/lib/formSchemas";
 import FormLayout from "@/components/layouts/FormLayout";
@@ -17,9 +16,9 @@ import ServersideSelect, {
 } from "@/components/inputs/ServersideSelect";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 interface EditStudentPageProps {
   data: StudentDataForEdit;
@@ -53,11 +52,12 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
     handleBlur,
     values,
     errors,
-    touched,
+    isError,
+    helperText,
     handleSubmit,
     setFieldValue,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: basicForm("edit"),
     onSubmit: (values, actions) => {
@@ -69,20 +69,11 @@ const EditStudentPage = ({ data }: EditStudentPageProps) => {
           actions.setSubmitting(false);
         },
         onError: (error) => {
-          const axiosMessage = error instanceof AxiosError;
-          enqueueSnackbar(
-            axiosMessage
-              ? error.response?.data.message
-              : "Data siswa gagal diperbarui",
-            { variant: "error" }
-          );
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
-
-  const { isError, helperText } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout

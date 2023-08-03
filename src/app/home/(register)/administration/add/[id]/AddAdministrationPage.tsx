@@ -5,13 +5,12 @@ import { AdministrationFormValues } from "@/types/forms";
 import Typography from "@mui/material/Typography";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
 import React from "react";
 import { StudentData } from "./page";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { useSnackbar } from "notistack";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { AxiosError } from "axios";
+import useForm from "@/hooks/useForm";
 
 interface AddAdministrationPageProps {
   studentData: StudentData;
@@ -31,10 +30,11 @@ const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
     handleBlur,
     handleChange,
     handleSubmit,
-    touched,
+    isError,
+    helperText,
     values,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: administrationForm,
     onSubmit: (values, actions) => {
@@ -61,8 +61,6 @@ const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
       });
     },
   });
-
-  const { isError, helperText } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout

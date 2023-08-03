@@ -2,8 +2,6 @@
 import React from "react";
 import { GetUserQueryForEdit } from "./page";
 import TextField from "@mui/material/TextField";
-
-import { useFormik } from "formik";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import { rolesStructure } from "@/constants/roles";
 import { userForm } from "@/lib/formSchemas";
@@ -12,6 +10,7 @@ import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import FormLayout from "@/components/layouts/FormLayout";
 import useRefresh from "@/hooks/useRefresh";
+import useForm from "@/hooks/useForm";
 
 const UserEditPage = ({ userData }: { userData: GetUserQueryForEdit }) => {
   useRefresh();
@@ -35,11 +34,13 @@ const UserEditPage = ({ userData }: { userData: GetUserQueryForEdit }) => {
     values,
     handleChange,
     handleBlur,
+    isError,
+    helperText,
     handleSubmit,
     setFieldValue,
     isSubmitting,
     errors,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: userForm("edit"),
     onSubmit: (value, action) => {
@@ -80,11 +81,11 @@ const UserEditPage = ({ userData }: { userData: GetUserQueryForEdit }) => {
       <TextField
         name="fullname"
         label="Nama lengkap"
-        error={Boolean(errors.fullname)}
+        error={isError("fullname")}
         value={values.fullname}
         onChange={handleChange}
         onBlur={handleBlur}
-        helperText={errors.fullname ?? "Nama lengkap pengguna"}
+        helperText={helperText("fullname") ?? "Nama lengkap pengguna"}
       />
       <TextField
         name="password"

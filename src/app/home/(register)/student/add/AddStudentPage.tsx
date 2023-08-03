@@ -15,12 +15,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import CachedIcon from "@mui/icons-material/Cached";
-import axios, { AxiosError } from "axios";
-import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import React, { useRef, useState } from "react";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useForm from "@/hooks/useForm";
+import { dataFetcher, errorMutationHandler } from "@/lib/utils";
 
 const formInitialValues: StudentFormValues = {
   registrationNumber: "",
@@ -48,12 +47,13 @@ const AddStudentPage = () => {
     handleChange,
     handleBlur,
     values,
-    touched,
+    isError,
+    helperText,
     errors,
     handleSubmit,
     setFieldValue,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: basicForm("add"),
     onSubmit: (values, actions) => {
@@ -69,25 +69,23 @@ const AddStudentPage = () => {
           schoolRef.current?.resetValue();
         },
         onError: (error) => {
-          const axiosMessage = error instanceof AxiosError;
-          enqueueSnackbar(
-            axiosMessage ? error.response?.data.message : "Data gagal disimpan",
-            { variant: "error" }
-          );
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
 
-  const { isError, helperText } = formikCustomHelper(errors, touched);
-
   const generateRegNumber = () => {
     setGenerateLoading(true);
-    axios
-      .get("/api/generate-reg-id")
+    dataFetcher("/api/generate-reg-id")
       .then((result) => {
         setFieldValue("registrationNumber", result.data.registrationNumber);
+      })
+      .catch(() => {
+        enqueueSnackbar(
+          "Gagal membuat nomor pendaftaran, silahkan coba lagi.",
+          { variant: "Error" }
+        );
       })
       .finally(() => {
         setGenerateLoading(false);

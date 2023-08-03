@@ -2,7 +2,6 @@
 import React from "react";
 import { MeasureDataForEdit } from "./page";
 import FormLayout from "@/components/layouts/FormLayout";
-import { useFormik } from "formik";
 import { MeasureFormValues, sizes } from "@/types/forms";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -10,12 +9,12 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import { TextField } from "@mui/material";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { measureForm } from "@/lib/formSchemas";
 import useRefresh from "@/hooks/useRefresh";
 import { useSnackbar } from "notistack";
 import { useEditMutation } from "@/hooks/useAddMutation";
-import { AxiosError } from "axios";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 interface EditMeasurePageProps {
   data: MeasureDataForEdit;
@@ -35,11 +34,12 @@ const EditMeasurePage = ({ data }: EditMeasurePageProps) => {
     handleChange,
     handleBlur,
     values,
-    touched,
+    isError,
+    helperText,
     errors,
     handleSubmit,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: measureForm,
     onSubmit: (values, actions) => {
@@ -56,21 +56,12 @@ const EditMeasurePage = ({ data }: EditMeasurePageProps) => {
           actions.setSubmitting(false);
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              error.response?.data.message || "Data gagal disimpan",
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
 
-  const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <FormLayout
       backButtonUrl="/home/measure"

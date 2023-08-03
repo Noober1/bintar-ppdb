@@ -1,13 +1,16 @@
 "use client";
 import { FormikConfig, useFormik } from "formik";
-import formikCustomHelper from "./formikCustomHelper";
 
 const useForm = <T extends object>(options: FormikConfig<T>) => {
   const formik = useFormik(options);
-  const customMethod = formikCustomHelper(formik.errors, formik.touched);
   return {
     ...formik,
-    ...customMethod,
+    isError: (field: keyof T) =>
+      Boolean(formik.errors[field]) && Boolean(formik.touched[field]),
+    helperText: (field: keyof T) =>
+      Boolean(formik.errors[field]) && Boolean(formik.touched[field])
+        ? (formik.errors[field] as string)
+        : undefined,
   };
 };
 

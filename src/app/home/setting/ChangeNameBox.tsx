@@ -4,15 +4,14 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React from "react";
-import { useFormik } from "formik";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
 import { useDispatch } from "react-redux";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
 import { setLoading } from "@/lib/redux/multiDialog";
 import Button from "@mui/material/Button";
 import { changeNameForm } from "@/lib/formSchemas";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 interface ChangeNameBoxProps {
   fullName?: string;
@@ -28,13 +27,13 @@ const ChangeNameBox = ({ fullName }: ChangeNameBoxProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const {
     handleSubmit,
-    errors,
-    touched,
+    isError,
+    helperText,
     values,
     handleChange,
     handleBlur,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: {
       fullName: fullName || "",
     } as FormValues,
@@ -58,15 +57,7 @@ const ChangeNameBox = ({ fullName }: ChangeNameBoxProps) => {
           );
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              "Data gagal disimpan, alasan: " + error.response?.data.message,
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
           dispatch(
             setLoading({
               name: "change-name-dialog",
@@ -77,8 +68,6 @@ const ChangeNameBox = ({ fullName }: ChangeNameBoxProps) => {
       });
     },
   });
-
-  const { isError, helperText } = formikCustomHelper(errors, touched);
   return (
     <Box
       component="form"

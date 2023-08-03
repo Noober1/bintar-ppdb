@@ -7,13 +7,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
 import React from "react";
 import FormLayout from "@/components/layouts/FormLayout";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { AxiosError } from "axios";
-import formikCustomHelper from "@/hooks/formikCustomHelper";
+import useForm from "@/hooks/useForm";
+import { errorMutationHandler } from "@/lib/utils";
 
 const formInitialValues: SchoolFormValues = {
   NPSN: 0,
@@ -30,10 +29,11 @@ const AddSchoolPage = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    touched,
+    isError,
+    helperText,
     values,
     isSubmitting,
-  } = useFormik({
+  } = useForm({
     initialValues: formInitialValues,
     validationSchema: schoolForm,
     onSubmit: (values, actions) => {
@@ -46,21 +46,11 @@ const AddSchoolPage = () => {
           actions.resetForm();
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            enqueueSnackbar(
-              error.response?.data.message || "Data gagal disimpan",
-              { variant: "error" }
-            );
-          } else {
-            enqueueSnackbar("Data gagal disimpan, ", { variant: "error" });
-          }
-          actions.setSubmitting(false);
+          errorMutationHandler(error, enqueueSnackbar, actions);
         },
       });
     },
   });
-
-  const { helperText, isError } = formikCustomHelper(errors, touched);
 
   return (
     <FormLayout
