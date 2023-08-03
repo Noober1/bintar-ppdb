@@ -126,15 +126,17 @@ model Student {
 }
 
 model Config {
-  id                 Int       @id @default(autoincrement())
-  year               Int       @unique
+  id                    Int       @id @default(autoincrement())
+  year                  Int       @unique
   // registration format: 
   // Y = year
   // I = user id
   // N = unique id
-  registrationFormat String    @default("PSB-[Y]-[I]-[N]")
-  isActive           Boolean   @default(false)
-  Student            Student[]
+  registrationFormat    String    @default("PSB-[Y]-[I]-[N]")
+  registrationDateOpen  DateTime? @default(now())
+  registrationDateClose DateTime
+  isActive              Boolean   @default(false)
+  Student               Student[]
 }
 
 model School {
@@ -164,6 +166,13 @@ model Administration {
   student       Student   @relation(fields: [studentId], references: [id])
   userId        Int
   studentId     Int
+}
+
+model Annoucement {
+  id      Int       @id @default(autoincrement())
+  title   String
+  date    DateTime? @default(now())
+  content String
 }
 
 enum USER_TYPES {

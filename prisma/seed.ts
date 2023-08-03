@@ -41,6 +41,7 @@ const seed = async () => {
       data: [
         {
           year: new Date().getFullYear(),
+          registrationDateClose: new Date(),
           isActive: true,
         },
       ],
@@ -55,8 +56,8 @@ const seed = async () => {
           email: "cucu.ruhiyatna3@gmail.com",
           fullname: "Cucu Ruhiyatna",
           type: "ADMINISTRATOR",
-          grantedAccess: JSON.stringify(ROLES),
-          password: bcrypt.hashSync("lordazzura123", 10),
+          grantedAccess: JSON.stringify([]),
+          password: bcrypt.hashSync("bintar701", 10),
         },
         {
           email: "ujk.bintar@gmail.com",
@@ -90,6 +91,6 @@ const seed = async () => {
   }
 };
 
-seed().then((result) => {
+seed().then(() => {
   console.log("ALL OK!! :)");
 });

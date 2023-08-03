@@ -16,6 +16,10 @@ export const GET: RequestHandler = async () => {
       id: getCurrentConfig?.id,
       year: getCurrentConfig?.year,
       isActive: getCurrentConfig?.isActive,
+      date: {
+        open: getCurrentConfig?.registrationDateOpen,
+        close: getCurrentConfig?.registrationDateClose,
+      },
     });
   } catch (error) {
     return sendErrorResponse(error);

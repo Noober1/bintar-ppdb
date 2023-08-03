@@ -18,7 +18,9 @@ const getUserData = async (id?: number | null) => {
 
     return {
       ...getData,
-      grantedAccess: JSON.parse(getData?.grantedAccess as string),
+      grantedAccess: Array.isArray(getData?.grantedAccess)
+        ? getData?.grantedAccess
+        : JSON.parse(getData?.grantedAccess as string),
     };
   } catch (error) {
     console.error("Error:", error);
