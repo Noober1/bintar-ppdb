@@ -175,7 +175,7 @@ model Announcement {
   title   String
   author  User      @relation(fields: [authorId], references: [id])
   date    DateTime? @default(now())
-  content String
+  content String    @db.Text
 
   authorId Int
 }
