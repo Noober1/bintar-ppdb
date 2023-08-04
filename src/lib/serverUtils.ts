@@ -3,6 +3,7 @@ import { dataFetcher } from "./utils";
 import { RouteExceptionError } from "./routeUtils";
 import { HttpStatusCode } from "axios";
 import { getSessionUser } from "@/lib/session";
+import { PaginationResult } from "prisma-paginate";
 
 export const generateRandomNumber = (): string => {
   const min = 1;
@@ -116,4 +117,13 @@ export const verifyCaptcha = async (token: string): Promise<boolean> => {
     );
 
   return true;
+};
+
+export const mapPaginateResult = ({ result, ...rest }: PaginationResult) => {
+  return {
+    data: result,
+    metadata: {
+      ...rest,
+    },
+  };
 };

@@ -30,3 +30,10 @@ export const errorMutationHandler = <T = object>(
   snackbar("Gagal disimpan, alasan: " + message, { variant: "error" });
   actions.setSubmitting(false);
 };
+
+export const localizeDate = (date: Date) =>
+  date.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });

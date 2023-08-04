@@ -2,7 +2,7 @@ import PasswordTextField from "@/components/forms/PasswordTextField";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import useForm from "@/hooks/useForm";
 import { changePasswordForm } from "@/lib/formSchemas";
-import { setLoading } from "@/lib/redux/multiDialog";
+import { setClose, setLoading } from "@/lib/redux/multiDialog";
 import { errorMutationHandler } from "@/lib/utils";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -48,6 +48,7 @@ const ChangePasswordBox = () => {
         onSuccess: () => {
           enqueueSnackbar("Data berhasil disimpan", { variant: "success" });
           actions.setSubmitting(false);
+          dispatch(setClose());
           dispatch(
             setLoading({
               name: "change-password-dialog",

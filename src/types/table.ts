@@ -10,6 +10,7 @@ export const tableList = [
   "school",
   "configuration",
   "administration",
+  "announcement",
   "basic",
   "files",
   "kesiswaan",

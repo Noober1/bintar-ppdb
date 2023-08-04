@@ -12,6 +12,8 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AltRouteIcon from "@mui/icons-material/AltRoute";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ScienceIcon from "@mui/icons-material/Science";
+import CampaignIcon from "@mui/icons-material/Campaign";
+
 import { ROLES } from "@/constants/roles";
 
 type Items =
@@ -148,13 +150,19 @@ const items: Items[] = [
       </SvgIcon>
     ),
   },
+  {
+    isDivider: true,
+    title: "Lainnya",
+  },
+  {
+    role: "announcement",
+    title: "Pengumuman",
+    icon: <CampaignIcon />,
+    path: "/home/announcement",
+  },
 ];
 
 if (process.env.NODE_ENV === "development") {
-  items.push({
-    isDivider: true,
-    title: "Lainnya",
-  });
   items.push({
     role: false,
     title: "Testpage",

@@ -41,6 +41,7 @@ const AdministrationDetailPage = ({ data }: AdministrationDetailPageProps) => {
             <Typography
               variant="h4"
               fontWeight="bold"
+              textTransform="capitalize"
             >{`${data.firstName} ${data.lastName}`}</Typography>
             <Typography variant="h5">{data.formerSchool?.name}</Typography>
           </Stack>

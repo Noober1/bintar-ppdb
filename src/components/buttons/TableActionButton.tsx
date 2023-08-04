@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, Ref, forwardRef } from "react";
 import { Tooltip, TooltipTitle } from "@/components/display/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,6 +12,8 @@ import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import { IconButtonProps } from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/CloudDownload";
+import Button, { ButtonProps } from "@mui/material/Button";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface EditButtonProps {
   href: string;
@@ -135,9 +137,35 @@ export const DownloadButton: FC<DownloadButtonProps> = ({
 }) => {
   return (
     <Tooltip title={<TooltipTitle title={title} content={content} />}>
-      <IconButton component="a" href={href} color="success">
+      <IconButton href={href} color="success">
         <DownloadIcon />
       </IconButton>
     </Tooltip>
   );
 };
+
+interface ToolbarButtonProps extends Omit<ButtonProps, "size"> {
+  component?: keyof JSX.IntrinsicElements;
+}
+
+const ToolbarButtonElement = (
+  { variant = "outlined", startIcon, children, ...rest }: ToolbarButtonProps,
+  forwardedRef: Ref<HTMLButtonElement>
+) => {
+  const screenDownSm = useMediaQuery((query) => query.down("sm"));
+  const screenDownMd = useMediaQuery((query) => query.down("md"));
+
+  return (
+    <Button
+      ref={forwardedRef}
+      variant={variant}
+      size={screenDownMd ? "small" : "medium"}
+      startIcon={!screenDownSm && startIcon}
+      {...rest}
+    >
+      {screenDownSm ? startIcon : children}
+    </Button>
+  );
+};
+
+export const ToolbarButton = forwardRef(ToolbarButtonElement);

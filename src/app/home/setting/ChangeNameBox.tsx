@@ -7,7 +7,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useEditMutation } from "@/hooks/useAddMutation";
 import { useSnackbar } from "notistack";
-import { setLoading } from "@/lib/redux/multiDialog";
+import { setClose, setLoading } from "@/lib/redux/multiDialog";
 import Button from "@mui/material/Button";
 import { changeNameForm } from "@/lib/formSchemas";
 import useForm from "@/hooks/useForm";
@@ -55,6 +55,7 @@ const ChangeNameBox = ({ fullName }: ChangeNameBoxProps) => {
               loading: false,
             })
           );
+          dispatch(setClose());
         },
         onError: (error) => {
           errorMutationHandler(error, enqueueSnackbar, actions);

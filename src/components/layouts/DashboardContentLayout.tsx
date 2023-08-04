@@ -1,6 +1,6 @@
 "use client";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";

@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
-  type           USER_TYPES?      @default(USER)
-  password       String
-  fullname       String
-  grantedAccess  Json
+  id            Int         @id @default(autoincrement())
+  email         String      @unique
+  type          USER_TYPES? @default(USER)
+  password      String
+  fullname      String
+  grantedAccess Json
+
   Administration Administration[]
+  Announcement   Announcement[]
 }
 
 model Student {
@@ -168,11 +170,14 @@ model Administration {
   studentId     Int
 }
 
-model Annoucement {
+model Announcement {
   id      Int       @id @default(autoincrement())
   title   String
+  author  User      @relation(fields: [authorId], references: [id])
   date    DateTime? @default(now())
   content String
+
+  authorId Int
 }
 
 enum USER_TYPES {

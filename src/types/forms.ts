@@ -254,3 +254,8 @@ export interface BioFormValues {
   gainInformationFrom: GAIN_INFO_FROM;
   extracurricular: string;
 }
+
+export interface AnnouncementFormValues {
+  title: string;
+  content: string;
+}

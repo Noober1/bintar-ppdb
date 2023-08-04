@@ -34,7 +34,7 @@ const AdministrationTable = () => {
             .put("/crud/student/set-register/" + id)
             .then(() => {
               tableRef.current?.refreshTable();
-              enqueueSnackbar("Status siswa telah berhasil diubah", {
+              enqueueSnackbar("Status siswa telah berhasil diperbarui", {
                 variant: "success",
               });
             })

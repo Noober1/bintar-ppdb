@@ -9,6 +9,7 @@ export const ROLES = [
   "kesiswaan",
   "uniform",
   "bio",
+  "announcement",
 ] as const;
 
 export type ROLES = (typeof ROLES)[number];
@@ -29,4 +30,5 @@ export const rolesStructure: RolesStructure[] = [
   { name: "kesiswaan", label: "Kesiswaan" },
   { name: "uniform", label: "Pengukuran" },
   { name: "bio", label: "Biodata" },
+  { name: "announcement", label: "Pengumuman" },
 ];

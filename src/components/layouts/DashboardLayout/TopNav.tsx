@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import { SIDEBAR_WIDTH } from ".";
 import ProfileIcon from "@/components/buttons/ProfileIcon";
 import { UserDataResponse } from "@/app/api/user/route";
-import { Skeleton } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
 type TTopNavProps = {
   onNavOpen: () => void;

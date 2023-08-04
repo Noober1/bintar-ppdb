@@ -1,4 +1,4 @@
-import { getCurrentConfig } from "@/lib/serverUtils";
+import { getCurrentConfig, mapPaginateResult } from "@/lib/serverUtils";
 import { extendedPrisma } from "@/lib/prisma";
 import { Handler } from "@/types/table";
 import { NextResponse } from "next/server";
@@ -394,6 +394,7 @@ const tableHandler: Handler = {
         limit,
         where: {
           configId: getActiveConfig.id,
+          isRegistered: true,
         },
         orderBy: {
           bioEdited: "asc",
@@ -425,6 +426,25 @@ const tableHandler: Handler = {
           hasNextPage: getData.hasNextPage,
         },
       });
+    } catch (error) {
+      return sendErrorResponse(error);
+    }
+  },
+  announcement: async (request, page, limit) => {
+    try {
+      const getActiveConfig = await getCurrentConfig();
+      if (!getActiveConfig)
+        throw new RouteExceptionError("Tidak ada config yang aktif");
+
+      const getData = await extendedPrisma.announcement.paginate({
+        page,
+        limit,
+        orderBy: {
+          date: "desc",
+        },
+      });
+
+      return NextResponse.json(mapPaginateResult(getData));
     } catch (error) {
       return sendErrorResponse(error);
     }

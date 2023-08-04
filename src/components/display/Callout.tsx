@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  Box,
-  Paper,
-  Skeleton,
-  Stack,
-  SvgIcon,
-  Typography,
-  alpha,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import SvgIcon from "@mui/material/SvgIcon";
+import Typography from "@mui/material/Typography";
+import { alpha } from "@mui/material/";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import React, { FC } from "react";
 import { useTheme } from "@mui/material/styles";

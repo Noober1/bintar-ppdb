@@ -5,7 +5,7 @@ import {
   EditButton,
 } from "@/components/buttons/TableActionButton";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { useRef } from "react";
 
 const SchoolTable = () => {

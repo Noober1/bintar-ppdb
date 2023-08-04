@@ -85,6 +85,24 @@ const seed = async () => {
       skipDuplicates: true,
     });
     console.log("seeding school ok");
+
+    await prisma.announcement.createMany({
+      data: [
+        {
+          authorId: 1,
+          content: "<b>test</b>",
+          date: new Date(),
+          title: "cara membuat entah",
+        },
+        {
+          authorId: 1,
+          content: "<b>test2</b>",
+          date: new Date(),
+          title: "cara membuat entah2",
+        },
+      ],
+    });
+    console.log("seeding annoucement ok");
   } catch (error) {
     console.error(error);
     console.error("error seeding database");

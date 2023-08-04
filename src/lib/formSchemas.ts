@@ -357,6 +357,11 @@ export const bioForm = yup.object({
   extracurricular: yup.string(),
 });
 
+export const announcementForm = yup.object({
+  title: yup.string().required(msg.EMPTY_DATA),
+  content: yup.string().required(msg.EMPTY_DATA),
+});
+
 // change password
 export const changePasswordForm = yup.object({
   oldPassword: yup.string().required(msg.EMPTY_PASSWORD),

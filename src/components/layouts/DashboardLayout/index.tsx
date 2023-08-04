@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { styled } from "@mui/material/styles";
 import SideNav from "@/components/layouts/DashboardLayout/Sidenav";
 import TopNav from "@/components/layouts/DashboardLayout/TopNav";
-import { Paper } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import { useQuery } from "@tanstack/react-query";
 import { dataFetcher } from "@/lib/utils";
 import { UserDataResponse } from "@/app/api/user/route";
