@@ -12,6 +12,8 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import Skeleton from "@mui/material/Skeleton";
 import SidenavLoading from "./SidenavLoading";
 import { UserDataResponse } from "@/app/api/user/route";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 
 type SideNavProps = {
   onClose: () => void;
@@ -19,6 +21,11 @@ type SideNavProps = {
   userData?: UserDataResponse;
   loading?: boolean;
 };
+
+const Credit = styled(Paper)(() => ({
+  marginTop: 5,
+  padding: 3,
+}));
 
 const SideNav = ({
   open,
@@ -103,6 +110,11 @@ const SideNav = ({
               />
             )}
           </Stack>
+          <Credit>
+            &copy;
+            {new Date().getFullYear()} -{" "}
+            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.0
+          </Credit>
         </Box>
       </Box>
     </Drawer>
