@@ -76,7 +76,8 @@ const EditKesiswaanPage = ({ data }: KesiswaanEditPageProps) => {
       backButtonUrl="/home/kesiswaan"
       alert={
         <>
-          Menyunting siswa <kbd>{data?.firstName + " " + data?.lastName}</kbd>
+          Menyunting siswa{" "}
+          <kbd>{(data?.firstName + " " + data?.lastName).toUpperCase()}</kbd>
         </>
       }
       errors={errors}

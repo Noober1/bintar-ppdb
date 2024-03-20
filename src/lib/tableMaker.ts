@@ -31,7 +31,7 @@ interface TableHeaders {
 }
 
 interface TableContent {
-  [key: string]: string | number | Date;
+  [key: string]: string | number | Date | null;
 }
 
 interface ExcelMakerOptions {
@@ -53,6 +53,7 @@ export default class ExcelMaker {
   readonly textCenter: Style;
   readonly allBorder: Style;
   readonly allThickBorder: Style;
+  readonly verticalOrientation: Style;
   readonly fileName: string;
   constructor(parameters: ExcelMakerOptions) {
     this.fileName = parameters.fileName || "excel";
@@ -73,6 +74,11 @@ export default class ExcelMaker {
     });
     this.allThickBorder = this.workbook.createStyle({
       border: allThickBorder,
+    });
+    this.verticalOrientation = this.workbook.createStyle({
+      alignment: {
+        textRotation: 90,
+      },
     });
 
     this.headers.forEach((item, index) => {
@@ -96,6 +102,8 @@ export default class ExcelMaker {
           currentCell.string(value as string);
         } else if (value instanceof Date) {
           currentCell.date(value);
+        } else {
+          currentCell.string("");
         }
         currentCell.style({
           alignment: textAlign[headerName.textAlign || "left"],

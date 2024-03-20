@@ -74,7 +74,7 @@ export const schoolForm = yup.object({
   NPSN: yup
     .number()
     .min(1, msg.INVALID_NUM_MIN(1))
-    .max(999999, msg.INVALID_NUM_MAX(999999))
+    .max(999999999, msg.INVALID_NUM_MAX(999999999))
     .required(msg.EMPTY_DATA)
     .typeError(msg.INVALID_TYPE_NUM),
   type: yup.string().oneOf(schoolOptions).required(msg.EMPTY_DATA),

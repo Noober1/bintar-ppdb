@@ -37,11 +37,12 @@ const SchoolTable = () => {
           minWidth: 300,
         },
         {
-          field: "id",
+          field: "actions",
+          type: "actions",
           headerName: "Aksi",
           renderCell: (params) => (
             <>
-              <EditButton href={`/home/school/edit/${params.value}`} />
+              <EditButton href={`/home/school/edit/${params.id}`} />
               <DeleteButton
                 refreshTable={tableRef.current?.refreshTable}
                 confirmationNote={
