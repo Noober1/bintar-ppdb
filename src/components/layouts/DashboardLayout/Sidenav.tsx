@@ -113,7 +113,7 @@ const SideNav = ({
           <Credit>
             &copy;
             {new Date().getFullYear()} -{" "}
-            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.0
+            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.1
           </Credit>
         </Box>
       </Box>
