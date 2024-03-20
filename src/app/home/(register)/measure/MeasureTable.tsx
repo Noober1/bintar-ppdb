@@ -1,5 +1,6 @@
 "use client";
 
+import DownloadButton from "@/components/buttons/DownloadButton";
 import { EditButton } from "@/components/buttons/TableActionButton";
 import DynamicTable from "@/components/layouts/Table";
 import { GridColDef } from "@mui/x-data-grid";
@@ -40,7 +41,23 @@ const columns: GridColDef[] = [
 ];
 
 const MeasureTable = () => {
-  return <DynamicTable endpoint="measure" columns={columns} />;
+  return (
+    <DynamicTable
+      endpoint="measure"
+      buttons={{
+        customButton: (
+          <DownloadButton
+            title="Unduh rekapan"
+            content="Click untuk mengunduh rekapan ukuran seragam"
+            href="/api/exports/spreadsheet/uniform"
+          >
+            Unduh
+          </DownloadButton>
+        ),
+      }}
+      columns={columns}
+    />
+  );
 };
 
 export default MeasureTable;

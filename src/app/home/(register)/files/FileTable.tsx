@@ -1,4 +1,5 @@
 "use client";
+import DownloadButton from "@/components/buttons/DownloadButton";
 import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
 import { CheckFields } from "@/types/forms";
 import Checkbox from "@mui/material/Checkbox";
@@ -64,6 +65,17 @@ const FileTable = () => {
   return (
     <DynamicTable
       ref={tableRef}
+      buttons={{
+        customButton: (
+          <DownloadButton
+            title="Unduh rekapan"
+            content="Click untuk mengunduh rekapan berkas"
+            href="/api/exports/spreadsheet/files"
+          >
+            Unduh
+          </DownloadButton>
+        ),
+      }}
       endpoint="files"
       columns={[
         {

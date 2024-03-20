@@ -1,5 +1,6 @@
 "use client";
 
+import DownloadButton from "@/components/buttons/DownloadButton";
 import { EditButton } from "@/components/buttons/TableActionButton";
 import DynamicTable from "@/components/layouts/Table";
 import React from "react";
@@ -8,6 +9,17 @@ const KesiswaanTable = () => {
   return (
     <DynamicTable
       endpoint="kesiswaan"
+      buttons={{
+        customButton: (
+          <DownloadButton
+            title="Unduh rekapan"
+            content="Click untuk mengunduh rekapan kesiswaan"
+            href="/api/exports/spreadsheet/kesiswaan"
+          >
+            Unduh
+          </DownloadButton>
+        ),
+      }}
       columns={[
         {
           field: "registrationNumber",

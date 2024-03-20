@@ -4,7 +4,6 @@ import DynamicTable, { DynamicTableHandles } from "@/components/layouts/Table";
 import Chip from "@mui/material/Chip";
 import {
   DeleteButton,
-  DownloadButton,
   EditButton,
 } from "@/components/buttons/TableActionButton";
 import Typography from "@mui/material/Typography";
@@ -152,20 +151,9 @@ const ConfigurationTable = () => {
         {
           field: "id",
           headerName: "Aksi",
-          flex: 1,
           renderCell: (params) => (
             <>
               <EditButton href={`/home/configuration/edit/${params.id}`} />
-              <DownloadButton
-                title="Unduh rekapan siswa"
-                content="Click untuk mengunduh rekapan siswa berupa file excel"
-                href={`/api/exports/spreadsheet/student`}
-              />
-              <DownloadButton
-                title="Unduh rekapan administrasi"
-                content="Click untuk mengunduh rekapan pembayaran berupa file excel"
-                href={`/api/exports/spreadsheet/administration`}
-              />
               <DeleteButton
                 confirmationTitle="Hapus konfigurasi?"
                 id={params.value}
