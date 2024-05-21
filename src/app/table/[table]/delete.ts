@@ -101,6 +101,15 @@ const deleteRoute: TableRequestHandler = async (
           },
         });
         break;
+      case "announcement":
+        await prisma.announcement.deleteMany({
+          where: {
+            id: {
+              in: getDataRequest.data,
+            },
+          },
+        });
+        break;
       default:
         throw new RouteExceptionError("Endpoint invalid");
     }

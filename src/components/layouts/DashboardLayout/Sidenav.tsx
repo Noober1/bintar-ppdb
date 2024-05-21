@@ -14,6 +14,7 @@ import SidenavLoading from "./SidenavLoading";
 import { UserDataResponse } from "@/app/api/user/route";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import Link from "next/link";
 
 type SideNavProps = {
   onClose: () => void;
@@ -113,7 +114,11 @@ const SideNav = ({
           <Credit>
             &copy;
             {new Date().getFullYear()} -{" "}
-            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.1
+            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.1 <br />
+            Created by{" "}
+            <Link href={`https://fb.me/ruhiyatna.cucu`} target="_blank">
+              Cucu Ruhiyatna
+            </Link>
           </Credit>
         </Box>
       </Box>
