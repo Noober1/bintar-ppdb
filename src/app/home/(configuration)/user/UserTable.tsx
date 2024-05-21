@@ -67,10 +67,11 @@ const UserTable = () => {
           },
         },
         {
-          field: "id",
+          field: "action",
+          type: "actions",
           headerName: "Aksi",
           renderCell: (param) => (
-            <EditButton href={`/home/user/edit/${param.value}`} />
+            <EditButton href={`/home/user/edit/${param.id}`} />
           ),
         },
       ]}
