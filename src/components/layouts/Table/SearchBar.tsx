@@ -12,15 +12,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ submitSearch }: SearchBarProps) => {
-  const {
-    handleSubmit,
-    isError,
-    handleChange,
-    handleBlur,
-    isSubmitting,
-    errors,
-    values,
-  } = useForm({
+  const { handleSubmit, isError, handleChange, handleBlur, values } = useForm({
     initialValues: {
       search: "",
     },

@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   GridRowSelectionModel,
   GridToolbarColumnsButton,
@@ -20,8 +19,7 @@ import Typography from "@mui/material/Typography";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { Box, IconButton } from "@mui/material";
-import { ToolbarButton } from "@/components/buttons/TableActionButton";
+import { Box } from "@mui/material";
 import { SearchBar } from "./SearchBar";
 
 export interface CustomToolbarProps {
