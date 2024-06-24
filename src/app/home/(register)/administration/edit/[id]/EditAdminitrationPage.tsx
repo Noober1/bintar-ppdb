@@ -13,6 +13,7 @@ import { useEditMutation } from "@/hooks/useAddMutation";
 import { AxiosError } from "axios";
 import useRefresh from "@/hooks/useRefresh";
 import useForm from "@/hooks/useForm";
+import DatePicker from "@/components/inputs/DatePicker";
 
 interface EditAdministrationPageProps {
   data: AdministrationDataForEdit;
@@ -23,6 +24,7 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const mutation = useEditMutation("/crud/administration/" + data?.id);
   const formInitialValues: AdministrationFormValues = {
+    date: data?.dateCreated || new Date(),
     description: data?.description || "",
     nominal: data?.nominal || 0,
     payer: data?.payer || "",
@@ -35,6 +37,7 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
     handleSubmit,
     isError,
     helperText,
+    setFieldValue,
     values,
     isSubmitting,
   } = useForm({
@@ -80,6 +83,14 @@ const EditAdminitrationPage = ({ data }: EditAdministrationPageProps) => {
       submitButtonLabel="Simpan perubahan"
       title="Sunting data administrasi"
     >
+      <DatePicker
+        onChange={(value) => {
+          setFieldValue("date", value);
+        }}
+        value={values.date || new Date()}
+        helperText={helperText("date") ?? "Silahkan pilih tanggal pembayaran"}
+        label="Tanggal pendaftaran ditutup"
+      />
       <TextField
         name="description"
         label="Perihal"

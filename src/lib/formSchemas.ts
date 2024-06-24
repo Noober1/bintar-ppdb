@@ -170,11 +170,12 @@ export const basicForm = (mode: "add" | "edit" | "register") => {
 };
 
 export const administrationForm = yup.object({
+  date: yup.date().required(),
   description: yup.string().required(msg.EMPTY_DATA),
   payer: yup.string().required(msg.EMPTY_DATA),
   nominal: yup
     .number()
-    .min(1, msg.INVALID_NUM_MIN(1))
+    .min(0, msg.INVALID_NUM_MIN(0))
     .max(99999999, msg.INVALID_NUM_MAX(99999999))
     .required(msg.EMPTY_DATA)
     .typeError(msg.INVALID_TYPE_NUM),
@@ -521,4 +522,8 @@ export const onlineParentForm = yup.object({
   motherJob: _parentSchema.job,
   motherIncome: _parentSchema.income,
   motherAddress: _parentSchema.address,
+});
+
+export const searchBarSchema = yup.object({
+  search: yup.string().min(2).max(30),
 });

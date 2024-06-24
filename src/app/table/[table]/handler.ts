@@ -6,7 +6,8 @@ import { getSessionUser } from "@/lib/session";
 import { RouteExceptionError, sendErrorResponse } from "@/lib/routeUtils";
 
 const tableHandler: Handler = {
-  user: async (_request, page, limit) => {
+  user: async (request, page, limit, params: URLSearchParams) => {
+    const search = params.get("search") || "";
     const session = await getSessionUser();
     if (!session) {
       return NextResponse.json({
@@ -28,6 +29,9 @@ const tableHandler: Handler = {
         },
         id: {
           not: session.id || 0,
+        },
+        fullname: {
+          contains: search,
         },
       },
     });
@@ -156,7 +160,8 @@ const tableHandler: Handler = {
       },
     });
   },
-  basic: async (_request, page, limit) => {
+  basic: async (_request, page, limit, params: URLSearchParams) => {
+    const search = params.get("search") || "";
     try {
       const getActiveConfig = await getCurrentConfig();
       if (!getActiveConfig) {
@@ -182,6 +187,9 @@ const tableHandler: Handler = {
         where: {
           year: {
             id: getActiveConfig.id,
+          },
+          firstName: {
+            contains: search,
           },
         },
       });

@@ -31,6 +31,7 @@ export const GET: CrudRequestHandler = async (request, { params: { id } }) => {
         description: true,
         nominal: true,
         payer: true,
+        dateCreated: true,
       },
     });
     if (!getAdministrationById)
@@ -41,10 +42,15 @@ export const GET: CrudRequestHandler = async (request, { params: { id } }) => {
       {
         style: "currency",
         currency: "IDR",
+        maximumFractionDigits: 0,
       }
     );
 
-    const currentDate = new Date().toLocaleDateString("id-ID", {
+    const currentDate = (
+      getAdministrationById.dateCreated !== null
+        ? getAdministrationById.dateCreated
+        : new Date()
+    ).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "long",
       day: "numeric",

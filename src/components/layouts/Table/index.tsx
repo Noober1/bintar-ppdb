@@ -4,7 +4,13 @@ import { TableList } from "@/types/table";
 import Paper from "@mui/material/Paper";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import React, { Ref, forwardRef, useImperativeHandle, useState } from "react";
+import React, {
+  Ref,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import TableLoadingOverlay from "./TableLoadingOverlay";
 import localizationTable from "./localizationTable";
 import CustomToolbar, { CustomToolbarProps } from "./CustomToolbar";
@@ -27,6 +33,7 @@ interface IDynamicTable {
     deleteButton?: TableList;
     deleteConfirmationNote?: React.ReactElement;
   };
+  enableSearch?: boolean;
 }
 
 interface TableDataStructure {
@@ -45,7 +52,7 @@ export interface DynamicTableHandles {
   getSelectionIds: () => GridRowSelectionModel;
 }
 
-const pageSizeOptions: number[] = [5, 10, 15, 20];
+const pageSizeOptions: number[] = [5, 10, 15, 20, 50, 100];
 
 const DynamicTableContent = (
   {
@@ -54,6 +61,7 @@ const DynamicTableContent = (
     columns,
     buttons,
     additionalQuery = {},
+    enableSearch = false,
   }: IDynamicTable,
   ref: Ref<DynamicTableHandles>
 ) => {
@@ -64,6 +72,7 @@ const DynamicTableContent = (
   });
   const [rowSelectionModel, setRowSelectionModel] =
     useState<GridRowSelectionModel>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useImperativeHandle(ref, () => ({
     refreshTable: () => {
@@ -72,7 +81,16 @@ const DynamicTableContent = (
     getSelectionIds: () => rowSelectionModel,
   }));
 
+  useEffect(() => {
+    setPaginationModel({
+      page: 0,
+      pageSize,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
+
   const searchParams = new URLSearchParams();
+  searchParams.append("search", searchValue);
   searchParams.append("page", (paginationModel.page + 1).toString());
   searchParams.append("length", paginationModel.pageSize.toString());
 
@@ -91,6 +109,7 @@ const DynamicTableContent = (
         endpoint,
         paginationModel.page,
         paginationModel.pageSize,
+        searchValue,
         ...additionalQueryValues,
       ],
       queryFn: () => dataFetcher(url),
@@ -119,6 +138,11 @@ const DynamicTableContent = (
             deleteSelectionId: rowSelectionModel,
             refetchFunction: refetch,
             selectionFunction: setRowSelectionModel,
+            searchFunction: enableSearch
+              ? (value) => {
+                  setSearchValue(value);
+                }
+              : undefined,
           },
         }}
         loading={loading}

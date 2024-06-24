@@ -11,12 +11,14 @@ import { useSnackbar } from "notistack";
 import { useAddMutation } from "@/hooks/useAddMutation";
 import { AxiosError } from "axios";
 import useForm from "@/hooks/useForm";
+import DatePicker from "@/components/inputs/DatePicker";
 
 interface AddAdministrationPageProps {
   studentData: StudentData;
 }
 
 const formInitialValues: AdministrationFormValues = {
+  date: new Date(),
   description: "",
   nominal: 0,
   payer: "",
@@ -34,6 +36,7 @@ const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
     helperText,
     values,
     isSubmitting,
+    setFieldValue,
   } = useForm({
     initialValues: formInitialValues,
     validationSchema: administrationForm,
@@ -80,6 +83,14 @@ const AddAdministrationPage = ({ studentData }: AddAdministrationPageProps) => {
       submitButtonLabel="Tambah pembayaran"
       title="Tambah pembayaran"
     >
+      <DatePicker
+        onChange={(value) => {
+          setFieldValue("date", value);
+        }}
+        value={values.date || new Date()}
+        helperText={helperText("date") ?? "Silahkan pilih tanggal pembayaran"}
+        label="Tanggal pendaftaran ditutup"
+      />
       <TextField
         name="description"
         label="Perihal"

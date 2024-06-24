@@ -2,6 +2,7 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   GridRowSelectionModel,
   GridToolbarColumnsButton,
@@ -19,6 +20,9 @@ import Typography from "@mui/material/Typography";
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { Box, IconButton } from "@mui/material";
+import { ToolbarButton } from "@/components/buttons/TableActionButton";
+import { SearchBar } from "./SearchBar";
 
 export interface CustomToolbarProps {
   addButtonLink?: string;
@@ -28,6 +32,7 @@ export interface CustomToolbarProps {
   selectionFunction: (value: (string | number)[]) => void;
   deleteConfirmationNote?: React.ReactElement;
   customButton?: React.ReactNode;
+  searchFunction?: (value: string) => void;
 }
 
 const CustomToolbar = ({
@@ -38,6 +43,7 @@ const CustomToolbar = ({
   selectionFunction,
   deleteConfirmationNote,
   customButton,
+  searchFunction,
 }: CustomToolbarProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const screenDownMd = useMediaQuery((query) => query.down("md"));
@@ -107,6 +113,7 @@ const CustomToolbar = ({
       })
     );
   };
+
   return (
     <GridToolbarContainer className="mx-2 mt-1">
       {customButton}
@@ -194,6 +201,20 @@ const CustomToolbar = ({
               size={screenDownMd ? "small" : "medium"}
             />
           </Tooltip>
+          {typeof searchFunction === "function" && (
+            <Tooltip
+              title={
+                <TooltipTitle
+                  title="Cari"
+                  content="Click untuk menampilkan opsi pencarian."
+                />
+              }
+            >
+              <Box className="flex justify-end items-center flex-1">
+                <SearchBar submitSearch={searchFunction} />
+              </Box>
+            </Tooltip>
+          )}
         </>
       )}
     </GridToolbarContainer>

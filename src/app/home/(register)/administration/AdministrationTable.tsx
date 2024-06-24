@@ -54,6 +54,7 @@ const AdministrationTable = () => {
     <DynamicTable
       ref={tableRef}
       endpoint="basic"
+      enableSearch
       buttons={{
         customButton: (
           <DownloadButton

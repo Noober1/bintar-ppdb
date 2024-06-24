@@ -116,6 +116,7 @@ export interface StudentFormValues {
 }
 
 export interface AdministrationFormValues {
+  date: Date;
   description: string;
   payer: string;
   nominal: number;

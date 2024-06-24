@@ -10,6 +10,7 @@ import React from "react";
 const UserTable = () => {
   return (
     <DynamicTable
+      enableSearch
       endpoint="user"
       buttons={{
         addButtonLink: "/home/user/add",

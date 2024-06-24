@@ -32,3 +32,14 @@ Aplikasi PPDB SMK Bina Taruna Jalancagak
 ### Known bugs
 
 - Tidak bisa hapus pengumuman
+
+## V. 1.0.2 24 Juni 2024
+
+#### Feature
+
+- Tambah fitur pencarian pada sebagian table
+- Tambah fitur edit tanggal pembayaran pada menu administrasi
+
+#### Bug fixed
+
+- Tidak bisa menambahkan angka 0 pada penambahan administrasi

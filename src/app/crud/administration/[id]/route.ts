@@ -33,6 +33,7 @@ const POST: CrudRequestHandler = async (request, params) => {
     // inserting data to database
     const insertData = await prisma.administration.create({
       data: {
+        dateCreated: data.date,
         description: data.description,
         nominal: data.nominal,
         payer: data.payer,
@@ -53,11 +54,14 @@ const POST: CrudRequestHandler = async (request, params) => {
 const PUT: CrudRequestHandler = async (request, params) => {
   try {
     const requestData = await request.json();
-    const validatedData = await administrationForm.validate(requestData);
+    const {date, ...validatedData} = await administrationForm.validate(requestData);
 
     const updatingData = await prisma.administration.update({
       where: { id: params.params.id },
-      data: validatedData,
+      data: {
+        ...validatedData,
+        dateCreated: date
+      },
     });
     return NextResponse.json({
       success: true,

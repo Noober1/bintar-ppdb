@@ -15,6 +15,7 @@ const SchoolTable = () => {
   return (
     <DynamicTable
       ref={tableRef}
+      enableSearch
       endpoint="basic"
       buttons={{
         customButton: (

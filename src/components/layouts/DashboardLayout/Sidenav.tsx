@@ -114,7 +114,7 @@ const SideNav = ({
           <Credit>
             &copy;
             {new Date().getFullYear()} -{" "}
-            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.1 <br />
+            <strong>SMK Bina Taruna Jalancagak</strong> - Version 1.0.2 <br />
             Created by{" "}
             <Link href={`https://fb.me/ruhiyatna.cucu`} target="_blank">
               Cucu Ruhiyatna
